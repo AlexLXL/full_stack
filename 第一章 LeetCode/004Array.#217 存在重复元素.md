@@ -28,5 +28,5 @@ var containsDuplicate = function(nums) {
 2.hashMap里包含hashTable(详细可看Rust的有道云笔记)
 
 * 总结:   
-1.有查询速度: Set>Map>Array  
+1.有查询速度: Set>Map>Array (在查找key的时候优先使用Set)  
 链接: https://www.cnblogs.com/xu0428/p/14930312.html
