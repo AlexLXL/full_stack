@@ -7,8 +7,8 @@ window.location.search.substr(1)
     2.url中的对象、数组
     3.中文空格会被编码成转义
 
-    "a=1&c=hello"   =>  {a:1, b:"hello"}
-    "a&b&c"         =>  {}
+    "a=1&c=hello"                       =>  {a:1, b:"hello"}
+    "a&b&c"                             =>  {}
     "a[name]=fox&a[company]=tecent"     =>  {a: {"name": "fox", "copany": "tencent"}}
     "a[0]=1&a[1]=2"                     =>  {a: [1,2]}
     "color=Deep%20Blue"                 =>  {color: "Deep Blue"}
