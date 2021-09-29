@@ -55,6 +55,7 @@ function bsearch(A, i, x) {
         else l = g + 1;
     }
 
+    // 后移一位,A[l]插入x
     for (j = i-1; j >= l; j--) {
         A[j+1] = A[j]
     }
