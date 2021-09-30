@@ -19,21 +19,26 @@ function shuffle(arr) {
 }
 
 // 解2: sort方法(不准, 如[1,2,3,4]用该方法排序10w次，发现2出现在下标0位置的概率趋近33%，正确应该趋近25%)
-function shuffleBySort(arr) {
-    return arr.sort(() => Math.random() - 0.5)
-}
+// function shuffleBySort(arr) {
+//     return arr.sort(() => Math.random() - 0.5)
+// }
 
 // 解3: 添加一个同长度、填充随机值的数组A,对A进行排序(不准,同上)
-function shuffleByArray(arr) {
-    let m = []
-    for (let i = 0; i < arr.length; i++) {
-        m[i] = Math.random()
-    }
-    return arr.sort((i, j) => m[i] - m[j])
-}
+// function shuffleByArray(arr) {
+//     let m = []
+//     for (let i = 0; i < arr.length; i++) {
+//         m[i] = Math.random()
+//     }
+//     return arr.sort((i, j) => m[i] - m[j])
+// }
 
 
-// console.log(gen(10))
+let data = gen(10)
+// 生成10w条数据
+// node 033.计算时间复杂度-生成100w数据(day8-class52).js >> 10w.data
+// for (let i = 0; i < data.length; i++) {
+//     console.log(data[i])
+// }
 
 
 // 测试函数
