@@ -1,25 +1,27 @@
 /**
- * @param {number[]} nums1
- * @param {number[]} nums2
+ * @param {number[]} nums
+ * @param {number} target
  * @return {number[]}
- 思路一: 利用hashMap(即js的对象)，只需要两次循环
- 1.循环nums1,统计每个出现的次数，存储在hashmap中
- 2.循环nums2,如果hashmap中有值且大于0,hashmap的值减1,并存入result
-
+ * 执行用时：68 ms, 在所有 JavaScript new Set提交中击败了92.22%的用户
+ * 内存消耗：39.8 MB, 在所有 JavaScript 提交中击败了39.68%的用户
  */
-var intersect = function(nums1, nums2) {
-    let amount = {}
-    let result = []
-    for (let i = 0; i < nums1.length; i++) {
-        amount[nums1[i]] ? amount[nums1[i]]++ : amount[nums1[i]] = 1
-    }
-    for (let j = 0; j < nums2.length; j++) {
-        if(amount[nums2[j]] > 0) {
-            result.push(nums2[j])
-            amount[nums2[j]]--
+var twoSum = function(nums, target) {
+    let set = new Set()
+    let setIdx = new Set()
+    for(let i = 0; i < nums.length; i++) {
+        let prop = nums[i]
+        if (set.has(prop)) {
+            let ids = Array.from(setIdx)[Array.from(set).indexOf(prop)]
+            if(ids !== i) {
+                return [ids, i]
+            }
+        }else {
+            if (!set.has(target - prop)) {
+                setIdx.add(i)
+            }
+            set.add(target - prop)
         }
     }
-    return result
 };
 
-console.log(intersect([9, 4, 9, 5], [9, 4, 1, 4, 9]))
+console.log(twoSum([1,1,1,1,1,4,1,1,1,1,1,7,1,1,1,1,1], 11))
