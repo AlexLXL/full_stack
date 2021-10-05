@@ -36,9 +36,9 @@ function shuffle(arr) {
 let data = gen(10)
 // 生成10w条数据
 // node 033.计算时间复杂度-生成100w数据(day8-class52).js >> 10w.data
-// for (let i = 0; i < data.length; i++) {
-//     console.log(data[i])
-// }
+for (let i = 0; i < data.length; i++) {
+    console.log(data[i])
+}
 
 
 // 测试函数

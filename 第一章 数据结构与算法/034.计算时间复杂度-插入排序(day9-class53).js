@@ -22,6 +22,8 @@ function insert(A, i, x) {
     A[i] = x;
 }
 
-let A = [2, 6, 1, 5, 2, 9, 15, 43, 21]
-insertSort(A)
-console.log(A)  // [ 1, 2, 2, 5, 6, 9, 15, 21, 43 ]
+// let A = [2, 6, 1, 5, 2, 9, 15, 43, 21]
+// insertSort(A)
+// console.log(A)  // [ 1, 2, 2, 5, 6, 9, 15, 21, 43 ]
+
+module.exports = insertSort
