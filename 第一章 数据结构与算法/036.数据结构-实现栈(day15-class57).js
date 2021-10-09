@@ -16,6 +16,9 @@ class Stack {
         this.top--
         return x
     }
+    get length() {
+        return this.top + 1
+    }
 }
 
 let s = new Stack(10)
@@ -23,6 +26,8 @@ s.push(1)
 s.push(2)
 s.push(3)
 console.log(s)  // OUTPUT: Stack { data: [ 1, 2, 3, <7 empty items> ], top: 2, max: 10 }
+console.log(s.length)   // OUTPUT: 3
 console.log(s.pop())    // OUTPUT: 3
 console.log(s.pop())    // OUTPUT: 2
 console.log(s.pop())    // OUTPUT: 1
+
