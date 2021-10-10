@@ -38,7 +38,7 @@ var moveZeroes = function(nums) {
 * 优化空间:  无
 
 * 学习:  
-1.双指针使用定义(fast和low; lo和hi、p和q)
+1.双指针使用定义(fast和low; lo和hi、p和q、head和tail)
 
 * 总结:  
 1.LeetCode测试环境运行不稳定，执行时间和空间都很慢，自己要对复杂度心里有数

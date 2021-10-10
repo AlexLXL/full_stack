@@ -1,22 +1,20 @@
 /**
- * @param {number[][]} matrix
- * @return {void} Do not return anything, modify matrix in-place instead.
+ * @param {character[]} s
+ * @return {void} Do not return anything, modify s in-place instead.
  */
-var rotate = function(matrix) {
-    let len = matrix.length
-    for(let j = 0; j < (len / 2); j++) {
-        for(let i = j; i < (len - j - 1); i++) {
-            let temp = matrix[j][i]
-            let r = len - 1 - j
-            let c = len - 1 - i
-            matrix[j][i] = matrix[c][j]
-            matrix[c][j] = matrix[r][c]
-            matrix[r][c] = matrix[i][r]
-            matrix[i][r] = temp
-        }
+var reverseString = function(s) {
+    let len = s.length
+    for(let i = 0; i < len / 2; i++) {
+        let tail = len - 1 - i
+        s[i] = s[i].charCodeAt()
+        s[tail] = s[tail].charCodeAt()
+        s[i] ^= s[tail]
+        s[tail] ^= s[i]
+        s[i] ^= s[tail]
+        s[i] = String.fromCharCode(s[i])
+        s[tail] = String.fromCharCode(s[tail])
     }
 };
 
-let A = [[1,2,3],[4,5,6],[7,8,9]]
-rotate(A)
-console.log(A)
+
+reverseString(["h","e","l","l","o"])
