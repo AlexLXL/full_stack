@@ -1,5 +1,9 @@
+### 公司面试第一题(获取随机字符串里)
+
+```
 let randomStr = "dasdautedasdarwebvbnvsdnbaxfcghzfcghzdsadasdautehjkhkxnjkahdsadasdautehjkhkxnjkahdsahjkhkxnjkahdsa"
 
+// 原解法
 function countByHashTable(str) {
     let counter = {}
     for (let v of str) {
@@ -22,7 +26,7 @@ console.timeEnd("timeOne")
 // OUTPUT: 3.254ms
 
 
-
+// 优化解法
 function countByUint16Array(str) {
     let counter = new Uint16Array(26),
         i = str.length
@@ -37,3 +41,4 @@ console.time("timeTwo")
 console.log(countByUint16Array(randomStr))
 console.timeEnd("timeTwo")
 // OUTPUT: 0.749ms
+```
