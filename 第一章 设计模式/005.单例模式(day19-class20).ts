@@ -57,3 +57,17 @@ let Window03 = (function () {
 /**
  * 单例与构建过程分离
  */
+class Window04 {}
+let createInstance = function (Constructor: any) {
+    let instance: any
+    return function (this: any) {
+        if (!instance) {
+            instance = new Constructor()
+        }
+        return instance
+    }
+}
+let createWindow04 = createInstance(Window04)
+let w1 = createWindow04()
+let w2 = createWindow04()
+console.log(w1 === w2)  // OUTPUT: true
