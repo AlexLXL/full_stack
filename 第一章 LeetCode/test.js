@@ -1,20 +1,27 @@
 /**
- * @param {character[]} s
- * @return {void} Do not return anything, modify s in-place instead.
+ * @param {string} s
+ * @return {number}
  */
-var reverseString = function(s) {
-    let len = s.length
-    for(let i = 0; i < len / 2; i++) {
-        let tail = len - 1 - i
-        s[i] = s[i].charCodeAt()
-        s[tail] = s[tail].charCodeAt()
-        s[i] ^= s[tail]
-        s[tail] ^= s[i]
-        s[i] ^= s[tail]
-        s[i] = String.fromCharCode(s[i])
-        s[tail] = String.fromCharCode(s[tail])
+var myAtoi = function(s) {
+    let min = Math.pow(-2, 31)
+    let max = Math.pow(2, 31) - 1
+    let matching = s.trim().match(/[-]?\d+/)
+    let num = matching ? matching[0] : 0
+    if(matching.index === 0 && num !== "") {
+        if(num < min) {
+            return min
+        }else if(num > max) {
+            return max
+        }else {
+            return +num
+        }
+    }else {
+        return 0
     }
 };
 
-
-reverseString(["h","e","l","l","o"])
+console.log(myAtoi("42"))
+console.log(myAtoi("   -42"))
+console.log(myAtoi("4193 with words"))
+console.log(myAtoi("words and 987"))
+console.log(myAtoi("-91283472332"))
