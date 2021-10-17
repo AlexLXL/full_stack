@@ -13,3 +13,4 @@ var strStr = function(haystack, needle) {
 };
 
 console.log(strStr("mississippi", "issip"))
+console.log("d是的")
