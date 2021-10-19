@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">点击我</div>
+</body>
+<script>
+    /**
+     * 1.dom事件绑定
+     * 把绑定的同一个事件函数放到一起(一个数组内)
+     */
+    let appDom = document.querySelector("#app")
+    appDom.addEventListener("click", () => { console.log(1) })
+    appDom.addEventListener("click", () => { console.log(2) })
+</script>
+</html>
