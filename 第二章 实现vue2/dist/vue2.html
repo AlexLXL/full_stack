@@ -5,9 +5,15 @@
     <title>use write vue2</title>
 </head>
 <body>
+<div id="app"></div>
 <script src="umd/vue.js"></script>
 <script>
-    console.log(Vue);
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            name: 1
+        }
+    })
 </script>
 </body>
 </html>
