@@ -1,4 +1,5 @@
-import {isObject} from "../utils/utils";
+import {isArray, isObject} from "../utils/utils";
+import {arrayMethods} from "./array";
 
 export function observe(data) {
     if (!isObject(data)) return
@@ -7,7 +8,11 @@ export function observe(data) {
 
 class Observer {
     constructor(data) {
-        this.walk(data)
+        if (isArray(data)) {
+            data.__proto__ = arrayMethods
+        }else {
+            this.walk(data)
+        }
     }
     walk(data) {
         Object.keys(data).forEach((key) => {
