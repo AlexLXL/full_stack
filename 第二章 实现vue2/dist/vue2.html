@@ -16,11 +16,18 @@
                 ch: "浪"
             },
             age: 18,
-            clothes: ["t-shirt", "trouser", "coat"]
+            clothes: ["t-shirt", "trouser", "coat"],
+            friends: [{name: "tom"}, {name: "king"}]
         }
     })
     console.log(vm)
-    vm.clothes.pop()
+    // vm.age = { year: 18 }
+    // vm.age.year = 19
+
+    // vm.friends[0].name = "tom1"
+
+    vm.friends.push({name: "queue"})
+    vm.friends[2].name = "queue1"
 </script>
 </body>
 </html>

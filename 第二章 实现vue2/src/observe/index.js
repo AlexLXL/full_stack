@@ -3,13 +3,19 @@ import {arrayMethods} from "./array";
 
 export function observe(data) {
     if (!isObject(data)) return
+    if (data.__ob__) return
     return new Observer(data)
 }
 
 class Observer {
     constructor(data) {
+        Object.defineProperty(data, "__ob__", {
+            value: this,
+            enumerable: false
+        })
         if (isArray(data)) {
             data.__proto__ = arrayMethods
+            this.observeArray(data)
         }else {
             this.walk(data)
         }
@@ -18,6 +24,9 @@ class Observer {
         Object.keys(data).forEach((key) => {
             definedReactive(data, key, data[key])
         })
+    }
+    observeArray(arr) {
+        arr.forEach(observe)
     }
 }
 
@@ -36,7 +45,9 @@ function definedReactive(data, key, value) {
         },
         set(newValue) {
             if (newValue === value) return;
-            console.log(newValue)
+            if (isObject(newValue)) { observe(newValue) }
+            value = newValue
+            console.log(`触发修改`)
         }
     })
 }
