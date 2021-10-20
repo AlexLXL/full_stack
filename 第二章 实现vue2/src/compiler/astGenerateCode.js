@@ -7,8 +7,7 @@ let defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g; // 匹配文本, {{message}}
 export function astGenerateCode(ast) {
     let children = genChildren(ast)
     let code = 
-        `
-        _c("${ast.tag}",
+        `_c("${ast.tag}",
             ${
                 ast.attrs.length ? genProps(ast.attrs) : undefined
             },
@@ -61,6 +60,6 @@ function gen(subAst) {
         if (low < text.length) {
             result.push(JSON.stringify(text.slice(low)))
         }
-        return result
+        return `_v(${result.join('+')})`
     }
 }

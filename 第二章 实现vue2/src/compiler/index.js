@@ -8,5 +8,5 @@ export function compilerToFunction(html) {
 
     let render = new Function(`with(this) { return ${code} }`)
 
-    console.log(render)
+    return render
 }
