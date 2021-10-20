@@ -63,6 +63,8 @@ const endTagReg = new RegExp(`^<\\/${qnameCapture}[^>]*>`); // 标签结束 0: <
 }*/
 
 export function parserHTML(html) {
+    let root = null
+    let stack = [] // 利用入栈/出栈来 对应 开始标签/结束标签, 来完善root
     while(html) {
         let idx = html.indexOf("<")
         // 开始标签/结束标签
@@ -113,13 +115,41 @@ export function parserHTML(html) {
         return result
     }
     function start({tagName, attrs}) {
-        console.log(`S: ${tagName}, ${JSON.stringify(attrs)}`)
+        let parent = stack[stack.length - 1]
+        let element = createASTElement(tagName, attrs, parent)
+        if (parent) {
+            parent.children.push(element)
+        }
+        if (root === null) {
+            root = element
+        }
+        stack.push(element)
     }
     function end(tagName) {
-        console.log(`E: ${tagName}`)
+        if (stack.pop().tag !== tagName) {
+            console.log(`闭合标签和开始标签不匹配`)
+        }
     }
     function text(content) {
-        console.log(`C: ${content}`)
+        let parent = stack[stack.length - 1]
+        content = content.replace(/\s/g, '')
+        if (content) {
+            parent.children.push({
+                content,
+                type: 2
+            })
+        }
     }
+    function createASTElement(tag, attrs, parent) {
+        return {
+            tag,
+            attrs,
+            parent,
+            type: 1,
+            children: []
+        }
+    }
+
+    return root
 }
 

@@ -20,7 +20,6 @@ export function initMixin(Vue) {
         let opts = vm.$options
         if (!opts.render) {
             let html = opts.template || vm.$el.outerHTML
-            debugger
             opts.render = compilerToFunction(html)
         }
     }
