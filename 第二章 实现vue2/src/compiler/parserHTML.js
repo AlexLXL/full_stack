@@ -135,7 +135,7 @@ export function parserHTML(html) {
         content = content.replace(/\s/g, '')
         if (content) {
             parent.children.push({
-                content,
+                text: content,
                 type: 2
             })
         }
