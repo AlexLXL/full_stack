@@ -1,10 +1,10 @@
 import {parserHTML} from "./parser";
 import {generate} from "./generate";
 
-export function compilerToFunction(template) {
-    console.log("template:", template);
+export function compilerToFunction(html) {
+    console.log("html:", html);
 
-    let ast = parserHTML(template);
+    let ast = parserHTML(html);
     console.log("ast:", ast);
 
     let code = generate(ast);

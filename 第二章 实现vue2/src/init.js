@@ -1,4 +1,5 @@
 import {initState} from "./state";
+import {compilerToFunction} from "./compiler";
 
 export function initMixin(Vue) {
     Vue.prototype._init = function (options) {
@@ -8,7 +9,19 @@ export function initMixin(Vue) {
         initState(vm)
 
         if (vm.$options.el) {
-            // FIXME: 挂载组件
+            vm.$mount(vm.$options.el)
+        }
+    }
+
+    Vue.prototype.$mount = function (el) {
+        let vm = this
+        vm.$el = document.querySelector(el)
+
+        let opts = vm.$options
+        if (!opts.render) {
+            let html = opts.template || vm.$el.outerHTML
+            debugger
+            opts.render = compilerToFunction(html)
         }
     }
 }

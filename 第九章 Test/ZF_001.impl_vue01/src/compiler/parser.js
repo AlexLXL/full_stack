@@ -1,10 +1,10 @@
 // 用"html".match(new RegExp(ncname))匹配
-const ncname = `[a-zA-Z_][\\-\\.0-9_a-zA-Z]*`; // 匹配标签名，子模块aaa-bbb
+const ncname = `[a-zA-Z_][\\-\\.0-9_a-zA-Z]*`; // 标签名，子模块aaa-bbb
 /*[
     0: "aa-bb"
     groups: undefined
     index: 1
-    input: "<aa-bb>2131</aa-bb>>"
+    input: "<aa-bb>2131</aa-bb>"
     length: 1
 ]*/
 const qnameCapture = `((?:${ncname}\\:)?${ncname})`; // 命名空间标签，aa:aa-xxx。很少用
@@ -16,7 +16,7 @@ const qnameCapture = `((?:${ncname}\\:)?${ncname})`; // 命名空间标签，aa:
     input: "<aa-bb>2131</aa-bb>>"
     length: 2
 ]*/
-const startTagOpen = new RegExp(`^<${qnameCapture}`); // 匹配<标签名和标签名，0: <aa:aa-xxx或<aa-aa, 1: aa:aa-xxx或aa-aa
+const startTagOpen = new RegExp(`^<${qnameCapture}`); // <标签名和标签名，0: <aa:aa-xxx或<aa-aa, 1: aa:aa-xxx或aa-aa
 /*[
     0: "<aa-bb"
     1: "aa-bb"
@@ -25,7 +25,7 @@ const startTagOpen = new RegExp(`^<${qnameCapture}`); // 匹配<标签名和标�
     input: "<aa-bb>2131</aa-bb>"
     length: 2
 ]*/
-const attribute = /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/; // 匹配属性, 见下
+const attribute = /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/; // 属性
 /*{
     0: "title = 123"    // 完整字符串
     1: "title"      // key
@@ -38,7 +38,7 @@ const attribute = /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s
     input: "title = 123></aa-bb>"
     length: 6
 }*/
-const startTagClose = /^\s*(\/?)>/; // 匹配标签结束, >或/>
+const startTagClose = /^\s*(\/?)>/; // 标签结束, >或/>
 /*{
     0: "/>"
     1: "/"
@@ -47,12 +47,12 @@ const startTagClose = /^\s*(\/?)>/; // 匹配标签结束, >或/>
     input: "/>32323"
     length: 2
 }*/
-// const defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g; // // 匹配文本, {{message}}
+// const defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g; // // 文本, {{message}}
 /*{
     0: "{{message}}"
     length: 1
 }*/
-const endTag = new RegExp(`^<\\/${qnameCapture}[^>]*>`); // 匹配标签结束 0: </aa-bb>, 1: aa-bb
+const endTag = new RegExp(`^<\\/${qnameCapture}[^>]*>`); // 标签结束 0: </aa-bb>, 1: aa-bb
 /*{
     0: "</aa-bb>"
     1: "aa-bb"
@@ -102,14 +102,14 @@ export function parserHTML(html) {
     function parseStartTag() {
         const start = html.match(startTagOpen);
         if (start) {
-            // 匹配到开始标签
+            // 开始标签
             const match = {
                 tagName: start[1],
                 attrs: []
             }
             advance(start[0].length);
 
-            // 匹配属性
+            // 匹配到结束标签为止，这部分都是属性
             let end,
                 attr
             while(!(end = html.match(startTagClose)) && (attr = html.match(attribute))) { // 顺序不能反
