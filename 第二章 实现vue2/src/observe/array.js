@@ -16,5 +16,6 @@ methods.forEach((method) => {
                 break;
         }
         addElement && this.__ob__.observeArray(addElement)
+        this.__ob__.dep.notify()
     }
 })
