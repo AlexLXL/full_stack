@@ -1,4 +1,5 @@
 import {Dep} from "./dep";
+import {queueWatcher} from "./schedule";
 
 let id = 0
 export class Watcher {
@@ -26,6 +27,11 @@ export class Watcher {
         }
     }
     update() {
+        // 快速修改多次值会导致render多次
+        // this.get()
+        queueWatcher(this)
+    }
+    run() {
         this.get()
         // FIXME: 会再出发一次依赖收集, 有优化空间?
     }

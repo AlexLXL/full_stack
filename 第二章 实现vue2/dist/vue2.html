@@ -27,9 +27,14 @@
         }
     })
     console.log(vm)
-    setTimeout(() => {
-        vm.name.ch = "浪R"
-    }, 1000)
+    // 目标: 只触发一次render
+    vm.name.ch = "浪R1"
+    vm.name.ch = "浪R2"
+    vm.name.ch = "浪R3"
+    // 目标: 只新建一个promise
+    vm.$nextTick(() => {})
+    vm.$nextTick(() => {})
+    vm.$nextTick(() => {})
 </script>
 </body>
 </html>
