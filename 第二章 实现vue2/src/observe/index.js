@@ -1,5 +1,6 @@
 import {isArray, isObject} from "../utils/utils";
 import {arrayMethods} from "./array";
+import {Dep} from "./dep";
 
 export function observe(data) {
     if (!isObject(data)) return
@@ -38,16 +39,20 @@ class Observer {
  * @returns {*}
  */
 function definedReactive(data, key, value) {
+    let dep = new Dep()
     observe(value)
     Object.defineProperty(data, key, {
         get() {
+            if (Dep.target) {
+                dep.depend()
+            }
             return value
         },
         set(newValue) {
             if (newValue === value) return;
             if (isObject(newValue)) { observe(newValue) }
             value = newValue
-            console.log(`触发修改`)
+            dep.notify()
         }
     })
 }
