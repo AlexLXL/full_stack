@@ -434,7 +434,7 @@
         return astGenerateCode(subAst);
       } else {
         let text = subAst.text;
-        if (!defaultTagRE.test(text)) return `_v(${text})`;
+        if (!defaultTagRE.test(text)) return `_v("${text}")`;
         defaultTagRE.lastIndex = 0;
         let result = [];
         let low = 0;
@@ -499,10 +499,10 @@
         parentNode.removeChild(oldVnode);
         return realDom;
       } else {
-        // 对比不同
+        // 节点不同
         if (!isSameNode(oldVnode, newVnode)) {
           oldVnode.el.parentNode.replaceChild(createElm(newVnode), oldVnode.el);
-        } // 对比相同
+        } // 节点相同
 
 
         let el = newVnode.el = oldVnode.el;
@@ -514,6 +514,17 @@
         }
 
         createElmProp(newVnode, oldVnode.data);
+        let oldChildren = oldVnode.children || []; // 比较儿子
+
+        let newChildren = newVnode.children || [];
+
+        if (oldChildren.length && !newChildren.length) {
+          el.innerHTML = '';
+        } else if (!oldChildren.length && newChildren.length) {
+          newChildren.forEach(child => el.appendChild(createElm(child)));
+        } else {
+          updateChildren(el, oldChildren, newChildren);
+        }
       }
     }
     function createElm(vnode) {
@@ -564,6 +575,54 @@
       for (let key in oldProps) {
         if (!newProps[key]) {
           el.removeAttribute(key);
+        }
+      }
+    }
+
+    function updateChildren(el, oldChildren, newChildren) {
+      let oldStartIndex = 0;
+      let oldStartVnode = oldChildren[0];
+      let oldEndIndex = oldChildren.length - 1;
+      let oldEndVnode = oldChildren[oldEndIndex];
+      let newStartIndex = 0;
+      let newStartVnode = newChildren[0];
+      let newEndIndex = newChildren.length - 1;
+      let newEndVnode = newChildren[newEndIndex]; // 头头、尾尾、头尾、尾头、乱序
+
+      while (oldStartIndex <= oldEndIndex && newStartIndex <= newEndIndex) {
+        if (isSameNode(oldStartVnode, newStartVnode)) {
+          patch(oldStartVnode, newStartVnode); // 递归对比子元素
+
+          oldStartVnode = oldChildren[++oldStartIndex];
+          newStartVnode = newChildren[++newStartIndex];
+        } else if (isSameNode(oldEndVnode, newEndVnode)) {
+          patch(oldEndVnode, newEndVnode);
+          oldEndVnode = oldChildren[--oldEndIndex];
+          newEndVnode = newChildren[--newEndIndex];
+        } else if (isSameNode(oldStartVnode, newEndVnode)) {
+          patch(oldStartVnode, newEndVnode);
+          el.insertBefore(oldStartVnode.el, oldEndVnode.el.nextSibling);
+          oldStartVnode = oldChildren[++oldStartIndex];
+          newEndVnode = oldChildren[--newEndIndex];
+        } else if (isSameNode(oldEndVnode, newStartVnode)) {
+          patch(oldEndVnode, newStartVnode);
+          el.insertBefore(oldEndVnode.el, newStartVnode.el);
+          oldEndVnode = oldChildren[--oldEndIndex];
+          newStartVnode = newChildren[++newStartIndex];
+        } else ;
+      }
+
+      if (newStartIndex <= newEndIndex) {
+        for (let i = newStartIndex; i <= newEndIndex; i++) {
+          let anchor = newChildren[newEndIndex + 1] ? newChildren[newEndIndex + 1].el : null;
+          el.insertBefore(createElm(newChildren[i]), anchor);
+        }
+      }
+
+      if (oldStartIndex <= oldEndIndex) {
+        for (let i = oldStartIndex; i <= oldEndIndex; i++) {
+          let child = oldChildren[i];
+          el.removeChild(child.el);
         }
       }
     }
@@ -888,20 +947,29 @@
       }
 
     });
-    let render = compilerToFunction(`<div style="color: yellowgreen;font-size: 20px">{{name}}</div>`);
+    let render = compilerToFunction(`<div>
+    <li key="a">a</li>
+    <li key="b">b</li>
+    <li key="c">c</li>
+</div>`);
     let oldVnode = render.call(vm);
     let el = createElm(oldVnode); // 真实节点
 
     document.body.appendChild(el);
     vm.name = 'lang02';
-    let render2 = compilerToFunction(`<div style="color: lightskyblue">{{name}}</div>`);
+    let render2 = compilerToFunction(`<div>
+    <li key="c">c</li>
+    <li key="b">b</li>
+    <li key="a">a</li>
+    <li key="d">d</li>
+</div>`);
     let newVnode = render2.call(vm);
     setTimeout(() => {
       patch(oldVnode, newVnode); // let el2 = createEle(newVnode);
       // document.body.removeChild(el1);
       // document.body.appendChild(el2);
       // 以上是还没做diff的
-    }, 2000);
+    }, 3000);
 
     return Vue;
 

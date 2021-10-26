@@ -43,7 +43,7 @@ function gen(subAst) {
         return astGenerateCode(subAst)
     }else {
         let text = subAst.text
-        if (!defaultTagRE.test(text)) return `_v(${text})`
+        if (!defaultTagRE.test(text)) return `_v("${text}")`
         defaultTagRE.lastIndex = 0
 
         let result = []
