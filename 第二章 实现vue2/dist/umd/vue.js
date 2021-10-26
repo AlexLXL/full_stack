@@ -491,6 +491,13 @@
     /**
      * vnode => real dom
      */
+    /**
+     * 节点比对、属性比对、递归对比子元素
+     * @param oldVnode
+     * @param newVnode
+     * @returns {*}
+     */
+
     function patch(oldVnode, newVnode) {
       if (oldVnode.nodeType) {
         let parentNode = oldVnode.parentNode;
@@ -587,12 +594,16 @@
       let newStartIndex = 0;
       let newStartVnode = newChildren[0];
       let newEndIndex = newChildren.length - 1;
-      let newEndVnode = newChildren[newEndIndex]; // 头头、尾尾、头尾、尾头、乱序
+      let newEndVnode = newChildren[newEndIndex];
+      let mapping = makeKeyByIndex(oldChildren); // 头头、尾尾、头尾、尾头、乱序
 
       while (oldStartIndex <= oldEndIndex && newStartIndex <= newEndIndex) {
-        if (isSameNode(oldStartVnode, newStartVnode)) {
-          patch(oldStartVnode, newStartVnode); // 递归对比子元素
-
+        if (!oldStartVnode) {
+          oldStartVnode = oldChildren[++oldStartIndex];
+        } else if (!oldEndVnode) {
+          oldEndVnode = oldChildren[--oldEndIndex];
+        } else if (isSameNode(oldStartVnode, newStartVnode)) {
+          patch(oldStartVnode, newStartVnode);
           oldStartVnode = oldChildren[++oldStartIndex];
           newStartVnode = newChildren[++newStartIndex];
         } else if (isSameNode(oldEndVnode, newEndVnode)) {
@@ -609,7 +620,20 @@
           el.insertBefore(oldEndVnode.el, newStartVnode.el);
           oldEndVnode = oldChildren[--oldEndIndex];
           newStartVnode = newChildren[++newStartIndex];
-        } else ;
+        } else {
+          let moveIndex = mapping[newStartVnode.key];
+
+          if (moveIndex === undefined) {
+            el.insertBefore(createElm(newStartVnode), oldStartVnode.el);
+          } else {
+            let moveVnode = oldChildren[moveIndex];
+            patch(moveVnode, newStartVnode);
+            el.insertBefore(moveVnode.el, oldStartVnode.el);
+            oldChildren[moveIndex] = undefined;
+          }
+
+          newStartVnode = newChildren[++newStartIndex];
+        }
       }
 
       if (newStartIndex <= newEndIndex) {
@@ -622,9 +646,17 @@
       if (oldStartIndex <= oldEndIndex) {
         for (let i = oldStartIndex; i <= oldEndIndex; i++) {
           let child = oldChildren[i];
-          el.removeChild(child.el);
+          child && el.removeChild(child.el);
         }
       }
+    }
+
+    function makeKeyByIndex(children) {
+      let map = {};
+      children.forEach((item, index) => {
+        map[item.key] = index;
+      });
+      return map;
     }
 
     let queue$1 = [];
@@ -951,6 +983,7 @@
     <li key="a">a</li>
     <li key="b">b</li>
     <li key="c">c</li>
+    <li key="d">d</li>
 </div>`);
     let oldVnode = render.call(vm);
     let el = createElm(oldVnode); // 真实节点
@@ -958,10 +991,10 @@
     document.body.appendChild(el);
     vm.name = 'lang02';
     let render2 = compilerToFunction(`<div>
-    <li key="c">c</li>
+    <li key="f">f</li>
     <li key="b">b</li>
     <li key="a">a</li>
-    <li key="d">d</li>
+    <li key="g">g</li>
 </div>`);
     let newVnode = render2.call(vm);
     setTimeout(() => {

@@ -4,6 +4,12 @@
 import {isObject} from "../utils/utils";
 import {isSameNode} from "./index";
 
+/**
+ * 节点比对、属性比对、递归对比子元素
+ * @param oldVnode
+ * @param newVnode
+ * @returns {*}
+ */
 export function patch(oldVnode, newVnode) {
     if (oldVnode.nodeType) {
         let parentNode = oldVnode.parentNode
@@ -87,10 +93,15 @@ function updateChildren(el, oldChildren, newChildren) {
     let newStartVnode = newChildren[0]
     let newEndIndex = newChildren.length - 1
     let newEndVnode = newChildren[newEndIndex]
+    let mapping = makeKeyByIndex(oldChildren)
     // 头头、尾尾、头尾、尾头、乱序
     while((oldStartIndex <= oldEndIndex) && (newStartIndex <= newEndIndex)) {
-        if (isSameNode(oldStartVnode,newStartVnode)) {
-            patch(oldStartVnode, newStartVnode) // 递归对比子元素
+        if (!oldStartVnode) {
+            oldStartVnode = oldChildren[++oldStartIndex]
+        }else if (!oldEndVnode) {
+            oldEndVnode = oldChildren[--oldEndIndex]
+        }else if (isSameNode(oldStartVnode,newStartVnode)) {
+            patch(oldStartVnode, newStartVnode)
             oldStartVnode = oldChildren[++oldStartIndex]
             newStartVnode = newChildren[++newStartIndex]
         }else if (isSameNode(oldEndVnode, newEndVnode)) {
@@ -108,7 +119,16 @@ function updateChildren(el, oldChildren, newChildren) {
             oldEndVnode = oldChildren[--oldEndIndex]
             newStartVnode = newChildren[++newStartIndex]
         }else {
-
+            let moveIndex = mapping[newStartVnode.key]
+            if (moveIndex === undefined) {
+                el.insertBefore(createElm(newStartVnode), oldStartVnode.el)
+            }else {
+                let moveVnode = oldChildren[moveIndex]
+                patch(moveVnode, newStartVnode)
+                el.insertBefore(moveVnode.el, oldStartVnode.el)
+                oldChildren[moveIndex] = undefined
+            }
+            newStartVnode = newChildren[++newStartIndex]
         }
     }
     if (newStartIndex <= newEndIndex) {
@@ -120,7 +140,14 @@ function updateChildren(el, oldChildren, newChildren) {
     if (oldStartIndex <= oldEndIndex) {
         for (let i = oldStartIndex; i <= oldEndIndex; i++) {
             let child = oldChildren[i]
-            el.removeChild(child.el)
+            child && el.removeChild(child.el)
         }
     }
+}
+function makeKeyByIndex(children) {
+    let map = {}
+    children.forEach((item, index) => {
+        map[item.key] = index
+    })
+    return map
 }

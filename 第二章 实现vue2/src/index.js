@@ -24,6 +24,7 @@ let render = compilerToFunction(`<div>
     <li key="a">a</li>
     <li key="b">b</li>
     <li key="c">c</li>
+    <li key="d">d</li>
 </div>`);
 let oldVnode = render.call(vm);
 let el = createElm(oldVnode); // 真实节点
@@ -31,10 +32,10 @@ document.body.appendChild(el);
 
 vm.name = 'lang02'
 let render2 = compilerToFunction(`<div>
-    <li key="c">c</li>
+    <li key="f">f</li>
     <li key="b">b</li>
     <li key="a">a</li>
-    <li key="d">d</li>
+    <li key="g">g</li>
 </div>`);
 let newVnode = render2.call(vm);
 setTimeout(() => {
