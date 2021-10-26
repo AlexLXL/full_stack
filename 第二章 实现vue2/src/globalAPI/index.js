@@ -62,7 +62,7 @@ lifeCycle.forEach(hook => {
                 if(isArray(childVal)) {
                     return childVal
                 }
-                return [childVal];
+                return isArray(childVal) ? childVal : [childVal];
             }
         }else {
             return parentVal;

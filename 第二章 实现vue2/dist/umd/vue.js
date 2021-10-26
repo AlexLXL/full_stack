@@ -466,17 +466,56 @@
       return render;
     }
 
+    function createVnodeEle(vm, tag, data = {}, ...children) {
+      return vnode(vm, tag, data, children, data.key, undefined);
+    }
+    function createVnodeText(vm, text) {
+      return vnode(vm, undefined, undefined, undefined, undefined, text);
+    }
+
+    function vnode(vm, tag, data = {}, children, key, text) {
+      return {
+        vm,
+        tag,
+        data,
+        children,
+        key,
+        text
+      };
+    }
+
+    function isSameNode(oldVnode, newVnode) {
+      return oldVnode.tag === newVnode.tag && oldVnode.key == newVnode.key;
+    }
+
     /**
      * vnode => real dom
      */
     function patch(oldVnode, newVnode) {
-      let parentNode = oldVnode.parentNode;
-      let realDom = createElm(newVnode);
-      parentNode.insertBefore(realDom, oldVnode.nextSibing);
-      parentNode.removeChild(oldVnode);
-      return realDom;
-    }
+      if (oldVnode.nodeType) {
+        let parentNode = oldVnode.parentNode;
+        let realDom = createElm(newVnode);
+        parentNode.insertBefore(realDom, oldVnode.nextSibing);
+        parentNode.removeChild(oldVnode);
+        return realDom;
+      } else {
+        // 对比不同
+        if (!isSameNode(oldVnode, newVnode)) {
+          oldVnode.el.parentNode.replaceChild(createElm(newVnode), oldVnode.el);
+        } // 对比相同
 
+
+        let el = newVnode.el = oldVnode.el;
+
+        if (!oldVnode.tag) {
+          if (oldVnode.text !== newVnode.text) {
+            return el.textContent = newVnode.text;
+          }
+        }
+
+        createElmProp(newVnode, oldVnode.data);
+      }
+    }
     function createElm(vnode) {
       let {
         vm,
@@ -489,7 +528,7 @@
       if (tag) {
         // 在vnode.el都存了真实dom
         vnode.el = document.createElement(tag);
-        createElmProp(vnode.el, data);
+        createElmProp(vnode, data);
         children.forEach(child => {
           vnode.el.appendChild(createElm(child));
         });
@@ -500,19 +539,32 @@
       return vnode.el;
     }
 
-    function createElmProp(el, props = {}) {
-      for (let [k, v] of Object.entries(props)) {
-        let result = "";
+    function createElmProp(newVnode, oldProps = {}) {
+      let el = newVnode.el;
+      let newProps = newVnode.data || {};
+      let newStyle = newProps.style || {};
+      let oldStyle = oldProps.style || {};
 
-        if (isObject(v)) {
-          for (let [key, value] of Object.entries(v)) {
-            result += `${key}:${value};`;
+      for (let key in oldStyle) {
+        if (!newStyle[key]) {
+          el.style[key] = "";
+        }
+      }
+
+      for (let key in newProps) {
+        if (key === 'style') {
+          for (let s in newStyle) {
+            el.style[s] = newStyle[s];
           }
         } else {
-          result = v;
+          el.setAttribute(key, newProps[key]);
         }
+      }
 
-        el.setAttribute(k, result);
+      for (let key in oldProps) {
+        if (!newProps[key]) {
+          el.removeAttribute(key);
+        }
       }
     }
 
@@ -669,7 +721,7 @@
               return childVal;
             }
 
-            return [childVal];
+            return isArray$1(childVal) ? childVal : [childVal];
           }
         } else {
           return parentVal;
@@ -790,24 +842,6 @@
       Vue.prototype.$nextTick = nextTick;
     }
 
-    function createVnodeEle(vm, tag, data = {}, ...children) {
-      return vnode(vm, tag, data, children, data.key, undefined);
-    }
-    function createVnodeText(vm, text) {
-      return vnode(vm, undefined, undefined, undefined, undefined, text);
-    }
-
-    function vnode(vm, tag, data = {}, children, key, text) {
-      return {
-        vm,
-        tag,
-        data,
-        children,
-        key,
-        text
-      };
-    }
-
     function renderMixin(Vue) {
       /**
        * render => vnode
@@ -846,6 +880,28 @@
     renderMixin(Vue);
     lifCycleMixin(Vue);
     initGlobalAPI(Vue);
+    let vm = new Vue({
+      data() {
+        return {
+          name: "lang"
+        };
+      }
+
+    });
+    let render = compilerToFunction(`<div style="color: yellowgreen;font-size: 20px">{{name}}</div>`);
+    let oldVnode = render.call(vm);
+    let el = createElm(oldVnode); // 真实节点
+
+    document.body.appendChild(el);
+    vm.name = 'lang02';
+    let render2 = compilerToFunction(`<div style="color: lightskyblue">{{name}}</div>`);
+    let newVnode = render2.call(vm);
+    setTimeout(() => {
+      patch(oldVnode, newVnode); // let el2 = createEle(newVnode);
+      // document.body.removeChild(el1);
+      // document.body.appendChild(el2);
+      // 以上是还没做diff的
+    }, 2000);
 
     return Vue;
 
