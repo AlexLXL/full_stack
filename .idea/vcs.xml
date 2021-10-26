@@ -5,5 +5,7 @@
     <mapping directory="$PROJECT_DIR$/第九章 Test/MY_002.jest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/第九章 Test/TEST_003.impl_promise" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/第九章 Test/ZF_001.impl_vue" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/第九章 Test/elementui注释版" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/第二章 vue源码" vcs="Git" />
   </component>
 </project>

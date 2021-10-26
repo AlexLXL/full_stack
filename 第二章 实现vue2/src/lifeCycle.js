@@ -18,6 +18,12 @@ export function mountComponent(vm) {
 export function lifCycleMixin(Vue) {
     Vue.prototype._update = function (vnode) {
         const vm = this;
-        vm.$el = patch(vm.$el, vnode);
+        let prevVnode = vm._prevVode
+        vm._prevVode = vnode
+        if (!prevVnode) {
+            vm.$el = patch(vm.$el, vnode);
+        }else {
+            vm.$el = patch(prevVnode, vnode);
+        }
     }
 }

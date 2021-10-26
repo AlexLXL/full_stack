@@ -40,7 +40,7 @@ export function patch(oldVnode, newVnode) {
         }else {
             updateChildren(el, oldChildren, newChildren)
         }
-
+        return el
     }
 }
 export function createElm(vnode) {
