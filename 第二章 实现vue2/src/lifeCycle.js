@@ -1,5 +1,6 @@
 import {patch} from "./vdom/patch";
 import {Watcher} from "./observe/watcher";
+import {callHook} from "./globalAPI";
 
 export function mountComponent(vm) {
     let updateCpmponent = function () {
@@ -7,9 +8,11 @@ export function mountComponent(vm) {
         vm._update(vNode)
     }
 
+    callHook(vm, 'beforeCreate')
     new Watcher(vm, updateCpmponent, () => {
         // FIXME: 依赖收集完成并进行了初次渲染
     })
+    callHook(vm, 'mounted')
 }
 
 export function lifCycleMixin(Vue) {

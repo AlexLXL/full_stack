@@ -16,6 +16,18 @@
 <!--<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.js"></script>-->
 <script src="umd/vue.js"></script>
 <script>
+    Vue.mixin({
+        beforeCreate() {
+            console.log("全局beforeCreate1");
+        }
+    });
+
+    Vue.mixin({
+        beforeCreate() {
+            console.log("全局beforeCreate2");
+        }
+    });
+
     let vm = new Vue({
         el: "#app",
         data: {
@@ -30,12 +42,21 @@
             clothes: ["t-shirt", "trouser", "coat"],
             friends: [{name: "tom"}, {name: "king"}],
             test: [[], {a:1}]
-        }
+        },
+        beforeCreate: [
+            function () {
+                console.log("组件beforeCreate1");
+            },
+            function () {
+                console.log("组件beforeCreate2");
+            }
+        ]
     })
     console.log(vm)
-    setTimeout(() => {
-        vm.test[0].push(100)
-    },1000)
+    // setTimeout(() => {
+    //     vm.test[0].push(100)
+    // },1000)
+
     // 目标: 只触发一次render
     // vm.name.ch = "浪R1"
     // vm.name.ch = "浪R2"

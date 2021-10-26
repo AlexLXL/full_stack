@@ -10,7 +10,7 @@
     function isObject(val) {
       return typeof val === "object" && val !== null;
     }
-    function isArray(val) {
+    function isArray$1(val) {
       return Array.isArray(val);
     }
 
@@ -79,7 +79,7 @@
           enumerable: false
         });
 
-        if (isArray(data)) {
+        if (isArray$1(data)) {
           data.__proto__ = arrayMethods;
           this.observeArray(data);
         } else {
@@ -118,7 +118,7 @@
             if (innerOb) {
               innerOb.dep.depend();
 
-              if (isArray(value)) {
+              if (isArray$1(value)) {
                 dependArray(value);
               }
             }
@@ -153,7 +153,7 @@
         let current = arr[i];
         current.__ob__ && current.__ob__.dep.depend(); // 依赖收集
 
-        if (isArray(current)) {
+        if (isArray$1(current)) {
           dependArray(current);
         }
       }
@@ -602,6 +602,93 @@
 
     }
 
+    /**
+     * 将全局属性都放到对应队列里，方便初始化子组件时进行属性合并
+     * @param Vue
+     */
+
+    function initGlobalAPI(Vue) {
+      Vue.options = {};
+
+      Vue.mixin = function (options) {
+        this.options = mergeOptions$1(this.options, options);
+      };
+
+      Vue.component = function () {};
+
+      Vue.filter = function () {};
+
+      Vue.directive = function () {};
+    }
+    /**
+     * 类似Object.assign,将全局属性组合起来
+     * @param parentVal
+     * @param childVal
+     * @returns {{}}
+     */
+
+    function mergeOptions$1(parentVal, childVal) {
+      const options = {};
+
+      for (let key in parentVal) {
+        mergeFiled(key);
+      }
+
+      for (let key in childVal) {
+        if (!parentVal.hasOwnProperty(key)) {
+          mergeFiled(key);
+        }
+      }
+
+      function mergeFiled(key) {
+        let strategy = strategys$1[key];
+
+        if (strategy) {
+          options[key] = strategy(parentVal[key], childVal[key]);
+        } else {
+          options[key] = childVal[key] || parentVal[key];
+        }
+      }
+
+      return options;
+    }
+    /**
+     * 生命周期函数(使用队列存储)
+     * @type {{}}
+     */
+
+    let strategys$1 = {};
+    let lifeCycle$1 = ["beforeCreate", "created", "beforeMount", "mounted"];
+    lifeCycle$1.forEach(hook => {
+      strategys$1[hook] = function (parentVal, childVal) {
+        if (childVal) {
+          if (parentVal) {
+            return parentVal.concat(childVal);
+          } else {
+            if (isArray$1(childVal)) {
+              return childVal;
+            }
+
+            return [childVal];
+          }
+        } else {
+          return parentVal;
+        }
+      };
+    });
+    /**
+     * 暴露声明周期函数
+     * @param vm
+     * @param hook
+     */
+
+    function callHook(vm, hook) {
+      let handlers = vm.$options[hook];
+      handlers && handlers.forEach(item => {
+        item.call(this); // 声明周期的this永远指向实例
+      });
+    }
+
     function mountComponent(vm) {
       let updateCpmponent = function () {
         let vNode = vm._render();
@@ -609,8 +696,10 @@
         vm._update(vNode);
       };
 
+      callHook(vm, 'beforeCreate');
       new Watcher(vm, updateCpmponent, () => {// FIXME: 依赖收集完成并进行了初次渲染
       });
+      callHook(vm, 'mounted');
     }
     function lifCycleMixin(Vue) {
       Vue.prototype._update = function (vnode) {
@@ -619,10 +708,65 @@
       };
     }
 
+    function isArray(val) {
+      return Array.isArray(val);
+    }
+    // 第二次合并:  {beforeCreate: [fn]} {beforeCreate: fn} => {beforeCreate: [fn, fn]}
+
+
+    let strategys = {}; // 存储所有策略
+
+    let lifeCycle = ["beforeCreate", "created", "beforeMount", "Mounted"];
+    lifeCycle.forEach(hook => {
+      strategys[hook] = function (parentVal, childVal) {
+        if (childVal) {
+          if (parentVal) {
+            return parentVal.concat(childVal); // 看上面的第二次合并，parentVal已经是数组
+          } else {
+            if (isArray(childVal)) {
+              return childVal;
+            }
+
+            return [childVal];
+          }
+        } else {
+          return parentVal;
+        }
+      };
+    });
+    function mergeOptions(parentVal, childVal) {
+      const options = {}; // 合并全局属性和组件属性(options)
+
+      for (let key in parentVal) {
+        mergeFiled(key);
+      } // 添加组件属性
+
+
+      for (let key in childVal) {
+        if (!parentVal.hasOwnProperty(key)) {
+          mergeFiled(key);
+        }
+      }
+
+      function mergeFiled(key) {
+        let strat = strategys[key];
+
+        if (strat) {
+          options[key] = strat(parentVal[key], childVal[key]); // 合并生命周期
+        } else {
+          options[key] = childVal[key] || parentVal[key]; // 合并data那些
+        }
+      }
+
+      return options;
+    }
+
     function initMixin(Vue) {
       Vue.prototype._init = function (options) {
-        let vm = this;
-        vm.$options = options;
+        let vm = this; // vm.$options = options
+        // 合并:全局属性+组件属性(如Vue.mixin内的数据和方法)
+
+        vm.$options = mergeOptions(vm.constructor.options, options);
         initState(vm);
 
         if (vm.$options.el) {
@@ -701,6 +845,7 @@
     initMixin(Vue);
     renderMixin(Vue);
     lifCycleMixin(Vue);
+    initGlobalAPI(Vue);
 
     return Vue;
 
