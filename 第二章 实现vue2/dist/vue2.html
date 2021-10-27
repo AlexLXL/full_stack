@@ -3,41 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>use write vue2</title>
+
 </head>
 <body>
-<div id="app" style="color: red; font-size: 20px">
-    入口 {{name.ch}} {{friends}} {{test}}
-    <ul>
-        <li>7</li>
-        <li>8</li>
-        <li>9</li>
-    </ul>
+<!--TODO: AST语法树里没有写删除注释功能,可能误以为是闭合标签到时死循环-->
+<!--vue原本支持自定义标签-->
+<!--<my-button></my-button>-->
+<div id="app">
+    <my-button></my-button>
+    123
 </div>
 <!--<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.js"></script>-->
 <script src="umd/vue.js"></script>
 <script>
-    let vm = new Vue({
-        el: "#app",
-        data: {
-            name: {
-                en: "alex",
-                ch: "浪",
-                other: {
-                    pp: "其他"
-                }
-            },
-            age: 18,
-            clothes: ["t-shirt", "trouser", "coat"],
-            friends: [{name: "tom"}, {name: "king"}],
-            test: [[], {a:1}]
-        },
-    })
-    setTimeout(() => {
-        vm.name.ch = "哈哈哈哈"
-    }, 3000)
-    setTimeout(() => {
-        vm.name.ch = "哈哈哈哈1111"
-    }, 6000)
+Vue.component("my-button", { template: '<button>全局</button>' })
+
+let vm = new Vue({
+    el: "#app",
+    data: {
+        name: 'alex'
+    },
+    components: {
+        'my-button': { template: '<button>局部</button>' }
+    }
+})
 </script>
 </body>
 </html>
