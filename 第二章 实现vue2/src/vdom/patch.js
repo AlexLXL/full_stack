@@ -5,12 +5,16 @@ import {isObject} from "../utils/utils";
 import {isSameNode} from "./index";
 
 /**
- * 节点比对、属性比对、递归对比子元素
+ * 节点比对, 递归的方式, 有差异就替换
+ * 属性比对
  * @param oldVnode
  * @param newVnode
  * @returns {*}
  */
 export function patch(oldVnode, newVnode) {
+    if (!oldVnode) {
+        return createElm(newVnode)
+    }
     if (oldVnode.nodeType) {
         let parentNode = oldVnode.parentNode
         let realDom = createElm(newVnode)
@@ -20,7 +24,7 @@ export function patch(oldVnode, newVnode) {
     }else {
         // 节点不同
         if (!isSameNode(oldVnode, newVnode)) {
-            oldVnode.el.parentNode.replaceChild(createElm(newVnode), oldVnode.el)
+            return oldVnode.el.parentNode.replaceChild(createElm(newVnode), oldVnode.el)
         }
 
         // 节点相同
@@ -46,6 +50,9 @@ export function patch(oldVnode, newVnode) {
 export function createElm(vnode) {
     let {vm, tag, data, children, text} = vnode
     if (tag) {
+        if (createComponentElm(vnode)) {
+            return vnode.componentInstance.$el
+        }
         // 在vnode.el都存了真实dom
         vnode.el = document.createElement(tag)
         createElmProp(vnode, data)
@@ -56,6 +63,16 @@ export function createElm(vnode) {
         vnode.el = document.createTextNode(text)
     }
     return vnode.el
+}
+// 是否组件Vnode
+function createComponentElm(vnode) {
+    let i = vnode.data
+    if ((i = i.hook) && (i = i.init)) {
+        i(vnode)
+    }
+    if (vnode.componentInstance) {
+        return true
+    }
 }
 function createElmProp(newVnode, oldProps={}) {
     let el = newVnode.el

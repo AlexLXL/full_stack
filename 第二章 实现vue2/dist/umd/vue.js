@@ -493,7 +493,7 @@
     function isSameNode(oldVnode, newVnode) {
       return oldVnode.tag === newVnode.tag && oldVnode.key == newVnode.key;
     }
-    const isReservedTag = makeMap('template,script,style,element,content,slot,link,meta,svg,view,' + 'a,div,img,image,text,span,input,switch,textarea,spinner,select,' + 'slider,slider-neighbor,indicator,canvas,' + 'list,cell,header,loading,loading-indicator,refresh,scrollable,scroller,' + 'video,web,embed,tabbar,tabheader,datepicker,timepicker,marquee,countdown');
+    const isReservedTag = makeMap('template,script,style,element,content,slot,link,meta,svg,view,' + 'button,a,div,img,image,text,span,input,switch,textarea,spinner,select,' + 'slider,slider-neighbor,indicator,canvas,' + 'list,cell,header,loading,loading-indicator,refresh,scrollable,scroller,' + 'video,web,embed,tabbar,tabheader,datepicker,timepicker,marquee,countdown');
 
     function makeMap(str) {
       let tagList = str.split(',');
@@ -517,7 +517,11 @@
 
 
       data.hook = {
-        init() {},
+        init(vnode) {
+          let component = vnode.componentInstance = new Ctor({}); // 返回Vue子类实例,会触发组件的_init(),进行数据劫持
+
+          component.$mount(); // 由于没有el,手动挂载一下,进行render和update
+        },
 
         prepatch() {},
 
@@ -526,7 +530,7 @@
         destroy() {}
 
       };
-      let vNode = vnode(vm, tag, data = {}, undefined, key, undefined, {
+      let vNode = vnode(vm, tag, data, undefined, key, undefined, {
         Ctor,
         children,
         tag
@@ -538,13 +542,18 @@
      * vnode => real dom
      */
     /**
-     * 节点比对、属性比对、递归对比子元素
+     * 节点比对, 递归的方式, 有差异就替换
+     * 属性比对
      * @param oldVnode
      * @param newVnode
      * @returns {*}
      */
 
     function patch(oldVnode, newVnode) {
+      if (!oldVnode) {
+        return createElm(newVnode);
+      }
+
       if (oldVnode.nodeType) {
         let parentNode = oldVnode.parentNode;
         let realDom = createElm(newVnode);
@@ -554,7 +563,7 @@
       } else {
         // 节点不同
         if (!isSameNode(oldVnode, newVnode)) {
-          oldVnode.el.parentNode.replaceChild(createElm(newVnode), oldVnode.el);
+          return oldVnode.el.parentNode.replaceChild(createElm(newVnode), oldVnode.el);
         } // 节点相同
 
 
@@ -592,7 +601,11 @@
       } = vnode;
 
       if (tag) {
-        // 在vnode.el都存了真实dom
+        if (createComponentElm(vnode)) {
+          return vnode.componentInstance.$el;
+        } // 在vnode.el都存了真实dom
+
+
         vnode.el = document.createElement(tag);
         createElmProp(vnode, data);
         children.forEach(child => {
@@ -603,6 +616,18 @@
       }
 
       return vnode.el;
+    } // 是否组件Vnode
+
+    function createComponentElm(vnode) {
+      let i = vnode.data;
+
+      if ((i = i.hook) && (i = i.init)) {
+        i(vnode);
+      }
+
+      if (vnode.componentInstance) {
+        return true;
+      }
     }
 
     function createElmProp(newVnode, oldProps = {}) {

@@ -29,7 +29,7 @@ export function isSameNode(oldVnode, newVnode) {
 
 export const isReservedTag = makeMap(
     'template,script,style,element,content,slot,link,meta,svg,view,' +
-    'a,div,img,image,text,span,input,switch,textarea,spinner,select,' +
+    'button,a,div,img,image,text,span,input,switch,textarea,spinner,select,' +
     'slider,slider-neighbor,indicator,canvas,' +
     'list,cell,header,loading,loading-indicator,refresh,scrollable,scroller,' +
     'video,web,embed,tabbar,tabheader,datepicker,timepicker,marquee,countdown'
@@ -55,11 +55,14 @@ function createComponent(vm, tag, data = {}, children, key, Ctor) {
     }
     // 组件的初始化、更新、插入、销毁
     data.hook = {
-        init() {},
+        init(vnode) {
+            let component = vnode.componentInstance = new Ctor({})    // 返回Vue子类实例,会触发组件的_init(),进行数据劫持
+            component.$mount()  // 由于没有el,手动挂载一下,进行render和update
+        },
         prepatch() {},
         insert() {},
         destroy() {},
     }
-    let vNode = vnode(vm, tag, data = {}, undefined, key, undefined, {Ctor, children, tag})
+    let vNode = vnode(vm, tag, data, undefined, key, undefined, {Ctor, children, tag})
     return vNode
 }

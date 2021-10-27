@@ -16,17 +16,27 @@
 <!--<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.js"></script>-->
 <script src="umd/vue.js"></script>
 <script>
-Vue.component("my-button", { template: '<button>全局</button>' })
+    Vue.component("my-button", { template: '<button>全局</button>' })
 
-let vm = new Vue({
-    el: "#app",
-    data: {
-        name: 'alex'
-    },
-    components: {
-        'my-button': { template: '<button>局部</button>' }
-    }
-})
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            name: 'alex'
+        },
+        components: {
+            'my-button': {
+                template: '<div><button>局部 {{color}}</button><xxx></xxx></div>',
+                data() {
+                    return {
+                        color: 'black'
+                    }
+                },
+                components: {
+                     xxx: {template: '<a>a标签链接</a>'}
+                }
+            }
+        }
+    })
 </script>
 </body>
 </html>
