@@ -10,7 +10,7 @@ export function mountComponent(vm) {
 
     callHook(vm, 'beforeCreate')
     new Watcher(vm, updateCpmponent, () => {
-        // FIXME: 依赖收集完成并进行了初次渲染
+        // TODO: 添加生命周期
     })
     callHook(vm, 'mounted')
 }

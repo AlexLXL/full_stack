@@ -2,13 +2,13 @@ import {initState} from "./state";
 import {compilerToFunction} from "./compiler";
 import {mountComponent} from "./lifeCycle";
 import {nextTick} from "./async/nextTick";
-import {mergeOptions} from "../../第九章 Test/ZF_001.impl_vue01/src/utils";
+import {mergeOptions} from "./globalAPI";
 
 export function initMixin(Vue) {
     Vue.prototype._init = function (options) {
         let vm = this
         // vm.$options = options
-        // 合并:全局属性+组件属性(如Vue.mixin内的数据和方法)
+        // 合并:全局属性+组件属性
         vm.$options = mergeOptions(vm.constructor.options, options);
 
         initState(vm)
