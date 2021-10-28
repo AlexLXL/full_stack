@@ -56,8 +56,11 @@ function createComponent(vm, tag, data = {}, children, key, Ctor) {
     // 组件的初始化、更新、插入、销毁
     data.hook = {
         init(vnode) {
-            let component = vnode.componentInstance = new Ctor({})    // 返回Vue子类实例,会触发组件的_init(),进行数据劫持
+            // 返回Vue子类实例(先叫subVm)
+            // new的过程中, 触发组件的_init(), 进行数据劫持, 此时subVm上已存有组件的options
+            let component = vnode.componentInstance = new Ctor({})
             component.$mount()  // 由于没有el,手动挂载一下,进行render和update
+            // 跑完$mount()，此时subVm上会有一个el属性,保存真实dom; 用于之后的keep-alive
         },
         prepatch() {},
         insert() {},
