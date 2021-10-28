@@ -1,0 +1,12 @@
+@keyframes rolling{
+  0%{
+    transform: translateY(0);
+  }
+  100%{
+    transform: translateY(-100%);
+  }
+}
+
+.autoRollingAnimation{
+  animation: rolling 10s linear infinite;
+}
