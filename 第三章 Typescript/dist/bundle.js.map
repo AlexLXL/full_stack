@@ -1,0 +1,1 @@
+{"version":3,"file":"bundle.js","sources":["../src/index.ts"],"sourcesContent":["let aaa:string = '333'\r\nconsole.log(aaa)"],"names":[],"mappings":";;;;;CAAA,IAAI,GAAG,GAAU,KAAK,CAAA;CACtB,OAAO,CAAC,GAAG,CAAC,GAAG,CAAC;;;;;;"}
