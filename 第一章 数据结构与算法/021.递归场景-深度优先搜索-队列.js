@@ -16,7 +16,7 @@ n2.children.push(n4)
 n5.children.push(n6)
 
 /**
- * 深度优先搜索(dfs)算法-使用队列
+ * 深度优先搜索(dfs)-队列(后推值,后取值★★)
  * @param node 节点
  */
 function dfs(node) {
