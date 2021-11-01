@@ -12,7 +12,7 @@
     import VueLazyLoad from '@/plugin/vue-lazyload.js'
     import loadimage from "@/assets/logo.png"
     Vue.use(VueLazyLoad, {
-        preLoad: 1.3,
+        preLoad: 1,
         loading: loadimage
     })
     /*
@@ -44,7 +44,11 @@
     .lazyLoadImg {
         width: 400px;
         height: 400px;
+        margin: 10px;
+        padding: 20px;
+        border: 10px solid yellowgreen;
         overflow-y: scroll;
+
 
         img {
             width: 100px;
