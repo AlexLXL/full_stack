@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sources":["../src/index.ts"],"sourcesContent":["let aaa:string = 'a'\r\nconsole.log(aaa)"],"names":[],"mappings":";;;CAAA,IAAI,GAAG,GAAU,GAAG,CAAA;CACpB,OAAO,CAAC,GAAG,CAAC,GAAG,CAAC;;;;;;"}
