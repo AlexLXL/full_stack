@@ -65,7 +65,7 @@ type ReadonlyType = Readonly<IPerson>
 type PickType = Pick<IPerson, 'name' | 'age'>
 
 /**
- * Pick: 从 '对象、接口' 中删除一部分后剪出全部
+ * Omit: 从 '对象、接口' 中删除一部分后剪出全部
  */
 // type Omit<T, U extends keyof any> = Pick<T, Exclude<keyof T, U>>
 type OmitType = Omit<IPerson, 'name'>
