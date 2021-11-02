@@ -11,7 +11,7 @@
  */
 
 namespace temp02 {
-    function classProp(targe, key) {
+    function classProp(target, key) {
         console.log("target-类的构造函数, key-属性名")
     }
     function classFun(target, key, descriptor) {

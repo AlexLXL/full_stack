@@ -69,7 +69,3 @@ let s1: symbol = Symbol()
 // let sum: Sum = function (v1, v2) {
 //     return v1 + v2
 // }
-
-
-
-
