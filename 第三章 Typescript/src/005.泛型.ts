@@ -8,7 +8,7 @@ class Cat {
     }
 }
 interface IAbstractType<T> {
-    new(name: string, age: number): T
+    new(name: string, age: number): T   // new指定是class类型
 }
 function createInstance<T>(clazz: IAbstractType<T>, name: string, age: number) {
     return new clazz(name, age)

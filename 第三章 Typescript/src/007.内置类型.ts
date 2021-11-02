@@ -85,5 +85,34 @@ let obj = map({ name: 'tom', age: 1 }, function (item, key) {
     return 'aaa'
 })
 
+/**
+ * ReturnType: 获取函数返回
+ * 利用infer关键字推断结果【要配合extend使用】
+ */
+function point(x: number, y: number) {
+    return {x, y}
+}
+// type ReturnType<T extends ((...args: any[]) => any)> = T extends (...args: any[]) => infer R ? R : any
+type returnType = ReturnType<typeof point>
+
+/**
+ * Parameters: 获取函数参数
+ */
+// type Parameters<T extends ((...args: any[]) => any)> = T extends (...args: infer P) => any ? P : any
+type ParametersType = Parameters<typeof point>
+
+/**
+ * ConstructorParameters: 获取构造函数参数
+ */
+class Animal {
+    constructor(public name: string, public age: number) {}
+}
+type ConstructorParameters<T extends {new (...args: any[]): any}> = T extends {new (...args: infer P):any} ? P : any
+type ConstructorParametersType = ConstructorParameters<typeof Animal>
+
+
+
+
+
 
 export default {}

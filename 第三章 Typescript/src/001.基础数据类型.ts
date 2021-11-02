@@ -69,3 +69,11 @@ let s1: symbol = Symbol()
 // let sum: Sum = function (v1, v2) {
 //     return v1 + v2
 // }
+
+// unknown是any的安全类型
+// unknown | string ->  unknown
+// unknown & string ->  string
+// unknown不能typeof
+// never extends unknown ? true : false -> true
+let a: unknown = { a: 1 }  // 不能调用属性a.a
+let b: any = { a: 1 }  // 能调用属性b.a
