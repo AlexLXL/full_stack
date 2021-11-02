@@ -15,6 +15,7 @@ function createInstance<T>(clazz: IAbstractType<T>, name: string, age: number) {
 }
 let d = createInstance(Dog, 'husky', 2) // 类型推导为Dog
 let c = createInstance(Cat, 'husky', 2) // 类型推导为Cat
+let c2 = createInstance<Cat>(Dog, 'husky', 2) // 主动传泛型,所以编辑器推断为Cat, 但实际编译成的还是Dog
 
 
 // 例2
@@ -76,3 +77,5 @@ type MType02 = MType
 
 
 export default {}
+
+// 不传的泛型，会根据位置推断类型★★★[看 '007.内置类型.ts' 的Record]
