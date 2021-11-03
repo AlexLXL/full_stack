@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/第九章 Test/001.test/elementui源码/elementui注释版" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/第九章 Test/MY_002.jest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/第九章 Test/TEST_003.impl_promise" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/第九章 Test/ZF_001.impl_vue" vcs="Git" />
