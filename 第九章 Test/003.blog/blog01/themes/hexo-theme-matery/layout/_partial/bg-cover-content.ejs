@@ -36,13 +36,19 @@
 </div>
 
 <% if (theme.banner.enable) { %>
+<!-- 修改背景图 -->
 <script>
     // 每天切换 banner 图.  Switch banner image every day.
     var bannerUrl = "<%- theme.jsDelivr.url %><%- url_for('/medias/banner/') %>" + new Date().getDay() + '.jpg';
     $('.bg-cover').css('background-image', 'url(' + bannerUrl + ')');
 </script>
+
+<!--<script>
+    $('.bg-cover').css('background-image', 'url(<%- theme.featureImages[Math.floor(Math.random() * theme.featureImages.length + 1)-1] %>)');
+</script>-->
 <% } else { %>
 <script>
-    $('.bg-cover').css('background-image', 'url(<%- theme.jsDelivr.url %><%- url_for('/medias/banner/0.jpg') %>)');
+    $('.bg-cover').css('background-image', 'url(<%- theme.jsDelivr.url %><%- url_for('/medias/banner/7.jpg') %>)');
 </script>
+
 <% } %>

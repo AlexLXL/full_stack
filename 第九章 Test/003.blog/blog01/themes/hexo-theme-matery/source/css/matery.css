@@ -34,9 +34,13 @@
 }
 
 body {
-    background-color: #eaeaea;
+    /*background-color: #eaeaea;*/
+    background: linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35)) 0% 0% / cover, url("https://ae01.alicdn.com/kf/H18a4b998752a4ae68b8e85d432a5aef0l.png"), url("https://ae01.alicdn.com/kf/H21b5f6b8496141a1979a33666e1074d9x.jpg") 0 0;
+    /*background-attachment: fixed;*/
     margin: 0;
-    color: #34495e;
+    color: #7F95D1;
+    /*margin: 0;*/
+    /*color: #34495e;*/
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -241,11 +245,11 @@ mark {
 }
 
 .bg-color {
-    background-image: linear-gradient(to right, #4cbf30 0%, #0f9d58 100%);
+    background-image: linear-gradient(to right, #a1887f 0%,#5d4037 100%);
 }
 
 .text-color {
-    color: #0f9d58 !important;
+    color:#5d4037 !important;
 }
 
 .white-color {
@@ -257,7 +261,7 @@ mark {
     position: fixed;
     bottom: 0;
     z-index: 300;
-    background: linear-gradient(to right, #4cbf30 0%, #0f9d58 100%);
+    background: linear-gradient(to right, #a1887f 0%,#5d4037 100%);
     opacity: 0.8;
 }
 
@@ -550,10 +554,11 @@ header .go-back i {
     height: 40vh !important;
 }
 
-.bg-cover:after {
-    -webkit-animation: rainbow 60s infinite;
-    animation: rainbow 60s infinite;
-}
+/*首页渐变颜色动画*/
+/*.bg-cover:after {*/
+/*    -webkit-animation: rainbow 60s infinite;*/
+/*    animation: rainbow 60s infinite;*/
+/*}*/
 
 .bg-cover:before,
 .bg-cover:after {
@@ -1317,7 +1322,7 @@ thead {
 
 .chip-container .chip:hover {
     color: #fff;
-    background: linear-gradient(to right, #4cbf30 0%, #0f9d58 100%) !important;
+    background: linear-gradient(to right, #a1887f 0%,#5d4037 100%) !important;
 }
 
 .chip .tag-length {
@@ -1393,7 +1398,7 @@ thead {
     left: 18px;
     height: 100%;
     width: 4px;
-    background: #0f9d58;
+    background:#5d4037;
 }
 
 @media only screen and (min-width: 900px) {
@@ -1629,8 +1634,8 @@ thead {
     margin: 0 0.5rem;
     padding: 0;
     color: #fff;
-    border: 1px solid #0f9d58;
-    background: radial-gradient(#4cbf30, #0f9d58);
+    border: 1px solid#5d4037;
+    background: radial-gradient(#a1887f,#5d4037);
     font-size: 0.9rem;
     border-radius: 50%;
     box-shadow: 0 4px 6px rgba(50, 50, 93, .21), 0 2px 3px rgba(0, 0, 0, .1);
@@ -1806,8 +1811,8 @@ thead {
 
 .other-skills .chip:hover {
     color: #fff;
-    background: linear-gradient(to right, #4cbf30 0%, #0f9d58 100%);
-    border: 1px solid #4cbf30;
+    background: linear-gradient(to right, #a1887f 0%,#5d4037 100%);
+    border: 1px solid #a1887f;
     box-shadow: 0 5px 5px rgba(0, 0, 0, .25)
 }
 
@@ -2143,3 +2148,38 @@ p.search-result-summary{
     padding: 0;
     margin: 0;
 }
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 10px;
+  background-color: transparent;
+}
+
+/*定义滚动条的轨道颜色、内阴影及圆角*/
+::-webkit-scrollbar-track {
+  background-color: #E6ECF1;
+  border-radius: 3px;
+}
+
+/*定义滑块颜色、内阴影及圆角*/
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: #684b42;
+}
+
+/*定义两端按钮的样式*/
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+/*定义右下角汇合处的样式*/
+::-webkit-scrollbar-corner {
+  border-radius: 3px;
+  background-color: transparent;
+}
+
+  /*滚动条鼠标移上去的样式*/
+::-webkit-scrollbar-thumb:vertical:hover,::-webkit-scrollbar-thumb:horizontal:hover
+  {
+    background-color: #808080;
+  }
