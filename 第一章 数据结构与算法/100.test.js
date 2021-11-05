@@ -1,17 +1,15 @@
 var levelOrder = function (root) {
-    // if (root === null) return []
-    // return [root.val].push(levelOrder(root.left, level), levelOrder(root.right, level))
-    if(root === null) return []
-    root.id = 0
-    let queue = [root]
-    let result = []
-    while(queue.length) {
-        let node = queue.shift()
-        result[node.id] ? result[node.id].push(node.val) : (result[node.id] = [node.val])
-        node.left && (node.left.id = node.id + 1) && queue.push(node.left)
-        node.right && (node.right.id = node.id + 1) && queue.push(node.right)
-    }
-    return result
+    // if(root === null) return []
+    // root.id = 0
+    // let queue = [root]
+    // let result = []
+    // while(queue.length) {
+    //     let node = queue.shift()
+    //     result[node.id] ? result[node.id].push(node.val) : (result[node.id] = [node.val])
+    //     node.left && (node.left.id = node.id + 1) && queue.push(node.left)
+    //     node.right && (node.right.id = node.id + 1) && queue.push(node.right)
+    // }
+    // return result
 };
 
 // 执行用时：68 ms, 在所有 JavaScript 提交中击败了90.77% 的用户
