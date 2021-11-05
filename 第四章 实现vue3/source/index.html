@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue3 实战</title>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="./node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+<script type="text/javascript">
+    let {reactive, effect, readonly, shallowReactive} = VueReactivity
+    let data01 = reactive({a:1, b:'b', c:['c1', 'c2']}) // 返回一个代理数据, 引用数据类型会递归
+    let data02 = readonly(data01)
+
+    console.log(data01)
+    console.log(data01.c)
+
+    effect(() => {
+        app.innerHTML = data01.a + data01.b
+    })  // 默认执行一次,数据更新也会触发执行
+    setTimeout(() => {
+        data01.a = 2
+    }, 1000)
+
+
+    let data03 = shallowReactive({a:1, b:'b', c:['c1', 'c2']})   // 代理第一层
+    console.log(data03.c)
+</script>
+</body>
+</html>
