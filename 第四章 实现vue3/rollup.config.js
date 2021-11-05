@@ -34,7 +34,7 @@ function createConfig(output) {
     return {
         input: flolderInnerPath('src/index.ts'),
         output,
-        plugin: [
+        plugins: [
             ts({
                 tsconfig:path.resolve(__dirname, 'tsconfig.json')
             }),

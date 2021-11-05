@@ -1,1 +1,1 @@
-{"version":3,"file":"shared.global.js","sources":["../src/index.ts"],"sourcesContent":["export let vueShared = \"vueShared\""],"names":[],"mappings":";;;AAAU,KAAC,SAAS,GAAG;;;;;;;;;;;;"}
+{"version":3,"file":"shared.global.js","sources":["../src/index.ts"],"sourcesContent":["export let vueShared = \"vueShared\""],"names":[],"mappings":";;;KAAW,SAAS,GAAG;;;;;;;;;;;;"}

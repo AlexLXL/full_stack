@@ -1,1 +1,1 @@
-{"version":3,"file":"reactivity.cjs.js","sources":["../src/index.ts"],"sourcesContent":["export let vueReactivity = \"vueReactivity\""],"names":[],"mappings":";;;;AAAU,IAAC,aAAa,GAAG;;;;"}
+{"version":3,"file":"reactivity.cjs.js","sources":["../src/index.ts"],"sourcesContent":["export let vueReactivity = \"vueReactivity\""],"names":[],"mappings":";;;;IAAW,aAAa,GAAG;;;;"}
