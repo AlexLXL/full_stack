@@ -66,13 +66,15 @@ export function trigger(target, key, value, type) {
         })
     }else {
         /**
-         * 2.数组添加（使用length的effects）
+         * 2.数组新增和对象新增（使用length的effects）
          * 3.基础数据/引用数据的值发生改变
          */
         if (type === 'add') {
             if (isArray(target) && isInteger(key)) {
                 const effects = depsMap.get('length')
                 add(effects)
+            }else {
+                add(depsMap.get(key))
             }
         }else {
             const effects = depsMap.get(key)

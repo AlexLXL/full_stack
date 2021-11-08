@@ -35,18 +35,28 @@
     // }, 1000)
 
     // JSON.stringify会把所有下标 + .length + .toString都收集
-    let r = reactive(person)
-    effect(() => {
-        // console.log(`省略: ${r.arr}`)      // 新增的时候会触发
-        let a = JSON.stringify(r.arr)    // 新增的时候会触发
-        // r.arr.length                     // 新增的时候会触发
-        // r.arr   // 新增的时候不会触发【这里只是收集了person属性名arr这个依赖, 没收集arr属性值的】
-        console.log("省略")
-    })
-    setTimeout(() => {
-        // r.arr.push(1)       // 会触发两次set,第一次是添加下标3的值,第二次是修改length
-        r.arr.push(123)
-    },1000)
+    // let r = reactive(person)
+    // effect(() => {
+    //     // console.log(`省略: ${r.arr}`)      // 新增的时候会触发
+    //     let a = JSON.stringify(r.arr)    // 新增的时候会触发
+    //     // r.arr.length                     // 新增的时候会触发
+    //     // r.arr   // 新增的时候不会触发【这里只是收集了person属性名arr这个依赖, 没收集arr属性值的】
+    //     console.log("省略")
+    // })
+    // setTimeout(() => {
+    //     // r.arr.push(1)       // 会触发两次set,第一次是添加下标3的值,第二次是修改length
+    //     r.arr.push(123)
+    // },1000)
+
+    // 对象新增
+    // let r = reactive(person)
+    // effect(() => {
+    //     r.xxx
+    //     console.log("省略")
+    // })
+    // setTimeout(() => {
+    //     r.xxx = 100
+    // },1000)
 </script>
 </body>
 </html>
