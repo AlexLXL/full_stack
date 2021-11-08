@@ -7,15 +7,32 @@
 <body>
 <script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
 <script type="text/javascript">
-    let { reactive, shallowReactive, readonly, shallowReadonly } = vueReactivity
-    let person = {name: 'tom', info: { a: 1 }}
-    let r = reactive(person)
-    let sr = shallowReactive(person)
-    let read = readonly(person)
-    let sread = shallowReadonly(person)
+    let {reactive, shallowReactive, readonly, shallowReadonly, effect} = vueReactivity
+    let person = {name: 'tom', age: 18, info: {a: 1}}
+    // let r = reactive(person)
+    // let sr = shallowReactive(person)
+    // let read = readonly(person)
+    // let sread = shallowReadonly(person)
     // console.log(r, sr, read, sread)
     // console.log(sread.info)
     // r.name = 'tom01'
+
+    let r = reactive(person)
+    effect(() => {
+        console.log(`触发了effect1-相加: ${r.name + r.age}`)
+    })
+    effect(() => {
+        console.log(`触发了effect2-r.age: ${r.age}`)
+    })
+    effect(() => {
+        console.log(`触发了effect2-r.name: ${r.name}`)
+    })
+    setTimeout(() => {
+        r.age = 19
+    }, 1000)
+    // setTimeout(() => {
+    //     r.info.a = 19
+    // }, 1000)
 </script>
 </body>
 </html>

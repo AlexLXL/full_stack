@@ -1,6 +1,7 @@
 import get = Reflect.get;
 import {isObject} from "@vue/shared";
 import {reactive, readonly} from "./reactive";
+import {track, trigger} from "./effect";
 
 const reactiveGet = createGet(false, false)
 const shallowReactiveGet = createGet(false, true)
@@ -12,6 +13,7 @@ function createGet(isReadonly = false, isShallow = false) {
         let value = Reflect.get(target, key, receiver)
         if (!isReadonly) {
             // --收集依赖--
+            track(target, 'get', key)
         }
         if (isShallow) {
             return value
@@ -30,6 +32,7 @@ const shallowReadonlySet = createSet()
 function createSet() {
     return function set(target, key, value, receiver) {
         let res = Reflect.set(target, key, value, receiver)
+        trigger(target, key, value)
         return res
     }
 }

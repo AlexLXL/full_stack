@@ -3,6 +3,53 @@ var vueReactivity = (function (exports) {
 
     const isObject = (v) => typeof v === 'object' && v !== null;
 
+    function effect(fn, options = { lazy: false }) {
+        let effect = createReactiveEffect(fn, options);
+        if (!options.lazy) {
+            effect();
+        }
+        return effect;
+    }
+    let uid = 0;
+    let activeEffect;
+    function createReactiveEffect(fn, options) {
+        const effect = function () {
+            activeEffect = effect;
+            fn();
+            activeEffect = null;
+        };
+        effect.id = uid++;
+        effect._isEffect = true;
+        effect.raw = fn;
+        effect.deps = [];
+        effect.options = options;
+        return effect;
+    }
+    let targetMap = new WeakMap();
+    function track(target, type, key) {
+        // effect里拿值才有activeEffect
+        if (!activeEffect)
+            return;
+        let depsMap = targetMap.get(target);
+        if (!depsMap) {
+            targetMap.set(target, depsMap = new Map());
+        }
+        let dep = depsMap.get(key);
+        if (!dep) {
+            depsMap.set(key, dep = new Set());
+        }
+        if (!dep.has(activeEffect)) {
+            dep.add(activeEffect);
+        }
+    }
+    function trigger(target, key, value) {
+        let depsMap = targetMap.get(target);
+        if (!depsMap)
+            return;
+        const effects = depsMap.get(key);
+        effects.forEach(effect => effect());
+    }
+
     const reactiveGet = createGet(false, false);
     const shallowReactiveGet = createGet(false, true);
     const readonlyGet = createGet(true, false);
@@ -11,11 +58,15 @@ var vueReactivity = (function (exports) {
         // target: 目标对象、key: 需要获取的属性、receiver: 目标对象使用的proxy
         return function get(target, key, receiver) {
             let value = Reflect.get(target, key, receiver);
+            if (!isReadonly) {
+                // --收集依赖--
+                track(target, 'get', key);
+            }
             if (isShallow) {
                 return value;
             }
             if (isObject(value)) {
-                return isReadonly ? readonly(value) : reactive(value); // 递归代理
+                return isReadonly ? readonly(value) : reactive(value); // 递归代理[取值的时候才进行,所以性能更优★]
             }
             return value;
         };
@@ -27,7 +78,7 @@ var vueReactivity = (function (exports) {
     function createSet() {
         return function set(target, key, value, receiver) {
             let res = Reflect.set(target, key, value, receiver);
-            console.log(`设置值`);
+            trigger(target, key);
             return res;
         };
     }
@@ -75,6 +126,7 @@ var vueReactivity = (function (exports) {
         return proxy;
     }
 
+    exports.effect = effect;
     exports.reactive = reactive;
     exports.readonly = readonly;
     exports.shallowReactive = shallowReactive;
