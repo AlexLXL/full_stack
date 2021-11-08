@@ -17,7 +17,7 @@ function createGet(isReadonly = false, isShallow = false) {
             return value
         }
         if (isObject(value)) {
-            return isReadonly ? readonly(value) : reactive(value)   // 递归代理
+            return isReadonly ? readonly(value) : reactive(value)   // 递归代理[取值的时候才进行,所以性能更优★]
         }
         return value
     }
@@ -30,7 +30,6 @@ const shallowReadonlySet = createSet()
 function createSet() {
     return function set(target, key, value, receiver) {
         let res = Reflect.set(target, key, value, receiver)
-        console.log(`设置值`)
         return res
     }
 }
