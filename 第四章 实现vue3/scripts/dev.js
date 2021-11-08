@@ -5,7 +5,7 @@ let target = 'reactivity'
 
 function build(target) {
     process.env.TARGET = target
-    return execa('rollup', ['-c'], {stdio: 'inherit'})
+    return execa('rollup', ['-c', '-w'], {stdio: 'inherit'})
 }
 
 build(target).then(() => {

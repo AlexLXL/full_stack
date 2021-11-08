@@ -1,9 +1,9 @@
 var vueShared = (function (exports) {
 	'use strict';
 
-	let vueShared = "vueShared";
+	const isObject = (v) => typeof v === 'object' && v !== null;
 
-	exports.vueShared = vueShared;
+	exports.isObject = isObject;
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 

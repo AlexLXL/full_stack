@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-let vueShared = "vueShared";
+const isObject = (v) => typeof v === 'object' && v !== null;
 
-exports.vueShared = vueShared;
+exports.isObject = isObject;
 //# sourceMappingURL=shared.cjs.js.map

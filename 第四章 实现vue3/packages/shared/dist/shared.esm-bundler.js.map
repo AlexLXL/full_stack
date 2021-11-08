@@ -1,1 +1,1 @@
-{"version":3,"file":"shared.esm-bundler.js","sources":["../src/index.ts"],"sourcesContent":["export let vueShared = \"vueShared\""],"names":[],"mappings":"IAAW,SAAS,GAAG;;;;"}
+{"version":3,"file":"shared.esm-bundler.js","sources":["../src/index.ts"],"sourcesContent":["export const isObject = (v) => typeof v === 'object' && v !== null"],"names":[],"mappings":"MAAa,QAAQ,GAAG,CAAC,CAAC,KAAK,OAAO,CAAC,KAAK,QAAQ,IAAI,CAAC,KAAK;;;;"}

@@ -1,4 +1,4 @@
-let vueShared = "vueShared";
+const isObject = (v) => typeof v === 'object' && v !== null;
 
-export { vueShared };
+export { isObject };
 //# sourceMappingURL=shared.esm-bundler.js.map

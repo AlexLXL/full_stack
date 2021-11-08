@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+<script type="text/javascript">
+    let { reactive, shallowReactive, readonly, shallowReadonly } = vueReactivity
+    let person = {name: 'tom', info: { a: 1 }}
+    let r = reactive(person)
+    let sr = shallowReactive(person)
+    let read = readonly(person)
+    let sread = shallowReadonly(person)
+    // console.log(r, sr, read, sread)
+    // console.log(sread.info)
+    // r.name = 'tom01'
+</script>
+</body>
+</html>

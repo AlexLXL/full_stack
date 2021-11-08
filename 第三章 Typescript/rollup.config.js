@@ -1,7 +1,7 @@
 import path from 'path'
 import ts from 'rollup-plugin-typescript2'
 import serve from 'rollup-plugin-serve'
-import livereload from "rollup-plugin-livereload"   // 热更新
+import livereload from "rollup-plugin-livereload"   // 热更新页面
 
 export default {
     input: './src/index.ts',
