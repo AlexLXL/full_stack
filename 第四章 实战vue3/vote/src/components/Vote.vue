@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div ref="root">
         <h1>{{title}}</h1>
         <p>支持人数: {{state.supNum}}</p>
         <p>反对人数: {{state.oppNum}}</p>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-    import {watchEffect, watch, ref, reactive, toRefs, computed} from 'vue'
+    import {watchEffect, watch, ref, reactive, toRefs, computed, onBeforeMounted} from 'vue'
 
     export default {
         name: "Vote",
@@ -85,15 +85,34 @@
                 ratio.value = ((state.supNum / total) * 100).toFixed(2) + "%"
             })
 
+            // 7 refs
+            // 暴露出去然后绑定到html
+            let rootRef = ref(null)
+            // console.log(root.value)
+
+            // 8 声明周期
+            // 写setup里面的加on,写外面的不用加
+            onBeforeMounted(async () => {
+                console.log(`挂在前请求数据`)
+            })
+
+            // 9 过滤器直接改成函数方式暴露
+            const filterDate = (time) => return `xxxx`
+
+
             return {
                 state,
                 count,
                 // cSupRatio,
                 addOne,
-                ratio
+                ratio,
+                rootRef,
+                filterDate
                 // ...toRefs(state) // 4.toRefs: 转ref
-            }
+            }   // return 的值会挂在this上，setup是没this的，外面的声明周期才有this
+        },
 
+        beforeMount() {
 
         }
     }
