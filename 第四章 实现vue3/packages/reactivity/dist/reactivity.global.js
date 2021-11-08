@@ -2,7 +2,17 @@ var vueReactivity = (function (exports) {
     'use strict';
 
     const isObject = (v) => typeof v === 'object' && v !== null;
+    const isArray = Array.isArray;
+    const hasChange = (oldValue, newValue) => oldValue !== newValue;
+    const isInteger = (key) => parseInt(key) + '' === key; // 数组的下标
+    const hasOwn = (target, key) => Object.prototype.hasOwnProperty.call(target, key);
 
+    let effectsQueue = new Set();
+    let add = (effectsToAdd) => {
+        if (effectsToAdd) {
+            effectsToAdd.forEach(effect => effectsQueue.add(effect));
+        }
+    };
     function effect(fn, options = { lazy: false }) {
         let effect = createReactiveEffect(fn, options);
         if (!options.lazy) {
@@ -25,6 +35,10 @@ var vueReactivity = (function (exports) {
         effect.options = options;
         return effect;
     }
+    /**
+     * 收集依赖的effect
+     * 更新依赖的effect
+     */
     let targetMap = new WeakMap();
     function track(target, type, key) {
         // effect里拿值才有activeEffect
@@ -42,12 +56,38 @@ var vueReactivity = (function (exports) {
             dep.add(activeEffect);
         }
     }
-    function trigger(target, key, value) {
+    function trigger(target, key, value, type) {
         let depsMap = targetMap.get(target);
         if (!depsMap)
             return;
-        const effects = depsMap.get(key);
-        effects.forEach(effect => effect());
+        /**
+         * 1.修改数组的length触发更新 [这时value为修改后数组长度]
+         */
+        if (isArray(target) && key === 'length') {
+            // 边界处理: effect收集数组某个下标idx; 代码修改数组length为0或小于idx的值
+            depsMap.forEach((effects, key) => {
+                if (key === 'length' || value - 1 < key) {
+                    add(effects);
+                }
+            });
+        }
+        else {
+            /**
+             * 2.数组添加（使用length的effects）
+             * 3.基础数据/引用数据的值发生改变
+             */
+            if (type === 'add') {
+                if (isArray(target) && isInteger(key)) {
+                    const effects = depsMap.get('length');
+                    add(effects);
+                }
+            }
+            else {
+                const effects = depsMap.get(key);
+                add(effects);
+            }
+        }
+        effectsQueue.forEach((effect) => effect());
     }
 
     const reactiveGet = createGet(false, false);
@@ -57,6 +97,7 @@ var vueReactivity = (function (exports) {
     function createGet(isReadonly = false, isShallow = false) {
         // target: 目标对象、key: 需要获取的属性、receiver: 目标对象使用的proxy
         return function get(target, key, receiver) {
+            // console.log("get::",target, key)
             let value = Reflect.get(target, key, receiver);
             if (!isReadonly) {
                 // --收集依赖--
@@ -77,8 +118,21 @@ var vueReactivity = (function (exports) {
     const shallowReadonlySet = createSet();
     function createSet() {
         return function set(target, key, value, receiver) {
+            let oldValue = target[key];
+            // 下面这行: 判断是否已经有这个下标 || 已经有.length这个属性
+            let hadKey = isArray(target) && isInteger(key) ? key < target.length : hasOwn(target, key);
+            // console.log("set::",target, key, value, `oldValue: ${oldValue}`, hadKey)
             let res = Reflect.set(target, key, value, receiver);
-            trigger(target, key);
+            /**
+             * 1.数组新增（但新增的本来就没有effects鸭, 因此要用length的effects更新）
+             * 2.基础数据/引用数据的值发生改变
+             */
+            if (!hadKey) {
+                trigger(target, key, value, 'add');
+            }
+            else if (hasChange(oldValue, value)) {
+                trigger(target, key, value, 'set');
+            }
             return res;
         };
     }
