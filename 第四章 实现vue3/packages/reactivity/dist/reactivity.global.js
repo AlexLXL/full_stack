@@ -183,11 +183,69 @@ var vueReactivity = (function (exports) {
         return proxy;
     }
 
+    function ref(value) {
+        return createRef(value, false);
+    }
+    function createRef(value, isShallow = false) {
+        return new RefImpl(value, isShallow);
+    }
+    const convert = val => isObject(val) ? reactive(val) : val;
+    class RefImpl {
+        rawValue;
+        isShallow;
+        _value;
+        constructor(rawValue, isShallow) {
+            this.rawValue = rawValue;
+            this.isShallow = isShallow;
+            this._value = isShallow ? rawValue : convert(rawValue);
+        }
+        get value() {
+            track(this, 'get', 'value');
+            return this._value;
+        }
+        set value(newValue) {
+            if (hasChange(newValue, this.rawValue)) {
+                this.rawValue = newValue;
+                this._value = this.isShallow ? newValue : convert(newValue);
+                trigger(this, 'value', newValue, 'set');
+            }
+        }
+    }
+    function toRef(target, key) {
+        return new ObjectRefImpl(target, key);
+    }
+    class ObjectRefImpl {
+        target;
+        key;
+        constructor(target, key) {
+            this.target = target;
+            this.key = key;
+        }
+        get value() {
+            track(this, 'get', 'value');
+            return this.target[this.key];
+        }
+        set value(newValue) {
+            this.target[this.key] = newValue;
+            trigger(this, 'value', newValue, 'set');
+        }
+    }
+    function toRefs(object) {
+        let ret = isArray(object) ? Array(object.length) : {};
+        for (let key in object) {
+            ret[key] = toRef(object, key);
+        }
+        return ret;
+    }
+
     exports.effect = effect;
     exports.reactive = reactive;
     exports.readonly = readonly;
+    exports.ref = ref;
     exports.shallowReactive = shallowReactive;
     exports.shallowReadonly = shallowReadonly;
+    exports.toRef = toRef;
+    exports.toRefs = toRefs;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

@@ -7,7 +7,7 @@
 <body>
 <script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
 <script type="text/javascript">
-    let {reactive, shallowReactive, readonly, shallowReadonly, effect} = vueReactivity
+    let {reactive, shallowReactive, readonly, shallowReadonly, effect, ref, toRef, toRefs} = vueReactivity
     let person = {name: 'tom', age: 18, info: {a: 1}, arr: [1,2,3]}
     // let r = reactive(person)
     // let sr = shallowReactive(person)
@@ -57,6 +57,18 @@
     // setTimeout(() => {
     //     r.xxx = 100
     // },1000)
+
+    // let r = ref(1)
+    // effect(() => {
+    //     console.log("省略:", r.value)
+    // })
+    // setTimeout(() => {
+    //     r.value = 100
+    // },1000)
+
+    let r = reactive(person)
+    console.log(toRef(r, "name"))
+    console.log(toRefs(r))
 </script>
 </body>
 </html>
