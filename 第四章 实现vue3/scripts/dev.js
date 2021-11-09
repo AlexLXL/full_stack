@@ -1,7 +1,7 @@
 let fs = require('fs')
 let execa = require('execa')
 
-let target = 'reactivity'
+let target = 'runtime-dom'
 
 function build(target) {
     process.env.TARGET = target

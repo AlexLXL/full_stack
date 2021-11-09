@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue3 runtime-dom模块</title>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="./node_modules/@vue/runtime-dom/dist/runtime-dom.global.js"></script>
+<script type="text/javascript">
+    let {createApp, h, reactive} = VueRuntimeDOM
+    // function getConterConfig() {
+    //     let data = reactive({count: 0})
+    //     let fn = () => data.count++
+    //     return {data, fn}
+    // }
+    let appConfig = {
+        props: {
+            name: String
+        },
+        setup(prop, context) {
+            // console.log(prop, context)   // 接受props
+            // let {data, fn} = getConterConfig()   // 通过函数拿配置
+            let data = reactive({count: 0})
+            let fn = () => {
+                data.count++
+            }
+            return () => {
+                return h("h1", {id: 'xxx', onClick: fn}, data.count)
+            }
+        },
+        // render(h) {
+        //     return h("p", {}, "hello")
+        // }
+    }
+    // 1. 参数: appConfig, 传给组件的props
+    createApp(appConfig, {name: 'hello'}).mount("#app")
+</script>
+</body>
+</html>

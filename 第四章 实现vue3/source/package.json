@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@vue/reactivity": "^3.2.21"
+    "@vue/reactivity": "^3.2.21",
+    "@vue/runtime-dom": "^3.2.21"
   }
 }
