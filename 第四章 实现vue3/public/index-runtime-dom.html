@@ -5,9 +5,25 @@
     <title>测试 runtime-dom模块</title>
 </head>
 <body>
+<div id="app"></div>
 <script src="../node_modules/@vue/runtime-dom/dist/runtime-dom.global.js"></script>
 <script type="text/javascript">
-    let {createApp, h} = vueRuntimeDom
+    let {createApp} = vueRuntimeDom
+    let appConfig = {
+        props: {
+            name: String
+        },
+        setup() {
+            let data = reactive({count: 0})
+            let fn = () => {
+                data.count++
+            }
+            return () => {
+                return h("h1", {id: 'xxx', onClick: fn}, data.count)
+            }
+        }
+    }
+    createApp(appConfig, {}).mount("#app")
 </script>
 </body>
 </html>

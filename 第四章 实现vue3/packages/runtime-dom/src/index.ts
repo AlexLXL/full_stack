@@ -4,15 +4,20 @@
 import {nodeOps} from './nodeOps'
 import {patchProp} from './patchProp'
 import {extend} from "@vue/shared";
+import {createRender} from "@vue/runtime-core";
 
 let renderOptions = extend(nodeOps, {patchProp})
 console.log(renderOptions)
-
 export function createApp(rootComponent, props = null) {
-    let app = {
-        mount() {}
+    // core返回createApp和mount, 然后进行dom平台的封装
+    const app = createRender(renderOptions).createApp(rootComponent, props)
+    let {mount} = app
+    app.mount = function (container) {
+        container = nodeOps.querySelector(container)
+        container.innerHTML = ''
+        let proxy = mount(container)
+        return proxy
     }
-
     return app
 }
 export function h() {}
