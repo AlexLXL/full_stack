@@ -11,7 +11,7 @@
         this.callbacks = [] // 成功失败回调
 
         try {
-            excute(resolve, reject)
+            excute(resolve, reject) // 高阶函数
         }catch(err) {
             // --snip--
         }
