@@ -36,7 +36,7 @@ var maxProfit = function(prices) {
 
 * 学习:   
 1.通过折线图理解题目(上升区域相加即为攒钱最多的值)
-![理解图](./img/122_01.jpg)
+![理解图](http://120.79.201.10:9000/leetcode_pic/122_01.jpg)
 
 * 总结:   
 1.使用for循环比while快 *2 (#122、#189)
