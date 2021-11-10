@@ -34,6 +34,6 @@ function processComponent(vnode1, vnode2, container) {
 }
 
 function mountComponent(vnode2, container) {
-    let instance = createComponentInstance(vnode2)
-    setupComponent(instance)
+    let instance = createComponentInstance(vnode2)  // 创建组件实例对象
+    setupComponent(instance)    // 将setup数据添加到组件实例对象
 }

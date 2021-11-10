@@ -1,7 +1,7 @@
 var vueReactivity = (function (exports) {
     'use strict';
 
-    const isObject = (v) => typeof v === 'object' && v !== null;
+    const isObject = v => typeof v === 'object' && v !== null;
     const isArray = Array.isArray;
     const hasChange = (oldValue, newValue) => oldValue !== newValue;
     const isInteger = (key) => parseInt(key) + '' === key; // 数组的下标

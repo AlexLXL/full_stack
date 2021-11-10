@@ -1,9 +1,10 @@
 var vueShared = (function (exports) {
     'use strict';
 
-    const isObject = (v) => typeof v === 'object' && v !== null;
-    const isArray = Array.isArray;
+    const isObject = v => typeof v === 'object' && v !== null;
     const isString = v => typeof v === 'string';
+    const isFunction = v => typeof v === 'function';
+    const isArray = Array.isArray;
     const extend = Object.assign;
     const hasChange = (oldValue, newValue) => oldValue !== newValue;
     const isInteger = (key) => parseInt(key) + '' === key; // 数组的下标
@@ -13,6 +14,7 @@ var vueShared = (function (exports) {
     exports.hasChange = hasChange;
     exports.hasOwn = hasOwn;
     exports.isArray = isArray;
+    exports.isFunction = isFunction;
     exports.isInteger = isInteger;
     exports.isObject = isObject;
     exports.isString = isString;
