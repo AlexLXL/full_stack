@@ -1,38 +1,45 @@
 
-### 题目: 旋转链表
-##### 给你一个链表的头节点 head ，旋转链表，将链表每个节点向右移动 k 个位置。
+### 题目: 爬楼梯
+##### 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
+##### 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
 
-&nbsp;
-
-> 输入：head = [1,2,3,4,5], k = 2  
-  输出：[4,5,1,2,3]
+> 输入： 2  
+> 输出： 2  
+> 解释： 有两种方法可以爬到楼顶。  
+> 1 阶 + 1 阶  
+> 2 阶  
+>
+> 输入： 3  
+> 输出： 3  
+> 解释： 有三种方法可以爬到楼顶。  
+> 1 阶 + 1 阶 + 1 阶
+> 1 阶 + 2 阶
+> 2 阶 + 1 阶
 
 ---
 
-思路一:  
-1.变成环, 然后往后推几格就好
+思路一: (不好) 
+1.题目提示使用动态规划, 联想到了二位数组,然后写了一个其慢的算法(把所有组合都求出来)
+![理解图](http://120.79.201.10:9000/leetcode_pic/038_01.jpg)
+
+思路二:  
+1.画图得该题为斐波拉契, 直接使用一维数组递推
+![理解图](http://120.79.201.10:9000/leetcode_pic/038_02.jpg)
 
 ---
 
 ```
 /**
- * 思路一:
+ * 思路二:
  */
-var rotateRight = function(head, k) {
-    if(!head) return head
-    let curr = head
-    let len = 1
-    while(curr.next) {
-        curr = curr.next
-        len++
+var climbStairs = function(n) {
+    let p = 0, q = 0, r = 1;
+    for (let i = 1; i <= n; ++i) {
+        p = q;
+        q = r;
+        r = p + q;
     }
-    curr.next = head
-    for(let i = 0; i < (len - (k % len) - 1); i++) {
-        head = head.next
-    }
-    let temp = head.next
-    head.next = null
-    return temp
+    return r;
 };
 ```
 
@@ -40,6 +47,7 @@ var rotateRight = function(head, k) {
 
 * 优化空间: 无
 
-* 学习: 无  
+* 学习:  
+1.一维数组递推也是动态规划!!
 
 * 总结: 无
