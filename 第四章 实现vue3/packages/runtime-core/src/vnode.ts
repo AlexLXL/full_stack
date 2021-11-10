@@ -1,5 +1,11 @@
 import {isArray, isObject, isString, ShapeFlags} from "@vue/shared";
 
+/**
+ * 创建虚拟node
+ * @param type 可能传组件配置setup, 可能传h创建的div
+ * @param props
+ * @param children
+ */
 export function createVnode(type, props, children = null) {
     let shapeFlag = isString(type) ? ShapeFlags.ELEMENT :
                         isObject(type) ? ShapeFlags.STATEFUL_COMPONENT :

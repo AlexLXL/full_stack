@@ -146,8 +146,7 @@ var vueRuntimeDom = (function (exports) {
                 component() { },
                 mount(container) {
                     let vnode = createVnode(rootComponent, props);
-                    console.log(vnode);
-                    render(container);
+                    render(vnode, container);
                     app._container = container;
                 }
             };
