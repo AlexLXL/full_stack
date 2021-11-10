@@ -18,7 +18,8 @@ export function createComponentInstance(vnode) {
         bc: null,
         m: null,
         ctx: {},
-        proxy: {}
+        proxy: {},
+        update: null
     }
 
     instance.ctx = {_: instance}

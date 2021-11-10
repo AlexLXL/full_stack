@@ -76,7 +76,8 @@ var vueRuntimeCore = (function (exports) {
             bc: null,
             m: null,
             ctx: {},
-            proxy: {}
+            proxy: {},
+            update: null
         };
         instance.ctx = { _: instance };
         return instance;
@@ -159,9 +160,30 @@ var vueRuntimeCore = (function (exports) {
         }
     }
 
+    function effect(fn, options = { lazy: false }) {
+        let effect = createReactiveEffect(fn, options);
+        if (!options.lazy) {
+            effect();
+        }
+        return effect;
+    }
+    let uid = 0;
+    function createReactiveEffect(fn, options) {
+        const effect = function () {
+            fn();
+        };
+        effect.id = uid++;
+        effect._isEffect = true;
+        effect.raw = fn;
+        effect.deps = [];
+        effect.options = options;
+        return effect; // 返回一个套娃(fn)的函数
+    }
+
     function createRender(renderOption) {
         // Vnode -> realDOM
-        // [而vue2的render是执行_render函数生成Vnode, _update才是Vnode -> realDOM]
+        // [和vue2一样都是render生成vnode, vnode进行patch然后生成realDOM]
+        // [下面这个render应该理解为页面init函数, 真实组件render应该是instance.render]
         const render = (vnode, container) => {
             patch(null, vnode);
         };
@@ -176,21 +198,60 @@ var vueRuntimeCore = (function (exports) {
             }
             // }
         };
+        function processComponent(vnode1, vnode2, container) {
+            if (vnode1 === null) {
+                mountComponent(vnode2);
+            }
+        }
+        function mountComponent(vnode2, container) {
+            let instance = createComponentInstance(vnode2); // 1.创建组件实例对象
+            setupComponent(instance); // 2.将setup数据添加到组件实例对象
+            setupRenderEffect(instance); // 3.添加渲染effect
+        }
+        function setupRenderEffect(instance, container) {
+            instance.update = effect(() => {
+                if (!instance.isMounted) {
+                    // 初渲染, effect函数内执行render, render内的变量就会进行依赖收集
+                    let subTree = instance.subTree = instance.render.call(instance.proxy, instance.proxy);
+                    patch(null, subTree);
+                }
+            });
+        }
         return {
             createApp: createAppAPI(render)
         };
     }
-    function processComponent(vnode1, vnode2, container) {
-        if (vnode1 === null) {
-            mountComponent(vnode2);
+
+    /**
+     * h(标签, 属性)
+     * h(标签, 属性, 值)
+     * h(标签, 值)
+     * h(标签, [值, 值])
+     * h(标签, 属性, 值, 值)
+     * @param type
+     * @param propsOrChildren
+     * @param children
+     */
+    function h(type, propsOrChildren, children) {
+        let len = arguments.length;
+        if (len === 2) {
+            if (isObject(propsOrChildren) && !isArray(propsOrChildren)) {
+                return createVnode(type, propsOrChildren);
+            }
+            else {
+                return createVnode(type, null, propsOrChildren);
+            }
         }
-    }
-    function mountComponent(vnode2, container) {
-        let instance = createComponentInstance(vnode2); // 创建组件实例对象
-        setupComponent(instance); // 将setup数据添加到组件实例对象
+        else if (len == 3) {
+            return createVnode(type, propsOrChildren, children);
+        }
+        else if (len > 3) {
+            return createVnode(type, propsOrChildren, Array.from(arguments).slice(2));
+        }
     }
 
     exports.createRender = createRender;
+    exports.h = h;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

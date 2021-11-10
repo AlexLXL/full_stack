@@ -2,7 +2,7 @@ import {isArray, isObject, isString, ShapeFlags} from "@vue/shared";
 
 /**
  * 创建虚拟node
- * @param type 可能传组件配置setup, 可能传h创建的div
+ * @param type 可能传组件配置setup, 可能传h创建的 “div” 字符串
  * @param props
  * @param children
  */

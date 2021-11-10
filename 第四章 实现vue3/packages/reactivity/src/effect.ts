@@ -28,7 +28,7 @@ function createReactiveEffect(fn, options) {
     effect.raw = fn
     effect.deps = []
     effect.options = options
-    return effect
+    return effect   // 返回一个套娃(fn)的函数
 }
 
 /**

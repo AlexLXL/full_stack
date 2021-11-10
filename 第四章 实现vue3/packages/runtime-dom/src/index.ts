@@ -7,7 +7,6 @@ import {extend} from "@vue/shared";
 import {createRender} from "@vue/runtime-core";
 
 let renderOptions = extend(nodeOps, {patchProp})
-console.log(renderOptions)
 export function createApp(rootComponent, props = null) {
     // core返回createApp和mount, 然后进行dom平台的封装
     const app = createRender(renderOptions).createApp(rootComponent, props)
@@ -20,4 +19,6 @@ export function createApp(rootComponent, props = null) {
     }
     return app
 }
-export function h() {}
+
+export * from "@vue/runtime-core"
+export * from "@vue/reactivity"

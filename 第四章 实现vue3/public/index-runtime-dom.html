@@ -8,19 +8,39 @@
 <div id="app"></div>
 <script src="../node_modules/@vue/runtime-dom/dist/runtime-dom.global.js"></script>
 <script type="text/javascript">
-    let {createApp} = vueRuntimeDom
+    // let {createApp} = vueRuntimeDom
+    // let appConfig = {
+    //     props: {
+    //         name: String
+    //     },
+    //     setup() {
+    //         let data = reactive({count: 0})
+    //         let fn = () => {
+    //             data.count++
+    //         }
+    //         return () => {
+    //             return h("h1", {id: 'xxx', onClick: fn}, data.count)
+    //         }
+    //     }
+    // }
+    // createApp(appConfig, {}).mount("#app")
+
+    let {createApp, h, reactive} = vueRuntimeDom
     let appConfig = {
-        props: {
-            name: String
-        },
         setup() {
-            let data = reactive({count: 0})
+            let state = reactive({count: 0})
             let fn = () => {
-                data.count++
+                state.count++
             }
-            return () => {
-                return h("h1", {id: 'xxx', onClick: fn}, data.count)
+            return {
+                state,
+                fn
             }
+        },
+        render(proxy) {
+            // 问题: 数组内'cc'没渲染
+            // return h("h1", {style: {backgroundColor: 'red'}}, ["cc", h("p", {style: {color: 'blue'}}, "kk")])
+            return h("h1", {onclick: proxy.fn}, proxy.state.count)
         }
     }
     createApp(appConfig, {}).mount("#app")

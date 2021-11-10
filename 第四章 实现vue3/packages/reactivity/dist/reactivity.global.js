@@ -33,7 +33,7 @@ var vueReactivity = (function (exports) {
         effect.raw = fn;
         effect.deps = [];
         effect.options = options;
-        return effect;
+        return effect; // 返回一个套娃(fn)的函数
     }
     /**
      * 收集依赖的effect

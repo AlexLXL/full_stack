@@ -10,7 +10,7 @@ export const isInteger = (key) => parseInt(key) + '' === key   // 数组的下�
 export const hasOwn = (target, key) => Object.prototype.hasOwnProperty.call(target, key)
 
 export const enum ShapeFlags {
-    ELEMENT = 1,    // 元素
+    ELEMENT = 1,    // 也是一个DOM元素
     FUNCTIONAL_COMPONENT = 1 << 1,  // 函数式组件
     STATEFUL_COMPONENT = 1 << 2,    // setup组件
     TEXT_CHILDREN = 1 << 3, // 内容为文本
