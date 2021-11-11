@@ -1,6 +1,8 @@
 /**
- * promise的resolve和reject可以作为同步代码执行,为什么将resolve,reject引入到微任务?
- * 答: 不去半路阻塞脚本, 实现延迟绑定
+ * promise怎么把回调放到微任务中?
+ * 答: 在resolve函数里通过MutationObserver来微任务执行回调队列（而不是在.then的时候将回调丢进微任务）
+ * 这就符合vue的原理了, 让同步代码走完, 然后再执行微任务队列
+ * 同时也符合"延迟绑定的原理"
  */
 
 (function (global, factory) {
@@ -25,6 +27,7 @@
             self.status = "fulfilled"
             self.data = value
 
+            // FIXME: 这里应该是通过微任务实现MutationObserver, 然后.then就不需要判断状态, 直接加到执行队列就好
             self.callbacks.forEach((callback) => {
                 callback.onfulfilled(value)
             })
@@ -79,11 +82,11 @@
     Promise.prototype.catch = function (onrejected) {
         this.then(null, onrejected)
     }
-    Promise.then = function (value) {
+    Promise.resolve = function (value) {
         if (value instanceof Promise) return value
         return new Promise((resolve, reject) => { resolve(value) })
     }
-    Promise.catch = function (reason) {
+    Promise.reject = function (reason) {
         return new Promise((resolve, reject) => { reject(reason) })
     }
     Promise.all = function (promises) {
