@@ -1,3 +1,8 @@
+/**
+ * promise的resolve和reject可以作为同步代码执行,为什么将resolve,reject引入到微任务?
+ * 答: 不去半路阻塞脚本, 实现延迟绑定
+ */
+
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
         typeof define === 'function' && define.amd ? define(factory) :
@@ -9,6 +14,7 @@
         this.status = "pending"
         this.data = ""
         this.callbacks = [] // 成功失败回调
+        let self = this
 
         try {
             excute(resolve, reject) // 高阶函数
@@ -16,18 +22,18 @@
             // --snip--
         }
         function resolve(value) {
-            this.status = "fulfilled"
-            this.data = value
+            self.status = "fulfilled"
+            self.data = value
 
-            this.callbacks.forEach((callback) => {
+            self.callbacks.forEach((callback) => {
                 callback.onfulfilled(value)
             })
         }
         function reject() {
-            this.status = "rejected"
-            this.data = value
+            self.status = "rejected"
+            self.data = value
 
-            this.callbacks.forEach((callback) => {
+            self.callbacks.forEach((callback) => {
                 callback.onrejected((value))
             })
         }
@@ -51,25 +57,20 @@
             promise = new Promise((resolve, reject) => {
                 this.callbacks.push({
                     onfulfilled: function () {
-                        handlePromiseStatus(resolve, rejects, onfulfilled, this.data)
+                        handlePromiseStatus(resolve, reject, onfulfilled, this.data)
                     },
                     onrejected: function () {
-                        handlePromiseStatus(resolve, rejects, onrejected, this.data)
+                        handlePromiseStatus(resolve, reject, onrejected, this.data)
                     }
                 })
             })
-        }else if (status === "fulfillled") {
+        }else if (status === "fulfilled") {
             promise =  new Promise((resolve, reject) => {
-                // 模拟异步
-                setTimeout(() => {
-                    handlePromiseStatus(resolve, rejects, onfulfilled, this.data)
-                }, 0)
+                handlePromiseStatus(resolve, reject, onfulfilled, this.data)
             })
         }else if(status === "rejected"){
             promise =  new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    handlePromiseStatus(resolve, rejects, onrejected, data)
-                }, 0)
+                handlePromiseStatus(resolve, reject, onrejected, data)
             })
         }
         return promise
@@ -78,20 +79,6 @@
     Promise.prototype.catch = function (onrejected) {
         this.then(null, onrejected)
     }
-    function handlePromiseStatus(resolve, rejcet, fn, value) {
-        try {
-            let res = fn(value)
-            if (res instanceof Promise) {
-                res.then(resolve, reject)   // 当子promise成功的时候,父的这个promise也要设置为成功
-            }else {
-                resolve(res)
-            }
-        }catch (err) {
-            // onfulfilled里面throw的话要捕获
-            reject(err)
-        }
-    }
-
     Promise.then = function (value) {
         if (value instanceof Promise) return value
         return new Promise((resolve, reject) => { resolve(value) })
@@ -104,7 +91,7 @@
         let count = 0
         let reuslt = Array(len)
 
-        return new Promise((resolve, rejeact) => {
+        return new Promise((resolve, reject) => {
             promises.forEach((item, index) => {
                 item.then(
                     (value) => {
@@ -115,11 +102,25 @@
                         }
                     },
                     (reason) => {
-                        rejects(reson)
+                        reject(reson)
                     }
                 )
             })
         })
+    }
+
+    function handlePromiseStatus(resolve, rejcet, fn, value) {
+        try {
+            let res = fn(value)
+            if (res instanceof Promise) {
+                res.then(resolve, reject)   // 当子promise成功的时候,父的这个promise也要设置为成功
+            }else {
+                resolve(res)
+            }
+        }catch (err) {
+            // onfulfilled里面throw的话要捕获
+            reject(err)
+        }
     }
 
     return Promise
