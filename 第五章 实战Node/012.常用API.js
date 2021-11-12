@@ -30,6 +30,8 @@
  *      - extname: 获取后缀
  *      - relative: 相对路径, b相对a
  *      - dirname: 获取文件路径
+ * ○ vm
+ *      - runInThisContext: 字符串转代码
  */
 let fs = require('fs')
 console.log(fs.existsSync('./test.md')) // true
