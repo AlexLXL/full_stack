@@ -32,6 +32,8 @@
  *      - dirname: 获取文件路径
  * ○ vm
  *      - runInThisContext: 字符串转代码
+ * ○ util
+ *      - inherits: 实现原型链继承
  */
 let fs = require('fs')
 console.log(fs.existsSync('./test.md')) // true
