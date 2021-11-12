@@ -1,6 +1,6 @@
 /**
  * global
- *  ○ Buffer
+ *  ○ Buffer: 在node是16进制, 【ArrayBuffer读缓冲区数组,可理解为二进制】
  *  ○ process: 进程
  *          - platform  识别系统window/mac
  *          - cwd       当前工作目录
