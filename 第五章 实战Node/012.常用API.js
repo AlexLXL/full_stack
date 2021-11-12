@@ -1,6 +1,12 @@
 /**
  * global
  *  ○ Buffer: 在node是16进制, 【ArrayBuffer读缓冲区数组,可理解为二进制】
+ *          - alloc             生成Buff 【参数(字节数量, 内容string|Buffer, 是否解析)】
+ *          - from              生成buffer,根据 二进制数组/字符串 【参数(string|Array)】 【可用于魔改代码提速】
+ *          - concat            合并两个buffer
+ *          - 实例.toString()    转字符串
+ *          - 实例.slice         截取
+ *          - 实例.copy          复制到另一个buffer
  *  ○ process: 进程
  *          - platform  识别系统window/mac
  *          - cwd       当前工作目录
