@@ -92,9 +92,9 @@ rs.on("error", () => {
 /**
  * 可写流的使用
  */
-let WriteStream = require('./021_03.实现fs.createWriteStream')
-let ws = new WriteStream(path.resolve(__dirname, 'test1.md'), {
-// let ws = fs.createWriteStream(path.resolve(__dirname, 'test1.md'), {
+// let WriteStream = require('./021_03.实现fs.createWriteStream')
+// let ws = new WriteStream(path.resolve(__dirname, 'test1.md'), {
+/*let ws = fs.createWriteStream(path.resolve(__dirname, 'test1.md'), {
     flags: 'w',
     encoding: null,     // 默认读取出来的是Buffer
     autoClose: true,    // 读取完自动关闭 [fs.close()]
@@ -117,7 +117,11 @@ console.log(flag)
 // ws.end()    // 结束, 这行是同步的可能会让drain不触发
 setTimeout(() => {
     ws.end("我是谁")
-},1000)
+},1000)*/
 
-
-
+/**
+ * 可读流/可写流通过管道使用
+ */
+let rs = fs.createReadStream(path.resolve(__dirname, 'test.md'))
+let ws = fs.createWriteStream(path.resolve(__dirname, 'test1.md'))
+rs.pipe(ws)
