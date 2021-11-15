@@ -38,8 +38,9 @@ function treeTransverse(tree) {
 
 /**
  * ★★ 问题3: 树的遍历(后序) (左下、右下、根的顺序)
- * OUTPUT: [10, 5, 3, 7, 11, 2]
+ * OUTPUT: [5, 7, 11, 3, 2, 10]
  */
+
 function treeTransverseLast(tree) {
     tree.children && tree.children.forEach(treeTransverseLast)
     console.log(tree.v)
