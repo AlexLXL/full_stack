@@ -1,5 +1,5 @@
 ---
-title: hexo部署博客课时005(结)  
+title: hexo部署博客005(结)  
 date: 2021-11-14 15:40:17
 categories:  
 - [linux, hexo]  
