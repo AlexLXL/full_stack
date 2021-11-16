@@ -9,7 +9,7 @@ function gen(w) {
     return arr
 }
 
-// 解1: 洗牌算法（每个数随机和后面一个数交换）
+// 解1: 洗牌算法（每个数随机和后面一个数交换）I
 function shuffle(arr) {
     for (let i = 0; i < arr.length - 1; i++) {
         let j = i + ~~(Math.random() * (arr.length - i));
