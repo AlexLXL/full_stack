@@ -1,0 +1,33 @@
+#! /usr/bin/env node
+let {program} = require('commander')    // 1.引入commander
+let version = require('../package.json').version
+let config = require('./config')
+let LangHttpServer = require('./main')
+
+
+// 2.添加版本号
+program.version(version)
+    .name('lhs')
+    .usage("[options]")
+
+
+// 3.添加options
+
+Object.entries(config).forEach(([key, value]) => {
+    program.option(value.option, value.description, value.default)
+})
+
+// 4.添加Example
+program.on('--help', () => {
+    console.log('Examples:')
+    Object.entries(config).forEach(([key, value]) => {
+        console.log(`  ${value.usage}`)
+    })
+})
+
+// 5.解析
+program.parse(process.argv)
+
+let opts = program.opts()   // 拿配置参数
+let server = new LangHttpServer(opts)
+server.start()
