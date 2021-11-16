@@ -1,0 +1,7 @@
+[default]
+url=http://localhost:9000/
+org=test_organization
+project=hello-world
+
+[auth]
+token=cd9d14fe889948bd84122d6c9603963c6ada0526777a441f9bd534d522249bd6
