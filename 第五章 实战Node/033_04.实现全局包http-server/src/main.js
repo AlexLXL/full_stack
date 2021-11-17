@@ -4,9 +4,10 @@ let {createReadStream, readFileSync} = require('fs')
 let http = require('http')
 let url = require('url')
 let os = require('os')  // 获取ip
-let mime = require('mime')
 let zlib = require('zlib')
+let mime = require('mime')
 let chalk = require('chalk')    // 修改打印颜色
+let crypto = require('crypto')
 let {renderFileStr} = require('./render')
 
 let interfaces = os.networkInterfaces()
@@ -48,6 +49,11 @@ class LangHttpServer {
     }
     sendFile(req, res, statObj, filePath) {
         res.setHeader('Content-Type', `${mime.getType(filePath)};charset=utf8`)
+        if (this.allowCache(req, res, statObj, filePath)) {
+            res.statusCode = 304
+            return res.end()
+        }
+        console.log(filePath)
         // 压缩
         let zip = this.allowGzip(req, res)
         if (zip) {
@@ -78,6 +84,42 @@ class LangHttpServer {
         }
         return zip
         // 发现了一个坑, 改成return false, 响应头加了content-encoding, 但实际传输的内容没压缩, 浏览器会白屏!
+    }
+    allowCache(req, res, statObj, filePath) {
+        res.setHeader('Cache-Control', 'no-cache')
+        // no-cache--浏览器缓存中还是会有值
+        // no-store--浏览器缓存中没有值
+        /**
+         * 方式一: 利用强制缓存和过期时间惊醒缓存
+         * 方式一缺点: 被写死了, 文件修改了也读缓存, 不够精准
+         * */
+        // // 强制缓存2s  [强制缓存不会缓存当前刷新的文件]
+        // res.setHeader('Cache-Control', 'max-age=2')
+        // // 设置资源过期时间  [和强制缓存同时出现, 以强制缓存时间为准]
+        // res.setHeader('Expires', new Date(Date.now() + 10 * 1000).toGMTString())
+
+        /**
+         * 方式二: 利用修改时间缓存
+         * 方式二缺点: 改动了文件, 但实际内容没变时, 不走缓存
+         * */
+        // let ctime = statObj.ctime.toGMTString()
+        // res.setHeader('last-modified', ctime)
+        // let ifModifiedSince = req.headers['if-modified-since']
+        // if (ifModifiedSince === ctime) {
+        //     return true
+        // }
+
+        /**
+         * 方式三: 根据内容生成Etag
+         * 可以使用摘要[长度 + 时间戳]生成etag, 但不同人定的规则不同。MD5就是一种etag
+         * */
+        let ifNoneMatch = req.headers['if-none-match']
+        let fileStr = readFileSync(filePath, 'utf8') // 实际项目不会读整个文件, 这里只是为了方便
+        let etag = crypto.createHash('md5').update(fileStr).digest('base64');
+        res.setHeader('Etag', etag)
+        if (ifNoneMatch === etag) {
+            return true
+        }
     }
     sendError(e, res) {
         console.error(`ERROR: ${e}`)
