@@ -5,6 +5,7 @@ let http = require('http')
 let url = require('url')
 let os = require('os')  // 获取ip
 let mime = require('mime')
+let zlib = require('zlib')
 let chalk = require('chalk')    // 修改打印颜色
 let {renderFileStr} = require('./render')
 
@@ -47,7 +48,36 @@ class LangHttpServer {
     }
     sendFile(req, res, statObj, filePath) {
         res.setHeader('Content-Type', `${mime.getType(filePath)};charset=utf8`)
-        createReadStream(filePath).pipe(res)
+        // 压缩
+        let zip = this.allowGzip(req, res)
+        if (zip) {
+            createReadStream(filePath).pipe(zip).pipe(res)
+        }else {
+            createReadStream(filePath).pipe(res)
+        }
+    }
+    // 配置服务器压缩
+    allowGzip(req, res) {
+        let encoding = req.headers['accept-encoding']
+        let zip
+        if (encoding) {
+            let ways = encoding.split(',')
+            for (let i = 0; i < ways.length; i++) {
+                let lib = ways[i]
+                switch (lib) {
+                    case 'gzip':
+                        res.setHeader('content-encoding', 'gzip')
+                        zip = zlib.createGzip()
+                        break;
+                    case 'deflate':
+                        res.setHeader('content-encoding', 'deflate')
+                        zip = zlib.createDeflate()
+                        break;
+                }
+            }
+        }
+        return zip
+        // 发现了一个坑, 改成return false, 响应头加了content-encoding, 但实际传输的内容没压缩, 浏览器会白屏!
     }
     sendError(e, res) {
         console.error(`ERROR: ${e}`)
