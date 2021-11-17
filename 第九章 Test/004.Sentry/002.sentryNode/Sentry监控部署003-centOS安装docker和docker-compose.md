@@ -50,7 +50,7 @@ pip install docker-compose
       https://blog.csdn.net/alwaysbefine/article/details/106717823
       https://www.jianshu.com/p/8b569bd79541
 
-注意: 在centOS7, pip装docker-compose会一直报python的错，网上的解答无法解决
+注意: 在centOS7, pip装docker-compose会一直报python的错，网上的解答无法解决, 可以尝试升级python3
       删除docker-compose-直接删文件即可
 ```
 
