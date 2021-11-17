@@ -2,7 +2,7 @@
 let {program} = require('commander')    // 1.引入commander
 let version = require('../package.json').version
 let config = require('./config')
-let LangHttpServer = require('./main')
+let LangHttpServer = require('../src/main')
 
 
 // 2.添加版本号

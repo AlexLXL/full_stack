@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件列表</title>
+</head>
+<body>
+<!-- ejs语法, \<\% js语法写这 \%\> \<\%= 要保留在html的值写着 \%\> -->
+<!-- 最后会编译成字符串 -->
+    <h1><%=pathname%></h1>
+    <hr>
+    <%dirs.forEach((item) => {%>
+        <p><a href="<%=item.url%>"><%=item.dir%></a></p>
+    <%})%>
+    <hr>
+</body>
+</html>
