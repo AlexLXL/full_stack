@@ -15,10 +15,13 @@ let Koa = require('./039_02.实现koa')
 
 let app = new Koa()
 app.use((ctx) => {
-    ctx.body = '414141'
+    ctx.body = 'hello-world'
 
     // 以下方式都能访问, 但一般用最后的,前两个是原生, 后两个是封装[扩展了新属性pathname/query]
-
+    /*console.log(ctx.req.path)
+    console.log(ctx.request.req.path)
+    console.log(ctx.request.path)
+    console.log(ctx.path)*/
 
 })
 app.on('error', (err) => {
