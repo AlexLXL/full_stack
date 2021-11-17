@@ -16,7 +16,7 @@ git clone https://github.com/getsentry/onpremise -b 21.7.0
 
 ```shell
 cd onpremise
-./install.sh
+./install.sh --no-user-prompt
 
 成功信息:
 -----------------------------------------------------------------
