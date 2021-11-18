@@ -23,7 +23,7 @@ function bodyParser() {
                 } else if (type.startsWith('application/json')) {
                     resolve(JSON.parse(body.toString()));
                 } else if(type.startsWith('multipart/form-data')) {
-
+                    resolve(body.toString());
                 }else{
                     resolve({})
                 }
@@ -34,3 +34,23 @@ function bodyParser() {
 }
 
 module.exports = bodyParser
+
+
+/**
+ * 表单格式(最后一个是txt文件)
+ * 分隔符: ------WebKitFormBoundaryMU3EDlmYooWdbsIV
+ ------WebKitFormBoundaryMU3EDlmYooWdbsIV
+ Content-Disposition: form-data; name="username"
+
+ 11
+ ------WebKitFormBoundaryMU3EDlmYooWdbsIV
+ Content-Disposition: form-data; name="password"
+
+ 22
+ ------WebKitFormBoundaryMU3EDlmYooWdbsIV
+ Content-Disposition: form-data; name="avatar"; filename="备忘录.txt"
+ Content-Type: text/plain
+
+ 我是谁我来自哪里
+ ------WebKitFormBoundaryMU3EDlmYooWdbsIV--
+ */
