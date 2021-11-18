@@ -125,6 +125,8 @@ vmware版本: VMware Workstation Pro (14版本)
 
 ![图片](http://120.79.201.10:9000/Sentry/pic/001/27.jpg)
 
+> / 的空间换成100G!!!
+
 &nbsp;
 
 ![图片](http://120.79.201.10:9000/Sentry/pic/001/28.jpg)

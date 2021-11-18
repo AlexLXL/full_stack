@@ -1,22 +1,13 @@
 const SentryCliPlugin = require('@sentry/webpack-plugin');
-module.exports = function override(config, env) {
-    config.devtool = 'source-map';
-    config.plugins.push(
 
-    );
-    return config;
-
-
-}
-
-module.exports = {
-    productionSourceMap: true,
+let prod = {
     configureWebpack: {
+        devtool: "source-map",
         plugins: [
             new SentryCliPlugin({
-                release: 'pro@1.0.1',
+                release: 'pro@1.0.3',
                 authToken: 'cd9d14fe889948bd84122d6c9603963c6ada0526777a441f9bd534d522249bd6',
-                url: 'http://192.168.0.100:9000',
+                url: 'http://192.168.0.105:9000',
                 org: 'test_organization',
                 project: 'hello-world',
                 urlPrefix: '~/',
@@ -26,3 +17,12 @@ module.exports = {
         ],
     },
 }
+
+let test = {
+    configureWebpack: {
+        devtool: "source-map",
+        plugins: [],
+    },
+}
+
+module.exports = (process.env.NODE_ENV === 'prod') ? prod : test
