@@ -2,8 +2,9 @@ let Koa = require('koa');
 let path = require('path');
 let login = require('./page/login')
 let bodyParser = require('./middles/bodyParser')
+let static = require('./middles/static')
 // let bodyParser = require('koa-bodyparser')   // 解析body
-let static = require('koa-static')   // 静态服务
+// let static = require('koa-static')   // 静态服务
 
 let app = new Koa();
 app.use(bodyParser({dir:path.resolve(__dirname,'upload')}))
