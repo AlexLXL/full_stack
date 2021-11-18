@@ -10,12 +10,13 @@
 /**
  * 基础使用
  */
+let path = require('path')
+let fs = require('fs')
 // let Koa = require('koa')
 let Koa = require('./039_02.实现koa')
-/*
 
 let app = new Koa()
-app.use((ctx) => {
+/*app.use((ctx) => {
     ctx.body = 'hello-world'
 
     // 以下方式都能访问, 但一般用最后的,前两个是原生, 后两个是封装[扩展了新属性pathname/query]
@@ -23,14 +24,43 @@ app.use((ctx) => {
     console.log(ctx.request.req.path)
     console.log(ctx.request.path)
     console.log(ctx.path)*!/
+})*/
 
+/**
+ * 1.使用多个use
+ * 执行顺序 1/2/3/33/22/11, 每个next表示进入下一个use回调
+ * next前必须加await, 这样才能时线性阻塞的
+ * */
+app.use(async (ctx, next) => {
+    console.log(1)
+    await next()
+    console.log(11)
 })
+app.use(async (ctx, next) => {
+    console.log(2)
+    await next()
+    console.log(22)
+})
+app.use(async (ctx, next) => {
+    console.log(3)
+    await next()
+    console.log(33)
+})
+app.use(async (ctx, next) => {
+    /**
+     * 2.body使用流
+     * @type {ReadStream}
+     */
+    ctx.body = fs.createReadStream(path.resolve(__dirname, 'package.json'))
+})
+
 app.on('error', (err) => {
     console.log(`ERROR: ${err}`)
 })
 app.listen('9090', () => {
     console.log(`server start 9090`)
-})*/
+})
+
 
 
 /*
