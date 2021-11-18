@@ -1,3 +1,12 @@
+---
+title: 'Sentry监控部署008-上传source-map'
+date: 2021-11-18 22:00:05
+categories:  
+- [linux, Sentry]  
+tags:  
+- linux
+- Sentry
+---
 #### Sentry 实战
 
 ## 上传 `sourcemap`
