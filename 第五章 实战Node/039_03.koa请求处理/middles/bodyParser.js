@@ -64,8 +64,7 @@ function bodyParser({dir} = {}) {
                             formData[key] = value.slice(0,-2);
                         }
                     })
-                    resolve(body.toString());
-                    // resolve(formData);
+                    resolve(formData);
                 }else{
                     resolve({})
                 }
