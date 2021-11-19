@@ -1,3 +1,4 @@
+let methods = require('methods')
 let url = require('url')
 let Layer = require('./layer')
 let Route = require('./route')
@@ -5,15 +6,18 @@ let Route = require('./route')
 function Router() {
     this.stack = []
 }
-Router.prototype.get = function (path, handlers) {
-    let route = this.route(path)
-    route.get(handlers)
-    // this.stack.push({
-    //     method: 'get',
-    //     path,
-    //     handler
-    // })
-}
+
+methods.forEach(method => {
+    Router.prototype[method] = function (path, handlers) {
+        let route = this.route(path)
+        route[method](handlers)
+        // this.stack.push({
+        //     method: 'get',
+        //     path,
+        //     handler
+        // })
+    }
+})
 Router.prototype.handle = function (req, res, done) {
     // let {pathname, query} = url.parse(req.url, true)
     // let requestMethod = req.method.toLocaleLowerCase()
@@ -26,12 +30,15 @@ Router.prototype.handle = function (req, res, done) {
     // return done()
 
     let {pathname} = url.parse(req.url, true)
+    let method = req.method.toLocaleLowerCase()
     let i = 0
     let next = () => {
         if (i === this.stack.length) return done()
         let layer = this.stack[i++]
-        if (layer.path === pathname) {
-            layer.handler(req, res, next)     // route.dispatch
+        if (layer.matchPath(pathname)) {
+            if (layer.route.methods[method]) {
+                layer.handler_request(req, res, next)     // route.dispatch
+            }
         }else {
             next()
         }

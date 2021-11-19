@@ -37,6 +37,16 @@ app.get('/', (req, res, next) => {
     res.end('ok')
     next()
 })
+app.post('/', (req, res, next) => {
+    console.log(3)
+    res.end('ok post')
+    next()
+})
+app.delete('/', (req, res, next) => {   // 测试:　curl -X DELETE -v http://localhost:3000?auth=1
+    console.log(4)
+    res.end('ok delete')
+    next()
+})
 
 app.listen(3000,(err) => {
     if(err) console.log(err)
