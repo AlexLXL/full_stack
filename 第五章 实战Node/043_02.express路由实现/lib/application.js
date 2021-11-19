@@ -1,35 +1,18 @@
 let http = require('http')
-let url = require('url')
+let Router = require('../router/index')
 
 function Application() {
-    this._routers = [
-        {
-            method: 'all',
-            path: '*',
-            handler(req, res) {
-                res.end('Not Found Router')
-            }
-        }
-    ]
+    this.router = new Router()
 }
 Application.prototype.get = function(path, handler) {
-    this._routers.push({
-        method: 'get',
-        path,
-        handler
-    })
+    this.router.get(path, handler)
 }
 Application.prototype.listen = function(...args) {
     let server = http.createServer(function (req, res) {
-        let {pathname, query} = url.parse(req.url, true)
-        let requestMethod = req.method.toLocaleLowerCase()
-        for (let i = 0; i < this._routers.length; i++) {
-            let  {method, path, handler} = this._routers[i]
-            if (path === pathname && method === requestMethod) {
-                return handler(req, res)
-            }
+        function done() {
+            res.end(`Not Found Router`)
         }
-        return this._routers[0].handler(req, res)
+        this.router.handle(req, res, done)
     })
     server.listen(...args)
 }
