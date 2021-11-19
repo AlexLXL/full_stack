@@ -4,7 +4,13 @@
  *      - 增强req和res [生成request和response =统一组成=> ctx]
  *      - 有自己的中间件机制 []
  *      - 轻巧(利用原型链写)
+ *      - 采用ES6语法
  * express: 基于express
+ *      - 基于回调
+ *      - 增强req和res [直接扩展req和res]
+ *      - 有自己的内置中间件
+ *      - 体积较koa大
+ *      - 采用ES5语法(因为项目比较早)
  */
 
 /**
