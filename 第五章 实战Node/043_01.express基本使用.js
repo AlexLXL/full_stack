@@ -3,7 +3,6 @@ const express = require('./043_02.express基础实现');
 const app = express();
 
 app.get('/', (req, res) => {
-    console.log(res)
     res.end('hello');
 });
 app.get('/home', (req, res) => {
