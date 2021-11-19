@@ -8,7 +8,7 @@ Application.prototype.get = function(path, handler) {
     this.router.get(path, handler)
 }
 Application.prototype.listen = function(...args) {
-    let server = http.createServer(function (req, res) {
+    let server = http.createServer( (req, res) => {
         function done() {
             res.end(`Not Found Router`)
         }

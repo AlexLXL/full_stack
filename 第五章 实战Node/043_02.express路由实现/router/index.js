@@ -21,3 +21,5 @@ Router.prototype.handle = function (req, res, done) {
     }
     return done()
 }
+
+module.exports = Router
