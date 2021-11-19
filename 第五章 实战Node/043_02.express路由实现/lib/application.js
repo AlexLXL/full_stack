@@ -1,4 +1,5 @@
 let http = require('http')
+let url = require('url')
 let Router = require('../router/index')
 
 function Application() {
@@ -9,6 +10,9 @@ Application.prototype.get = function(path, ...handlers) {
 }
 Application.prototype.listen = function(...args) {
     let server = http.createServer( (req, res) => {
+        let {query} = url.parse(req.url, true)
+        req.query = query
+
         function done() {
             res.end(`Not Found Router`)
         }

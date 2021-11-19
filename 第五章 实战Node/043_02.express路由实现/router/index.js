@@ -24,6 +24,19 @@ Router.prototype.handle = function (req, res, done) {
     //     }
     // }
     // return done()
+
+    let {pathname} = url.parse(req.url, true)
+    let i = 0
+    let next = () => {
+        if (i === this.stack.length) return done()
+        let layer = this.stack[i++]
+        if (layer.path === pathname) {
+            layer.handler(req, res, next)     // route.dispatch
+        }else {
+            next()
+        }
+    }
+    next()
 }
 Router.prototype.route = function (path) {
     let route = new Route()
