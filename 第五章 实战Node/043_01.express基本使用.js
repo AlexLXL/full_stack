@@ -1,15 +1,18 @@
-const express = require('express');
+// const express = require('express');
+const express = require('./043_02.express基础实现');
 const app = express();
 
 app.get('/', (req, res) => {
-    res.send('hello');
+    console.log(res)
+    res.end('hello');
 });
 app.get('/home', (req, res) => {
-    res.send('home页面');
+    res.setHeader('Content-Type', `application/json;charset=utf8`)
+    res.end('home页面');
 });
 
 app.all('*', (req, res) => {
-    res.send('Not Found Router');
+    res.end('Not Found Router');
 });
 
 
