@@ -62,7 +62,7 @@ tags:
 
 - 选择`y`，则会自动打开浏览器到 `sentry管理界面` 的 `Settings -> Account -> API -> Auth Tokens`，创建或直接复制 `token` 来粘贴
 
-  ![Auth Tokens](http://120.79.201.10:9000/Sentry/pic/008/auth-tokens.jpg)
+  ![Auth Tokens](https://lixuelang.com/test/Sentry/pic/008/auth-tokens.jpg)
 
 5.命令执行完成后，会生成文件 `~/.sentryclirc`
 
@@ -133,7 +133,7 @@ tags:
 
 - 回到 `sentry` 管理界面 `Archive`，可以看到 `sourcemap` 文件已经上传
 
-  ![sourcemap](http://120.79.201.10:9000/Sentry/pic/008/sourcemap.jpg)
+  ![sourcemap](https://lixuelang.com/test/Sentry/pic/008/sourcemap.jpg)
 
 7.查看效果
 
@@ -150,7 +150,7 @@ tags:
 
 - 回到 `sentry` 管理界面，查看对应 `issue`，可以看到具体信息：哪个文件发生了错误，错误的行列数，错误行附近的源代码
 
-  ![sourcemap错误](http://120.79.201.10:9000/Sentry/pic/008/sourcemap-error.jpg)
+  ![sourcemap错误](https://lixuelang.com/test/Sentry/pic/008/sourcemap-error.jpg)
 
 - 删除 `sourcemap`
 

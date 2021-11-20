@@ -61,7 +61,7 @@ tags:
 
 - 接下来我们打开页面 `localhost:9000`，点击`About`，跳转到`/about`页，可以看到此时 `SDK` 多上报了一条 `transaction`
 
-  ![router](http://120.79.201.10:9000/Sentry/pic/010/router.jpg)
+  ![router](https://lixuelang.com/test/Sentry/pic/010/router.jpg)
 
 - 过一会儿，在 `Sentry管理界面` -> `Discover菜单 -> All Events`中，我们可以看到刚才上报的 `transaction`: `/about`，点击打开详情
 
@@ -69,7 +69,7 @@ tags:
 
 - 在跳转之前，经历了 `pageload`，和 `ui.click`
 
-  ![router-detail](http://120.79.201.10:9000/Sentry/pic/010/router-detail.jpg)
+  ![router-detail](https://lixuelang.com/test/Sentry/pic/010/router-detail.jpg)
 
 ### 2. `React router` 导航操作检测
 
@@ -77,7 +77,7 @@ tags:
 
 - 我们可以分别在 `/user/1`、`/user/2` 路由下刷新页面，然后在Sentry管理界面的Performance菜单里查看效果，会看到两条不同的 `TRANSACTION`: `/user/1`、`/user/2`
 
-  ![react-router-1](http://120.79.201.10:9000/Sentry/pic/010/react-router-1.jpg)
+  ![react-router-1](https://lixuelang.com/test/Sentry/pic/010/react-router-1.jpg)
 
 - 实际上我们希望他们是一条，预期应该显示: `/user/:id`，在 `React` 项目中，我们可以通过 `Sentry.reactRouterV5Instrumentation`配置。
 
@@ -165,7 +165,7 @@ tags:
 
 - 然后我们再在`/user/1`、`/user/2`路由下刷新页面，查看上报的`transaction`，已经变成了一种: `/user/:id`
 
-  ![react-router-2](http://120.79.201.10:9000/Sentry/pic/010/react-router-2.jpg)
+  ![react-router-2](https://lixuelang.com/test/Sentry/pic/010/react-router-2.jpg)
 
 - 还有一种方式可以也达到这个目的：使用 `Sentry.withSentryRouting` 高阶组件包裹 `Route`，具体可以参考 [官方文档](https://docs.sentry.io/platforms/javascript/guides/react/configuration/integrations/react-router/)
 

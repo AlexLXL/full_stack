@@ -9,48 +9,48 @@ tags:
 ---
 ### 前端接入sentry
 
-![图片](http://120.79.201.10:9000/Sentry/pic/005/1.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/005/1.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/005/2.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/005/2.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/005/3.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/005/3.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/005/4.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/005/4.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/005/5.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/005/5.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/005/6.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/005/6.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/005/7.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/005/7.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/005/8.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/005/8.jpg)
 > 用于进行Sentry身份认证
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/005/9.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/005/9.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/005/10.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/005/10.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/005/11.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/005/11.jpg)
 
 &nbsp;
 

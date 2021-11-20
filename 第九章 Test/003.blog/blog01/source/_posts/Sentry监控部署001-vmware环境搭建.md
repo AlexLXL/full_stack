@@ -23,137 +23,137 @@ vmware版本: VMware Workstation Pro (14版本)
 
 ### 二、VMwear安装Centos7超详细过程
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/1.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/1.jpg)
 
 #### 1.新建虚拟机
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/2.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/2.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/3.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/3.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/4.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/4.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/5.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/5.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/6.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/6.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/7.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/7.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/8.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/8.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/9.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/9.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/10.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/10.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/11.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/11.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/12.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/12.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/13.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/13.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/14.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/14.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/15.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/15.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/16.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/16.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/17.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/17.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/18.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/18.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/19.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/19.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/20.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/20.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/21.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/21.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/22.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/22.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/24.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/24.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/25.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/25.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/26.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/26.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/27.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/27.jpg)
 
 > / 的空间换成100G!!!
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/28.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/28.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/29.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/29.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/30.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/30.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/31.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/31.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/32.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/32.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/33.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/33.jpg)
 
 &nbsp;
 
-![图片](http://120.79.201.10:9000/Sentry/pic/001/34.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/001/34.jpg)
 
 &nbsp;
 

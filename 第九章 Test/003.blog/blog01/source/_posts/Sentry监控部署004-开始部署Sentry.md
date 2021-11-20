@@ -55,7 +55,7 @@ docker-compose run --rm web createuser --superuser # 创建超级管理员账号
 
 浏览器访问 http://localhost:9000/ ，输入刚才创建的超级管理员账号密码，登录
 
-![图片](http://120.79.201.10:9000/Sentry/pic/004/1.jpg)
+![图片](https://lixuelang.com/test/Sentry/pic/004/1.jpg)
 
 &nbsp;
 
