@@ -8,7 +8,7 @@
 
 - 我们在 `Sentry` 管理界面，点击开之前的一个 `issue` 详情，可以看到 `Breadcrumbs` 相关信息：
 
-  ![Breadcrumbs](../img/day003/breadcrumbs.jpg)
+  ![Breadcrumbs](./pic/009/breadcrumbs.jpg)
 
 - 最后一行记录了发生的错误，而在此之前的前面两行记录了在这个错误发生之前的一些操作：先发生了一次**页面加载**的**事务**，接着在点击了 `body > div#root > button` 的UI。
 
@@ -31,7 +31,7 @@
 
 - 可以看到原来这是一个页面加载的过程的记录
 
-  ![pageload](../img/day003/pageload.jpg)
+  ![pageload](./pic/009/pageload.jpg)
 
 - 这个页面加载的整个过程，被称为一个`Transaction`
 
@@ -47,9 +47,9 @@
 
 - 一般来讲，页面加载是一个 `Transaction`，后端API接口逻辑是一个 `Transaction`，操作数据库逻辑是一个 `Transaction`，它们共同组成了一个 `Trace`
 
-![transaction-example](../img/day003/diagram-transaction-trace.jpg)
-![transaction-example](../img/day003/diagram-transaction-spans.jpg)
-![transaction-example](../img/day003/diagram-transaction-example.jpg)
+![transaction-example](./pic/009/diagram-transaction-trace.jpg)
+![transaction-example](./pic/009/diagram-transaction-spans.jpg)
+![transaction-example](./pic/009/diagram-transaction-example.jpg)
 
 - [相关官方文档](https://docs.sentry.io/product/sentry-basics/tracing/distributed-tracing/)
 
@@ -59,7 +59,7 @@
 
 - 在上面的分析中，我们看到了一个页面加载（指刷新页面，不是单页面应用的路由变化）的 `Transaction`，如果我们在 `SDK` 的`Sentry.init()`中，将 `new Integrations.BrowserTracing()` 去掉，那么 `Breadcrumbs` 不会显示 `pageload` 信息：
 
-  ![breadcrumbs-no-performance](../img/day003/breadcrumbs-no-performance.jpg)
+  ![breadcrumbs-no-performance](./pic/009/breadcrumbs-no-performance.jpg)
 
 - 所以 `SDK` 的 `BrowserTracing` 功能，就是用来将浏览器页面加载/导航操作检测为事务，并捕获请求、指标和错误作为跨度。
 
@@ -69,7 +69,7 @@
 
 - 在 `Sentry管理界面 -> Performance菜单` 页中，可以查看每个 `url` 下收集的综合性能指标信息
 
-  ![performance1](../img/day003/performance1.jpg)
+  ![performance1](./pic/009/performance1.jpg)
 
   - `TPM`: 平均每分钟事务数
   - `FCP`: (First Contentful Paint) 首次内容绘制，标记浏览器渲染来自 DOM 第一位内容的时间点，该内容可能是文本、图像、SVG 甚至 元素.
@@ -87,7 +87,7 @@
 
 ### `Performance` 面板
 
-![Performance面板卡片1](../img/day003/performance-card1.jpg)
+![Performance面板卡片1](./pic/009/performance-card1.jpg)
 
 在 `Performance` 面板中，可以根据一些条件查询某一批 `Transaction`的：
 
@@ -95,15 +95,15 @@
 
 - 图片中筛选出了27个 `transaction`
 
-  ![performance-card2](../img/day003/performance-card2.jpg)
+  ![performance-card2](./pic/009/performance-card2.jpg)
 
 - `FCP`、`LCP`、`FID`、`CLS`卡片中展示了27个 `transaction` 的平均值
 
-  ![performance-card2](../img/day003/performance-card3.jpg)
+  ![performance-card2](./pic/009/performance-card3.jpg)
 
 - 每个卡片上还有绿色、黄色、红色的百分比，分别表示好、一般和差，通过该性能指标的阈值作区分
 
-  ![performance-card2](../img/day003/performance-card4.jpg)
+  ![performance-card2](./pic/009/performance-card4.jpg)
 
   - `sentry` 性能指标阈值定义
 
@@ -122,21 +122,21 @@
 
 - `LCP p75面积图`: `p50`、`p75`、`p95`都对应一个时间长度的值(例如 `277.20ms`)，表示在某一段时间内(例如`2021-10-19 2:35 PM` 到 `2021-10-19 2:40 PM`)，采集的所有`transaction`中(例如采集到了11个 `transaction`)，超过`25%`的 `transaction` 样本的`LCP`值超过了`277.20ms`。[官方文档](https://docs.sentry.io/product/performance/metrics/)
 
-  ![Performance面板卡片1](../img/day003/p75.jpg)
+  ![Performance面板卡片1](./pic/009/p75.jpg)
 
 - `LCP Distribution数量柱状图`: 横坐标是LCP时间(单位s)，纵坐标是数量(单位个)。一个柱子，表示某个LCP时间的 `transaction` 数量
 
-  ![LCP-distribution](../img/day003/LCP-distribution.jpg)
+  ![LCP-distribution](./pic/009/LCP-distribution.jpg)
 
 - `TPM面积图`: 平均每分钟的 `transaction` 数量。例如，在 `4:00 PM` 到 `8:00 PM`时间段内，平均每分钟的 `transaction` 数量是0.213个
 
-  ![tpm](../img/day003/tpm.jpg)
+  ![tpm](./pic/009/tpm.jpg)
 
 #### 3. 某个url路径下的性能信息表格
 
 我们应该已经可以读懂表格中的信息的含义了，接下来点开某个url维度下的详情页，还需要介绍两个指标 `Apdex` 和 `Failure Rate`
 
-  ![apdex](../img/day003/apdex.jpg)
+  ![apdex](./pic/009/apdex.jpg)
 
 ##### Apdex
   
