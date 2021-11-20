@@ -1,10 +1,22 @@
 <template>
   <div id="app">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/about"><p @click="toAboutRouter">About</p></router-link>
+      <router-link to="/about/1"><p @click="toAboutRouter">About/1</p></router-link>
+      <router-link to="/about/2"><p @click="toAboutRouter">About/2</p></router-link>
     <router-view/>
   </div>
 </template>
+<script>
+export default {
+    name: 'App',
+    methods: {
+        toAboutRouter() {
+            console.log(window.aboutRouter())
+        }
+    }
+}
+</script>
 
 <style lang="scss">
 #app {
