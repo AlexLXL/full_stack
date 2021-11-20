@@ -5,10 +5,11 @@ import store from './store'
 import * as Sentry from "@sentry/vue";
 import { Integrations } from "@sentry/tracing";
 
-if(process.env.NODE_ENV === 'prod') {
+console.log(process.env.NODE_ENV)
+if(['development', 'prod'].includes(process.env.NODE_ENV)) {
     Sentry.init({
         Vue,
-        dsn: "http://b891ad75fd474b078846edef012ffe8b@192.168.0.105:9000/2",
+        dsn: "http://b891ad75fd474b078846edef012ffe8b@192.168.0.106:9000/2",
         integrations: [new Integrations.BrowserTracing()],
         tracesSampleRate: 1.0,
         logErrors: true,
