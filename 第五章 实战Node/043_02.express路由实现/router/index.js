@@ -32,23 +32,40 @@ Router.prototype.handle = function (req, res, done) {
     let {pathname} = url.parse(req.url, true)
     let method = req.method.toLocaleLowerCase()
     let i = 0
-    let next = () => {
+    let next = (err) => {
         if (i === this.stack.length) return done()
         let layer = this.stack[i++]
-        if (layer.matchPath(pathname)) {
+        if (err) {
+            // 如果有错误, 中间路由不要执行，跳转到错误中间件
             if (!layer.route) {
-                // 中间件匹配
-                layer.handler_request(req, res, next)
-            }else {
-                // 路由匹配
-                if (layer.route.methods[method]) {
-                    layer.handler_request(req, res, next)     // route.dispatch
+                if (layer.handler.length === 4) {
+                    layer.handler(err, req, res,  next)
                 }else {
-                    next()
+                    next(err)
                 }
+            }else {
+                next(err)
             }
         }else {
-            next()
+            if (layer.matchPath(pathname)) {
+                if (!layer.route) {
+                    // 中间件匹配
+                    if (layer.handler.length === 4) {   // 错误中间件, 4个参数
+                        next()
+                    }else {
+                        layer.handler_request(req, res, next)   // 正常中间件
+                    }
+                }else {
+                    // 路由匹配
+                    if (layer.route.methods[method]) {
+                        layer.handler_request(req, res, next)     // route.dispatch
+                    }else {
+                        next()
+                    }
+                }
+            }else {
+                next()
+            }
         }
     }
     next()

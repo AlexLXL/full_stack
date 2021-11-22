@@ -6,7 +6,8 @@ function Route() {
 }
 Route.prototype.dispatch = function (req, res, out) {
     let i = 0
-    let next = () => {
+    let next = (err) => {
+        if (err) return out(err)
         if (i === this.stack.length) return out()
         let layer = this.stack[i++]
         if (layer.matchMethod(req.method.toLowerCase())) {
