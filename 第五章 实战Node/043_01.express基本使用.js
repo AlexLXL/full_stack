@@ -1,6 +1,6 @@
-// const express = require('express');
+const express = require('express');
 // const express = require('./043_02.express基础实现');
-const express = require('./043_02.express路由实现');
+// const express = require('./043_02.express路由实现');
 
 const app = express();
 
@@ -28,10 +28,12 @@ function verify(req, res, next) {
         res.end(`该用户还没进行权限验证`)
     }
 }
-app.get('/', verify, (req, res, next) => {
-    console.log(1)
-    next()
-})
+// app.get('/', verify, (req, res, next) => {
+//     console.log(1)
+//     next()
+// })
+// 中间件的写法一般用use的写法, 更加通用
+app.use('/', verify)
 app.get('/', (req, res, next) => {
     console.log(2)
     res.end('ok')
