@@ -9,6 +9,7 @@ function Router() {
     }
     router.stack = []
     router.__proto__ = proto    // 好代码, 为了能复用以前的代码, 通过原型链来扩展这次变动
+    router.events = {};
     return router
 }
 
@@ -27,17 +28,8 @@ methods.forEach(method => {
         // })
     }
 })
-proto.handle = function (req, res, done) {
-    // let {pathname, query} = url.parse(req.url, true)
-    // let requestMethod = req.method.toLocaleLowerCase()
-    // for (let i = 0; i < this.stack.length; i++) {
-    //     let  {method, path, handler} = this.stack[i]
-    //     if (path === pathname && method === requestMethod) {
-    //         return handler(req, res)
-    //     }
-    // }
-    // return done()
 
+proto.handle = function (req, res, done) {
     let {pathname} = url.parse(req.url, true)
     let method = req.method.toLocaleLowerCase()
     let i = 0
@@ -69,19 +61,19 @@ proto.handle = function (req, res, done) {
                     if (layer.handler.length === 4) {   // 错误中间件, 4个参数
                         next()
                     }else {
-
                         // 二级路由删前缀
                         if (layer.path !== '/') {
                             removed = layer.path
                             req.url = req.url.slice(removed.length)
                         }
-                        
                         layer.handler_request(req, res, next)   // 正常中间件
                     }
                 }else {
                     // 路由匹配
                     if (layer.route.methods[method]) {
-                        layer.handler_request(req, res, next)     // route.dispatch
+                        this.handle_params(req, res, layer, () => { // 如果处理完成真正的进行响应
+                            layer.handler_request(req, res, next)
+                        })
                     }else {
                         next()
                     }
@@ -93,6 +85,38 @@ proto.handle = function (req, res, done) {
     }
     next()
 }
+
+proto.handle_params = function(req, res, layer, out) {
+    let keys = layer.keys;
+    if (!keys || !keys.length) return out();
+    keys = keys.reduce((memo, current) => [...memo, current.name], []);
+    let events = this.events;
+    let i = 0;
+    let index = 0;
+    let key;
+    let fns;
+    const next = () => {
+        if (keys.length === i) return out()
+        key = keys[i++]
+        fns = events[key];
+        if (fns) {
+            processCallback();
+        } else {
+            next();
+        }
+    }
+    next();
+    function processCallback() {
+        let fn = fns[index++];
+        if (fn) {
+            fn(req, res, processCallback, layer.params[key], key)
+        } else {
+            index = 0;
+            next();
+        }
+    }
+}
+
 proto.route = function (path) {
     let route = new Route()
     let layer = new Layer(path, route.dispatch.bind(route))
@@ -100,6 +124,7 @@ proto.route = function (path) {
     this.stack.push(layer)
     return route
 }
+
 proto.use = function () {
     let args = Array.from(arguments)
     let path = '/'
@@ -115,6 +140,14 @@ proto.use = function () {
         layer.route = undefined // 有layer.route就是路由,没有layer.route就是中间件
         this.stack.push(layer)
     })
+}
+
+proto.param = function(key, callback) { // {id:[],name:[]}
+    if (this.events[key]) {
+        this.events[key].push(callback);
+    } else {
+        this.events[key] = [callback]
+    }
 }
 
 module.exports = Router

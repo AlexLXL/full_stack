@@ -34,10 +34,16 @@ Application.prototype.listen = function(...args) {
     server.listen(...args)
 }
 Application.prototype.all = function() {}
+
 Application.prototype.lazy_route = function() {
     if (!this.router) {
         this.router = new Router()
     }
+}
+
+Application.prototype.param = function(){
+    this.lazy_route();
+    this.router.param(...arguments);
 }
 
 module.exports = Application
