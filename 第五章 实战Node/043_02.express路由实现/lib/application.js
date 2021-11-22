@@ -15,6 +15,11 @@ methods.forEach(method => {
     }
 })
 
+Application.prototype.use = function() {
+    this.lazy_route()
+    this.router.use(...arguments)
+}
+
 Application.prototype.listen = function(...args) {
     this.lazy_route()
     let server = http.createServer( (req, res) => {

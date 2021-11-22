@@ -36,8 +36,16 @@ Router.prototype.handle = function (req, res, done) {
         if (i === this.stack.length) return done()
         let layer = this.stack[i++]
         if (layer.matchPath(pathname)) {
-            if (layer.route.methods[method]) {
-                layer.handler_request(req, res, next)     // route.dispatch
+            if (!layer.route) {
+                // 中间件匹配
+                layer.handler_request(req, res, next)
+            }else {
+                // 路由匹配
+                if (layer.route.methods[method]) {
+                    layer.handler_request(req, res, next)     // route.dispatch
+                }else {
+                    next()
+                }
             }
         }else {
             next()
@@ -51,6 +59,22 @@ Router.prototype.route = function (path) {
     layer.route = route
     this.stack.push(layer)
     return route
+}
+Router.prototype.use = function () {
+    let args = Array.from(arguments)
+    let path = '/'
+    let handlers = []
+    if (typeof args[0] !== 'function') {
+        path = args[0]
+        handlers = args.slice(1)
+    }else{
+        handlers = [...args]
+    }
+    handlers.forEach(handler => {
+        let layer = new Layer(path,  handler)
+        layer.route = undefined // 有layer.route就是路由,没有layer.route就是中间件
+        this.stack.push(layer)
+    })
 }
 
 module.exports = Router

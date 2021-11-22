@@ -1,6 +1,6 @@
-const express = require('express');
+// const express = require('express');
 // const express = require('./043_02.express基础实现');
-// const express = require('./043_02.express路由实现');
+const express = require('./043_02.express路由实现');
 
 const app = express();
 
@@ -21,22 +21,29 @@ app.all('*', (req, res) => {
  *      - 访问http://localhost:3000/?auth=1   // HTML-OUTPUT: ok
  */
 function verify(req, res, next) {
-    if (req.query.auth) {
-        next()
-    }else {
-        res.setHeader('Content-Type', `application/json;charset=utf8`)
-        res.end(`该用户还没进行权限验证`)
-    }
+    // if (req.query.auth) {
+    //     next()
+    // }else {
+    //     res.setHeader('Content-Type', `application/json;charset=utf8`)
+    //     res.end(`该用户还没进行权限验证`)
+    // }
+    console.log("uuu")
+    next()
 }
 // app.get('/', verify, (req, res, next) => {
 //     console.log(1)
 //     next()
 // })
 // 中间件的写法一般用use的写法, 更加通用
-app.use('/', verify)
+app.use('/user', verify)
 app.get('/', (req, res, next) => {
     console.log(2)
     res.end('ok')
+    next()
+})
+app.get('/user/a', (req, res, next) => {
+    console.log(2)
+    res.end('ok /user/a')
     next()
 })
 app.post('/', (req, res, next) => {
