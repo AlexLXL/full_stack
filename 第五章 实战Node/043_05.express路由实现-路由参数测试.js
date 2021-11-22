@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('./043_05.express路由实现-路由参数');
 const app = express();
 const path = require('path');
 const fs = require('fs')
