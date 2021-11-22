@@ -2,18 +2,18 @@ let pathToRegExp = require('path-to-regexp')    // 第三方模块, 也是expres
 
 function Layer(path, handler) {
     this.path = path
-    // this.regexp = pathToRegExp(this.path, (this.keys = []))
+    this.regexp = pathToRegExp(this.path, (this.keys = []))
     this.handler = handler
 }
 Layer.prototype.matchPath = function (pathname) {
-    // let matches = pathname.match(this.regexp)
-    // if (matches) {
-    //     this.params = this.keys.reduce((total, value, index) => {
-    //         total[value.name] = matches[index + 1]
-    //         return total
-    //     }, {})
-    //     return true
-    // }
+    let matches = pathname.match(this.regexp)
+    if (matches) {
+        this.params = this.keys.reduce((total, value, index) => {
+            total[value.name] = matches[index + 1]
+            return total
+        }, {})
+        return true
+    }
 
     // 路由匹配
     if (this.path === pathname) {

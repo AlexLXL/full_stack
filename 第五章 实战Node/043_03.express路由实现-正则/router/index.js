@@ -48,7 +48,7 @@ Router.prototype.handle = function (req, res, done) {
             }
         }else {
             if (layer.matchPath(pathname)) {
-                // req.params = layer.params
+                req.params = layer.params
                 if (!layer.route) {
                     // 中间件匹配
                     if (layer.handler.length === 4) {   // 错误中间件, 4个参数
