@@ -35,14 +35,14 @@ function verify(req, res, next) {
 //     next()
 // })
 // 中间件的写法一般用use的写法, 更加通用
-app.use('/user', verify)
+// app.use('/user', verify)
 
 app.get('/', (req, res, next) => {
     console.log(2)
     res.end('ok')
     next()
 })
-app.get('/user/a', (req, res, next) => {
+/*app.get('/user/a', (req, res, next) => {
     console.log(3)
     res.end('ok /user/a1')
     next()
@@ -51,7 +51,7 @@ app.get('/user/a', (req, res, next) => {
     console.log(4)
     res.end('ok /user/a2')
     next()
-})
+})*/
 /*app.post('/', (req, res, next) => {
     console.log(3)
     res.end('ok post')
