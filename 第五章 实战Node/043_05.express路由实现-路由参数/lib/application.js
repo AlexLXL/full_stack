@@ -1,6 +1,7 @@
 let methods = require('methods')    // 第三方模块, express依赖该模块所以可以不用下载
 let http = require('http')
 let url = require('url')
+const fs = require('fs')
 let Router = require('../router/index')
 
 function Application() {
@@ -38,6 +39,20 @@ Application.prototype.all = function() {}
 Application.prototype.lazy_route = function() {
     if (!this.router) {
         this.router = new Router()
+
+        this.use((req, res, next) => {  // express的内置中间件
+            res.send = function(data) {
+                if (typeof data === 'object') {
+                    res.end(JSON.stringify(data))
+                }else if (typeof data === 'string') {
+                    res.end(data)
+                }
+            }
+            res.sendFile = function(pathname) {
+                fs.createReadStream(pathname).pipe(res)
+            }
+            next()
+        })
     }
 }
 
