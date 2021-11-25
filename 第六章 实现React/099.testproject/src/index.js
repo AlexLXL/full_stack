@@ -1,8 +1,8 @@
-import React from "./core/react";
-import ReactDOM from "./core/react-dom";
+// import React from "./core/react";
+// import ReactDOM from "./core/react-dom";
 
-// import React from "react";
-// import ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 
 /**
  * 1.直接定义组件
@@ -227,9 +227,6 @@ class Counter extends React.Component {
     componentWillMount() {
         console.log(`lifecycle-mounting 2_componentWillMount`)
     }
-    handleClick = (event) => {
-        this.setState({count: this.state.count + 1})
-    }
     shouldComponentUpdate(nextProps, nextState) {
         console.log(`lifecycle-updation I_shouldComponentUpdate`)
         return nextState.count % 2 === 0    // 偶数更新
@@ -243,6 +240,8 @@ class Counter extends React.Component {
             <div>
                 <p>count: {this.state.count}</p>
                 <button onClick={this.handleClick}>+</button>
+                <br/>
+                {this.state.count === 4 ? null : <ChildCounter count={this.state.count} />}
             </div>
         )
     }
@@ -252,7 +251,49 @@ class Counter extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         console.log(`lifecycle-updation III_componentWillUpdate`)
     }
+    handleClick = (event) => {
+        this.setState({count: this.state.count + 1})
+    }
 }
 
+class ChildCounter extends React.Component {
+    constructor(props) {
+        console.log(`子组件挂载 1_constructor`)
+        super(props);
+    }
+    componentWillMount() {
+        console.log(`子组件挂载 2_componentWillMount`)
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log(`子组件props更新 I_componentWillReceiveProps`)
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log(`子组件props更新 II_shouldComponentUpdate`)
+        return nextProps.count % 3 == 0
+    }
+    componentWillUpdate(nextProps, nextState) {
+        console.log(`子组件props更新 III_componentWillUpdate`)
+    }
+    render() {
+        console.log(`子组件挂载 3.render`)
+
+        return (
+            <div style={{fontSze: '20px',color: 'blue'}}>我是子组件{this.props.count}</div>
+        )
+    }
+    componentDidMount() {
+        console.log(`子组件挂载 4_componentDidMount`)
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(`子组件props更新 IV_componentWillUpdate`)
+    }
+    componentWillUnmount() {
+        console.log(`子组件卸载 1_componentWillUnmount`)
+    }
+
+    handleClick = (event) => {
+        this.setState({count: this.state.count + 1})
+    }
+}
 
 ReactDOM.render(<Counter />, document.getElementById("root"));
