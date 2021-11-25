@@ -78,7 +78,8 @@ function updateProps(dom, oldProps = {}, newProps = {}) {
          * 分类:
          * 1. child
          * 2. style
-         * 3. id class value等
+         * 3. on开头的事件
+         * 4. id class value等
          */
         if (key === 'children') {
             continue;
@@ -87,6 +88,8 @@ function updateProps(dom, oldProps = {}, newProps = {}) {
             for (let attr in styleObj) {
                 dom.style[attr] = styleObj[attr];
             }
+        }else if (key.startsWith('on')) {
+            dom[key.toLocaleLowerCase()] = newProps[key]
         } else {
             dom[key] = newProps[key];
         }
