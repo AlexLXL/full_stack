@@ -1,8 +1,8 @@
-import React from "./core/react";
-import ReactDOM from "./core/react-dom";
+// import React from "./core/react";
+// import ReactDOM from "./core/react-dom";
 
-// import React from "react";
-// import ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 
 /**
  * 1.直接定义组件
@@ -37,9 +37,9 @@ ReactDOM.render(element2, document.getElementById("root"));*/
 ReactDOM.render(<ShopList id='sl1' title='hello-world3' />, document.getElementById("root"));*/
 
 /**
- * 2.类组件
+ * 3.类组件
  */
-class ShopList extends React.Component {
+/*class ShopList extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -50,4 +50,32 @@ class ShopList extends React.Component {
     }
 }
 
-ReactDOM.render(<ShopList id='sl1' title='hello-world4' />, document.getElementById("root"));
+ReactDOM.render(<ShopList id='sl1' title='hello-world4' />, document.getElementById("root"));*/
+
+/**
+ * 4.类组件更新数据 (状态)
+ */
+class ShopList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            number: 1
+        };
+    }
+    handleClick = (event) => {
+        this.setState({
+            number: this.state.number + 1
+        });
+    }
+    render() {
+        return (
+            <div>
+                <p>{this.props.title}</p>
+                <p>number:{this.state.number}</p>
+                <button onClick={this.handleClick}>+</button>
+            </div>
+        )
+    }
+}
+
+ReactDOM.render(<ShopList title='统计' />, document.getElementById("root"));
