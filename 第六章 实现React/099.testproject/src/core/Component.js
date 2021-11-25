@@ -35,6 +35,9 @@ class Component {
         let newRenderVdom = this.render()
         compareToVdom(oldRealDOM.parentNode, oldRenderVdom, newRenderVdom)
         this.oldRenderVdom = newRenderVdom
+        if (this.componentDidUpdate) {
+            this.componentDidUpdate()
+        }
     }
 }
 
@@ -50,7 +53,11 @@ class Updater {
         this.emitUpdate()
     }
 
-    emitUpdate() {
+    /**
+     * state和父props更新都会发射更新 (emitUpdate)
+     */
+    emitUpdate(nextProps) {
+        this.nextProps = nextProps
         if (updateQueue.isBatchingUpdate) {
             updateQueue.updaters.push(this)
         }else {
@@ -59,9 +66,9 @@ class Updater {
     }
 
     updateComponent() {
-        let {classInstance, pendingStates} = this
-        if (pendingStates.length > 0) {
-            shouldUpdate(classInstance, this.getState())
+        let {classInstance, nextProps, pendingStates} = this
+        if (nextProps || pendingStates.length > 0) {
+            shouldUpdate(classInstance, this.nextProps, this.getState())
         }
     }
 
@@ -79,9 +86,26 @@ class Updater {
     }
 }
 
-function shouldUpdate(classInstance, nextState) {
+/**
+ * 生命周期(updation) shouldComponentUpdate
+ * 判断是否执行更新
+ */
+function shouldUpdate(classInstance, nextProps, nextState) {
+    let willUpdate = true
+    if (classInstance.shouldComponentUpdate && !shouldComponentUpdate(nextProps, nextState)) {
+        willUpdate = false
+    }
+
+    // 不管要不要更新都要更新状态
     classInstance.state = nextState
-    classInstance.forceUpdate() // 强制更新
+    nextProps && (classInstance.props = nextProps)
+
+    if (willUpdate && classInstance.componentWillUpdate) {
+        classInstance.componentWillUpdate()
+    }
+    if (willUpdate) {
+        classInstance.forceUpdate() // 强制更新
+    }
 }
 
 export default Component

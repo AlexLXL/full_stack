@@ -230,11 +230,11 @@ class Counter extends React.Component {
     handleClick = (event) => {
         this.setState({count: this.state.count + 1})
     }
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
+    shouldComponentUpdate(nextProps, nextState) {
         console.log(`lifecycle-updation I_shouldComponentUpdate`)
         return nextState.count % 2 === 0    // 偶数更新
     }
-    componentWillUpdate(nextProps, nextState, nextContext) {
+    componentWillUpdate(nextProps, nextState) {
         console.log(`lifecycle-updation II_componentWillUpdate`)
     }
     render() {
