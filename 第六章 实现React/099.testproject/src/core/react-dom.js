@@ -26,11 +26,17 @@ export function createDOM(vdom) {
     let dom;                        // 真实DOM
     /**
      * 分类:
-     * 1. 函数组件
+     * 1. 函数组件、类组件
      * 2. 文本组件
      * 3. div span p
      */
     if (typeof type === 'function') {
+        if (type.isReactComponent) {
+            dom = mountClassComponent(vdom)
+        }else {
+            dom = mountFunctionComponent(vdom)
+        }
+    }else if (typeof type === 'function') {
         dom = mountFunctionComponent(vdom)
     }else if (type === REACT_TEXT) {
         dom = document.createTextNode(props.content);
@@ -90,6 +96,19 @@ function updateProps(dom, oldProps = {}, newProps = {}) {
             dom[key] = null;
         }
     }
+}
+
+/**
+ * 挂载类组件
+ * @param vdom 虚拟DOM
+ */
+function mountClassComponent(vdom) {
+    let { type: ClassComponent, props } = vdom;
+    let classInstance = new ClassComponent(props);
+    let oldRenderVdom = classInstance.render();
+    // 后面组件更新用
+    vdom.oldRenderVdom = oldRenderVdom;
+    return createDOM(oldRenderVdom);
 }
 
 /**

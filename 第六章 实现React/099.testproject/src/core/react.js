@@ -44,8 +44,18 @@ function createElement(type, config, children) {
     return { type, ref, key, props };
 }
 
+class Component {
+    // 标识是react组件
+    // 源码是通过Component.prototype.isReactComponent = true来标识
+    static isReactComponent = true
+    constructor(props) {
+        this.props = props
+    }
+}
+
 const React = {
     createElement,
+    Component,
 }
 
 export default React;
