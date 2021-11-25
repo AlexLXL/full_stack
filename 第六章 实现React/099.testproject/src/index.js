@@ -63,9 +63,13 @@ class ShopList extends React.Component {
         };
     }
     handleClick = (event) => {
-        this.setState({
-            number: this.state.number + 1
-        });
+        this.setState({ number: this.state.number + 1 });
+        console.log(this.state);
+        this.setState({ number: this.state.number + 1 });
+        console.log(this.state);
+        this.setState((state) => ({ number: this.state.number + 1 }))
+        console.log(this.state);
+        // 因为是异步更新，所以上面的打印都不是最新值
     }
     render() {
         return (

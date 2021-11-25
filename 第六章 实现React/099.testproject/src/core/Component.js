@@ -1,4 +1,4 @@
-import {createDOM, findDOM} from './react-dom'
+import {createDOM, findDOM, compareToVdom} from './react-dom'
 
 class Component {
     // 标识是react组件
@@ -53,6 +53,9 @@ class Updater {
         let {classInstance, pendingStates} = this
         let {state} = classInstance
         pendingStates.forEach(partialState => {
+            if (typeof partialState === 'function') {
+                partialState = partialState(state);
+            }
             state = {...state, ...partialState}
         })
         pendingStates.length = 0
