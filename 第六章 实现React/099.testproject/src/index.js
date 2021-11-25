@@ -1,8 +1,8 @@
-import React from "./core/react";
-import ReactDOM from "./core/react-dom";
+// import React from "./core/react";
+// import ReactDOM from "./core/react-dom";
 
-// import React from "react";
-// import ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 
 /**
  * 1.直接定义组件
@@ -55,7 +55,7 @@ ReactDOM.render(<ShopList id='sl1' title='hello-world4' />, document.getElementB
 /**
  * 4.类组件更新数据 (状态)
  */
-class ShopList extends React.Component {
+/*class ShopList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -71,7 +71,7 @@ class ShopList extends React.Component {
         console.log(this.state);
         // 因为是异步更新，所以上面的打印都不是最新值
 
-        /*
+        /!*
         setTimeout(() => {
             this.setState({number: this.state.number + 1});
             console.log(this.state);
@@ -79,12 +79,12 @@ class ShopList extends React.Component {
             console.log(this.state);
         });
         // 在setTimeout里是同步更新
-        */
+        *!/
 
-        /**
+        /!**
          * 总结: 在React管辖内的地方都是异步的,比如时间处理函数、生命周期函数
          * 在React管辖外的地方都是同步的, 比如setTimeout、setInternal、原生事件处理函数
-         */
+         *!/
     }
     render() {
         return (
@@ -97,4 +97,35 @@ class ShopList extends React.Component {
     }
 }
 
-ReactDOM.render(<ShopList title='统计' />, document.getElementById("root"));
+ReactDOM.render(<ShopList title='统计' />, document.getElementById("root"));*/
+
+/**
+ * 5.ref使用
+ */
+class ShopList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.aRef = React.createRef()
+        this.bRef = React.createRef()
+    }
+    handleClick = () => {
+        let b = this.bRef.current.value
+        this.aRef.current.value = b
+    }
+    render() {
+        /**
+         * 如果给原生组件添加ref属性, 那么当此虚拟dom转真实dom, 会把真实dom赋给this.aref.current
+         */
+        return <div id={this.props.id}  className="title" style={{ color: "red" }}>
+            <div>
+                <input type="text" ref={this.aRef} onClick={this.handleClick} />
+            </div>
+            <div>
+                <input type="text" ref={this.bRef} />
+            </div>
+        </div>
+    }
+}
+
+ReactDOM.render(<ShopList id='sl1' title='ref基础使用' />, document.getElementById("root"));
+
