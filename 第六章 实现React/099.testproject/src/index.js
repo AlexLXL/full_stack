@@ -1,8 +1,8 @@
-import React from "./core/react";
-import ReactDOM from "./core/react-dom";
+// import React from "./core/react";
+// import ReactDOM from "./core/react-dom";
 
-// import React from "react";
-// import ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 
 /**
  * 1.直接定义组件
@@ -102,7 +102,7 @@ ReactDOM.render(<ShopList title='统计' />, document.getElementById("root"));*/
 /**
  * 5.ref使用
  */
-class ShopList extends React.Component {
+/*class ShopList extends React.Component {
     constructor(props) {
         super(props);
         this.aRef = React.createRef()
@@ -113,9 +113,9 @@ class ShopList extends React.Component {
         this.aRef.current.value = b
     }
     render() {
-        /**
+        /!**
          * 如果给原生组件添加ref属性, 那么当此虚拟dom转真实dom, 会把真实dom赋给this.aref.current
-         */
+         *!/
         return <div id={this.props.id}  className="title" style={{ color: "red" }}>
             <div>
                 <input type="text" ref={this.aRef} onClick={this.handleClick} />
@@ -127,5 +127,45 @@ class ShopList extends React.Component {
     }
 }
 
-ReactDOM.render(<ShopList id='sl1' title='ref基础使用' />, document.getElementById("root"));
+ReactDOM.render(<ShopList id='sl1' title='ref基础使用' />, document.getElementById("root"));*/
+
+/**
+ * 5.ref使用（类组件嵌套时）
+ */
+class Form extends React.Component {
+    constructor(props) {
+        super(props);
+        this.inputComponentRef = React.createRef()
+    }
+    handleClick = () => {
+        this.inputComponentRef.current.handleClick()
+    }
+    render() {
+        /**
+         * 如果给原生组件添加ref属性, 那么当此虚拟dom转真实dom, 会把真实dom赋给this.aref.current
+         */
+        return <div id={this.props.id}  className="title" style={{ color: "red" }}>
+            <TextInput ref={this.inputComponentRef} />
+            <button onClick={this.handleClick}>让TextInput聚焦</button>
+        </div>
+    }
+}
+
+class TextInput extends React.Component {
+    constructor(props) {
+        super(props);
+        this.inputRef = React.createRef()
+    }
+    handleClick = () => {
+        this.inputRef.current.focus()
+    }
+    render() {
+        /**
+         * 如果给原生组件添加ref属性, 那么当此虚拟dom转真实dom, 会把真实dom赋给this.aref.current
+         */
+        return <input type="text" ref={this.inputRef} onClick={this.handleClick}/>
+    }
+}
+
+ReactDOM.render(<Form />, document.getElementById("root"));
 
