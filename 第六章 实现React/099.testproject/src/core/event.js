@@ -35,10 +35,15 @@ function dispatchEvent(event) {
     let syntheticEvent = createSyntheticEvent(event);
     let currentTarget = target;
 
-    let { _store } = currentTarget;
-    let eventHandler = _store && _store[eventType]; // 获取当前dom的onclick的事件函数
-    if (eventHandler) {
-        eventHandler.call(target, syntheticEvent);// 执行当前dom的onclick的事件函数
+    while (currentTarget) {
+        let { _store } = currentTarget;
+        let eventHandler = _store && _store[eventType]; // 获取当前dom的onclick的事件函数
+        if (eventHandler) {
+            syntheticEvent.target = target
+            syntheticEvent.currentTarget = currentTarget
+            eventHandler.call(target, syntheticEvent);// 执行当前dom的onclick的事件函数
+        }
+        currentTarget = currentTarget.parentNode
     }
 
     updateQueue.isBatchingUpdate = false;
