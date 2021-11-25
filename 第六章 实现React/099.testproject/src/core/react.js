@@ -2,6 +2,7 @@ import { wrapToVdom } from './utils';
 
 /**
  * 创建一个虚拟DOM，也就是一个React元素
+ * babel默认会调用react.createElement
  * @param {*} type  元素名, span div p
  * @param {*} config 元素属性, className style
  * @param {*} children  元素儿子, 对象/数组
