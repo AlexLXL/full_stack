@@ -26,10 +26,13 @@ export function createDOM(vdom) {
     let dom;                        // 真实DOM
     /**
      * 分类:
-     1. 文本
-     2. div span p
+     * 1. 函数组件
+     * 2. 文本组件
+     * 3. div span p
      */
-    if (type === REACT_TEXT) {
+    if (typeof type === 'function') {
+        dom = mountFunctionComponent(vdom)
+    }else if (type === REACT_TEXT) {
         dom = document.createTextNode(props.content);
     } else {
         dom = document.createElement(type);
@@ -87,6 +90,18 @@ function updateProps(dom, oldProps = {}, newProps = {}) {
             dom[key] = null;
         }
     }
+}
+
+/**
+ * 挂载函数组件
+ * @param vdom 虚拟DOM
+ */
+function mountFunctionComponent(vdom) {
+    let { type, props } = vdom;
+    let oldRenderVdom = type(props);
+    // 后面组件更新用
+    vdom.oldRenderVdom = oldRenderVdom;
+    return createDOM(oldRenderVdom);
 }
 
 /**
