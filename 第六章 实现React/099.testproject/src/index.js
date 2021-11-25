@@ -1,8 +1,8 @@
-import React from "./core/react";
-import ReactDOM from "./core/react-dom";
+// import React from "./core/react";
+// import ReactDOM from "./core/react-dom";
 
-// import React from "react";
-// import ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 
 /**
  * 1.直接定义组件
@@ -132,7 +132,7 @@ ReactDOM.render(<ShopList id='sl1' title='ref基础使用' />, document.getEleme
 /**
  * 5.ref使用（类组件嵌套时）
  */
-class Form extends React.Component {
+/*class Form extends React.Component {
     constructor(props) {
         super(props);
         this.inputComponentRef = React.createRef()
@@ -141,9 +141,9 @@ class Form extends React.Component {
         this.inputComponentRef.current.handleClick()
     }
     render() {
-        /**
+        /!**
          * 如果给原生组件添加ref属性, 那么当此虚拟dom转真实dom, 会把真实dom赋给this.aref.current
-         */
+         *!/
         return <div id={this.props.id}  className="title" style={{ color: "red" }}>
             <TextInput ref={this.inputComponentRef} />
             <button onClick={this.handleClick}>让TextInput聚焦</button>
@@ -160,12 +160,51 @@ class TextInput extends React.Component {
         this.inputRef.current.focus()
     }
     render() {
-        /**
+        /!**
          * 如果给原生组件添加ref属性, 那么当此虚拟dom转真实dom, 会把真实dom赋给this.aref.current
-         */
+         *!/
         return <input type="text" ref={this.inputRef} onClick={this.handleClick}/>
     }
 }
 
-ReactDOM.render(<Form />, document.getElementById("root"));
+ReactDOM.render(<Form />, document.getElementById("root"));*/
 
+
+
+/**
+ * 6.ref使用（类组件嵌套函数组件）
+ */
+
+/**
+ * 不能对函数组件加ref,
+ * 1.需要配合React.forwardRef使用
+ * 2.函数组件需要加参数forwardRef和ref={forwardRef}
+ * @param props
+ * @returns {*}
+ * @constructor
+ */
+function TextInput(props, forwardRef) {
+    return <input type="text" ref={forwardRef} />
+}
+let ForwardedTextInput = React.forwardRef(TextInput)
+
+class Form extends React.Component {
+    constructor(props) {
+        super(props);
+        this.inputComponentRef = React.createRef()
+    }
+    handleClick = () => {
+        this.inputComponentRef.current.focus()
+    }
+    render() {
+        /**
+         * 如果给原生组件添加ref属性, 那么当此虚拟dom转真实dom, 会把真实dom赋给this.aref.current
+         */
+        return <div id={this.props.id}  className="title" style={{ color: "red" }}>
+            <ForwardedTextInput ref={this.inputComponentRef} />
+            <button onClick={this.handleClick}>让TextInput聚焦</button>
+        </div>
+    }
+}
+
+ReactDOM.render(<Form />, document.getElementById("root"));
