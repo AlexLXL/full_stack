@@ -1,5 +1,6 @@
 import { wrapToVdom } from './utils';
 import Component from './Component';
+import {REACT_FORWARD_REF} from './constants'
 
 /**
  * 创建一个虚拟DOM，也就是一个React元素
@@ -51,10 +52,18 @@ function createRef() {
     }
 }
 
+function forwardRef(render) {
+    return {
+        $$typeof: REACT_FORWARD_REF,
+        render
+    }
+}
+
 const React = {
     createElement,
     Component,
     createRef,
+    forwardRef
 }
 
 export default React;

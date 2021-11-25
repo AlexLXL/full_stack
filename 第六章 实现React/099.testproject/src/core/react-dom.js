@@ -1,4 +1,4 @@
-import {REACT_TEXT} from './constants'
+import {REACT_TEXT, REACT_FORWARD_REF} from './constants'
 import {addEvent} from "./event";
 
 /**
@@ -27,11 +27,14 @@ export function createDOM(vdom) {
     let dom;                        // 真实DOM
     /**
      * 分类:
-     * 1. 函数组件、类组件
-     * 2. 文本组件
-     * 3. div span p
+     * 1. React.forwardRef包装过的函数组件
+     * 2. 函数组件、类组件
+     * 3. 文本组件
+     * 4. div span p
      */
-    if (typeof type === 'function') {
+    if (type && type.$$typeof === REACT_FORWARD_REF) {
+        dom = mountForwardRefComponent(vdom)
+    }else if (typeof type === 'function') {
         if (type.isReactComponent) {
             dom = mountClassComponent(vdom)
         }else {
@@ -109,6 +112,17 @@ function updateProps(dom, oldProps = {}, newProps = {}) {
             dom[key] = null;
         }
     }
+}
+
+/**
+ * 挂载类组件
+ * @param vdom 虚拟DOM
+ */
+function mountForwardRefComponent(vdom) {
+    let {type, props, ref} = vdom
+    let oldRenderVdom = type.render(props, ref)
+    vdom.oldRenderVdom = oldRenderVdom;
+    return createDOM(oldRenderVdom);
 }
 
 /**
