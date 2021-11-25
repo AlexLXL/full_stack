@@ -15,6 +15,7 @@ function mount(vdom, parentDOM) {
     let newDOM = createDOM(vdom)
     if (newDOM) {
         parentDOM.appendChild(newDOM);
+        if (newDOM._componentDidMount) newDOM._componentDidMount()
     }
 }
 
@@ -133,10 +134,17 @@ function mountClassComponent(vdom) {
     let { type: ClassComponent, props, ref } = vdom;
     let classInstance = new ClassComponent(props);
     if (ref) (ref.current = classInstance)
+    if (classInstance.componentWillMount) {
+        classInstance.componentWillMount()
+    }
     let oldRenderVdom = classInstance.render();
     // 后面组件更新用
     classInstance.oldRenderVdom = vdom.oldRenderVdom = oldRenderVdom;
-    return createDOM(oldRenderVdom);
+    let dom = createDOM(oldRenderVdom);
+    if (classInstance.componentDidMount) {
+        dom._componentDidMount = classInstance.componentDidMount.bind(classInstance)
+    }
+    return dom
 }
 
 /**
