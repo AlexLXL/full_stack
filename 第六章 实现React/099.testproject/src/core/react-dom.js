@@ -64,7 +64,7 @@ export function createDOM(vdom) {
         }
     }
     vdom.dom = dom; // 让虚拟DOM的dom属性指向这个虚拟DOM对应的真实DOM
-    if (ref) ref.current = dom
+    if (ref && !ref.current) ref.current = dom
     return dom;
 }
 
@@ -116,8 +116,9 @@ function updateProps(dom, oldProps = {}, newProps = {}) {
  * @param vdom 虚拟DOM
  */
 function mountClassComponent(vdom) {
-    let { type: ClassComponent, props } = vdom;
+    let { type: ClassComponent, props, ref } = vdom;
     let classInstance = new ClassComponent(props);
+    if (ref) (ref.current = classInstance)
     let oldRenderVdom = classInstance.render();
     // 后面组件更新用
     classInstance.oldRenderVdom = vdom.oldRenderVdom = oldRenderVdom;
