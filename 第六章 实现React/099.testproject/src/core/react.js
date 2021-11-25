@@ -45,9 +45,16 @@ function createElement(type, config, children) {
     return { type, ref, key, props };
 }
 
+function createRef() {
+    return {
+        current: null
+    }
+}
+
 const React = {
     createElement,
     Component,
+    createRef,
 }
 
 export default React;

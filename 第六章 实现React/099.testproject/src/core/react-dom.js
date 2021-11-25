@@ -64,6 +64,7 @@ export function createDOM(vdom) {
         }
     }
     vdom.dom = dom; // 让虚拟DOM的dom属性指向这个虚拟DOM对应的真实DOM
+    if (ref) ref.current = dom
     return dom;
 }
 
