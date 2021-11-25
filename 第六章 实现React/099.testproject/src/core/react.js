@@ -1,4 +1,5 @@
 import { wrapToVdom } from './utils';
+import Component from './Component';
 
 /**
  * 创建一个虚拟DOM，也就是一个React元素
@@ -42,15 +43,6 @@ function createElement(type, config, children) {
      * }
      */
     return { type, ref, key, props };
-}
-
-class Component {
-    // 标识是react组件
-    // 源码是通过Component.prototype.isReactComponent = true来标识
-    static isReactComponent = true
-    constructor(props) {
-        this.props = props
-    }
 }
 
 const React = {

@@ -110,7 +110,7 @@ function mountClassComponent(vdom) {
     let classInstance = new ClassComponent(props);
     let oldRenderVdom = classInstance.render();
     // 后面组件更新用
-    vdom.oldRenderVdom = oldRenderVdom;
+    classInstance.oldRenderVdom = vdom.oldRenderVdom = oldRenderVdom;
     return createDOM(oldRenderVdom);
 }
 
@@ -137,8 +137,21 @@ function reconcileChildren(childrenVdom, parentDOM) {
     });
 }
 
+/**
+ * 根据旧的vdom查找旧的真实dom
+ */
+export function findDOM(vdom) {
+    let dom
+    if (vdom.dom) {
+        return vdom.dom
+    }else {
+        return vdom.oldRenderVdom
+    }
+}
+
 const ReactDOM = {
     render,
+    findDOM
 }
 
 export default ReactDOM;
