@@ -1,8 +1,8 @@
-import React from "./core/react";
-import ReactDOM from "./core/react-dom";
+// import React from "./core/react";
+// import ReactDOM from "./core/react-dom";
 
-// import React from "react";
-// import ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 
 /**
  * 1.直接定义组件
@@ -183,6 +183,7 @@ ReactDOM.render(<Form />, document.getElementById("root"));*/
  * @returns {*}
  * @constructor
  */
+/*
 function TextInput(props, forwardRef) {
     return <input type="text" ref={forwardRef} />
 }
@@ -197,9 +198,9 @@ class Form extends React.Component {
         this.inputComponentRef.current.focus()
     }
     render() {
-        /**
+        /!**
          * 如果给原生组件添加ref属性, 那么当此虚拟dom转真实dom, 会把真实dom赋给this.aref.current
-         */
+         *!/
         return <div id={this.props.id}  className="title" style={{ color: "red" }}>
             <ForwardedTextInput ref={this.inputComponentRef} />
             <button onClick={this.handleClick}>让TextInput聚焦</button>
@@ -207,4 +208,51 @@ class Form extends React.Component {
     }
 }
 
-ReactDOM.render(<Form />, document.getElementById("root"));
+ReactDOM.render(<Form />, document.getElementById("root"));*/
+
+
+/**
+ * 7.生命周期的Mounting、Updation、Unmounting
+ * 见: ./img/react15_lifecycle2.jpg
+ */
+class Counter extends React.Component {
+    static defaultProps = {
+        name: 'alex'
+    }
+    constructor(props) {
+        super(props);
+        this.state = {count: 0}
+        console.log(`lifecycle-mounting 1_constructor`)
+    }
+    componentWillMount() {
+        console.log(`lifecycle-mounting 2_componentWillMount`)
+    }
+    handleClick = (event) => {
+        this.setState({count: this.state.count + 1})
+    }
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        console.log(`lifecycle-updation I_shouldComponentUpdate`)
+        return nextState.count % 2 === 0    // 偶数更新
+    }
+    componentWillUpdate(nextProps, nextState, nextContext) {
+        console.log(`lifecycle-updation II_componentWillUpdate`)
+    }
+    render() {
+        console.log(`lifecycle-mounting 3_render`)
+        return (
+            <div>
+                <p>count: {this.state.count}</p>
+                <button onClick={this.handleClick}>+</button>
+            </div>
+        )
+    }
+    componentDidMount() {
+        console.log(`lifecycle-mounting 4_componentDidMount`)
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(`lifecycle-updation III_componentWillUpdate`)
+    }
+}
+
+
+ReactDOM.render(<Counter />, document.getElementById("root"));
