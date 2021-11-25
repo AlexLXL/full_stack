@@ -21,8 +21,7 @@ class Component {
         let oldRenderVdom = this.oldRenderVdom
         let oldRealDOM = findDOM(oldRenderVdom)
         let newRenderVdom = this.render()
-        let newRealDOM = createDOM(newRenderVdom)
-        oldRealDOM.parentNode.replaceChild(newRealDOM, oldRealDOM)
+        compareToVdom(oldRealDOM.parentNode, oldRenderVdom, newRenderVdom)
         this.oldRenderVdom = newRenderVdom
     }
 }

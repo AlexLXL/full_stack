@@ -149,6 +149,12 @@ export function findDOM(vdom) {
     }
 }
 
+export function compareToVdom(parentDom, oldRenderVdom, newRenderVdom) {
+    let oldRealDOM = findDOM(oldRenderVdom)
+    let newRealDOM = createDOM(newRenderVdom)
+    parentDom.replaceChild(newRealDOM, oldRealDOM)
+}
+
 const ReactDOM = {
     render,
     findDOM
