@@ -1,5 +1,17 @@
 import {createDOM, findDOM, compareToVdom} from './react-dom'
 
+export let updateQueue = {
+    isBatchingUpdate: false, // 默认值是非批量更新, 同步更新
+    updaters: [],
+    batchUpdate() {
+        for (let updater of updateQueue.updaters) {
+            updater.updateComponent()
+        }
+        updateQueue.updaters.length = 0
+        updateQueue.isBatchingUpdate = false
+    }
+}
+
 class Component {
     // 标识是react组件
     // 源码是通过Component.prototype.isReactComponent = true来标识
@@ -39,7 +51,11 @@ class Updater {
     }
 
     emitUpdate() {
-        this.updateComponent();
+        if (updateQueue.isBatchingUpdate) {
+            updateQueue.updaters.push(this)
+        }else {
+            this.updateComponent();
+        }
     }
 
     updateComponent() {

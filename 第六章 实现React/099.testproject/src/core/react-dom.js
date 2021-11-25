@@ -1,4 +1,5 @@
 import {REACT_TEXT} from './constants'
+import {addEvent} from "./event";
 
 /**
  * 1.虚拟DOM变成真实DOM
@@ -89,7 +90,15 @@ function updateProps(dom, oldProps = {}, newProps = {}) {
                 dom.style[attr] = styleObj[attr];
             }
         }else if (key.startsWith('on')) {
-            dom[key.toLocaleLowerCase()] = newProps[key]
+            // dom[key.toLocaleLowerCase()] = newProps[key]
+            /**
+             * 目的: 批量异步更新, 需要在事件回调前后添加一些代码来进行异步更新
+             *
+             * React17前会把事件绑定到document上
+             * React17后把事件绑定到了应用根节点root上
+             * 通过冒泡的方式触发事件
+             */
+            addEvent(dom, key.toLocaleLowerCase(), newProps[key])
         } else {
             dom[key] = newProps[key];
         }

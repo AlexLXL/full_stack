@@ -1,8 +1,8 @@
-// import React from "./core/react";
-// import ReactDOM from "./core/react-dom";
+import React from "./core/react";
+import ReactDOM from "./core/react-dom";
 
-import React from "react";
-import ReactDOM from "react-dom";
+// import React from "react";
+// import ReactDOM from "react-dom";
 
 /**
  * 1.直接定义组件
@@ -71,6 +71,7 @@ class ShopList extends React.Component {
         console.log(this.state);
         // 因为是异步更新，所以上面的打印都不是最新值
 
+        /*
         setTimeout(() => {
             this.setState({number: this.state.number + 1});
             console.log(this.state);
@@ -78,6 +79,7 @@ class ShopList extends React.Component {
             console.log(this.state);
         });
         // 在setTimeout里是同步更新
+        */
 
         /**
          * 总结: 在React管辖内的地方都是异步的,比如时间处理函数、生命周期函数
