@@ -41,8 +41,6 @@ export function createDOM(vdom) {
         }else {
             dom = mountFunctionComponent(vdom)
         }
-    }else if (typeof type === 'function') {
-        dom = mountFunctionComponent(vdom)
     }else if (type === REACT_TEXT) {
         dom = document.createTextNode(props.content);
     } else {
@@ -144,6 +142,7 @@ function mountClassComponent(vdom) {
     if (classInstance.componentDidMount) {
         dom._componentDidMount = classInstance.componentDidMount.bind(classInstance)
     }
+    vdom.classInstance = classInstance
     return dom
 }
 
@@ -174,18 +173,133 @@ function reconcileChildren(childrenVdom, parentDOM) {
  * 根据旧的vdom查找旧的真实dom
  */
 export function findDOM(vdom) {
-    let dom
+    if (!vdom) return null
     if (vdom.dom) {
         return vdom.dom
     }else {
-        return vdom.oldRenderVdom
+        let renderVdom = vdom.classInstance ? vdom.classInstance.oldRenderVdom : vdom.oldRenderVdom;
+        return findDOM(renderVdom);
     }
 }
 
-export function compareToVdom(parentDom, oldRenderVdom, newRenderVdom) {
-    let oldRealDOM = findDOM(oldRenderVdom)
+export function compareToVdom(parentDom, oldRenderVdom, newRenderVdom, nextRealdom) {
+    /**
+     * 分类:
+     * 1. 新老虚拟节点都没有
+     * 2. 老的有, 新没有 (react条件判断删掉, 等同vue的v-if删掉) 【如: this.state.count === 4 ? null : <ChildCounter count={this.state.count} />}】
+     * 3. 老没有, 新的有 (同上)
+     * 4. 老的有, 新的有
+     */
+    if (!oldRenderVdom && !newRenderVdom) {
+        return null
+    }else if (oldRenderVdom && !newRenderVdom) {
+        unMountVnode(oldRenderVdom);
+    }else if (!oldRenderVdom && newRenderVdom) {
+        let newRealDOM = createDOM(newRenderVdom)
+        if(nextRealdom) {
+            parentDom.insertBefore(newRealDOM, nextRealdom)
+        }else {
+            parentDom.appendChild(newRealDOM)
+        }
+        if (newRealDOM._componentDidMount) newRealDOM._componentDidMount()
+    }else if (oldRenderVdom && newRenderVdom && oldRenderVdom.type !== newRenderVdom.type) {
+        unMountVnode(oldRenderVdom);
+        let newRealDOM = createDOM(newRenderVdom)
+        if(nextRealdom) {
+            parentDom.insertBefore(newRealDOM, nextRealdom)
+        }else {
+            parentDom.appendChild(newRealDOM)
+        }
+        if (newRealDOM._componentDidMount) newRealDOM._componentDidMount()
+    }else if (oldRenderVdom && newRenderVdom && oldRenderVdom.type === newRenderVdom.type) {
+        // 复用老节点, 深度对比更新即可
+        updateElement(oldRenderVdom, newRenderVdom)
+    }
+    /*let oldRealDOM = findDOM(oldRenderVdom)
     let newRealDOM = createDOM(newRenderVdom)
-    parentDom.replaceChild(newRealDOM, oldRealDOM)
+    parentDom.replaceChild(newRealDOM, oldRealDOM)*/
+}
+
+function unMountVnode(vdom) {
+    let {props, ref} = vdom
+    let currentDOM = findDOM(vdom)
+    /**
+     * 分类:
+     * 1. 类组件
+     * 2. 函数组件
+     * 3. 原生组件div
+     */
+    if (vdom.classInstance && vdom.classInstance.componentWillUnmount) {
+        vdom.classInstance.componentWillUnmount()
+    }
+    if (props && ref) ref.current = null
+    // 取消监听函数
+    Object.keys(props).forEach(propName => {
+        if (propName.slice(0, 2) === 'on') {
+            delete currentDOM._store
+        }
+    })
+    if (props.children) {
+        let children = Array.isArray(props.children) ? props.children : [props.children]
+        children.forEach(children)
+    }
+    currentDOM && currentDOM.parentNode.removeChild(currentDOM)
+}
+
+function updateElement(oldVdom, newVdom) {
+    /**
+     * 分类:
+     * 1. 纯文本:　字符串或数字
+     *    1.1 内容不同, 更新内容
+     * 2. 原生组件: div、span
+     * 3. 类组件或函数组件
+     */
+    if (oldVdom.type === REACT_TEXT) {
+        if (oldVdom.props.content !== newVdom.props.content) {
+            let currentDOM = newVdom.dom = findDOM(oldVdom)
+            currentDOM.textContent = newVdom.props.content
+        }
+    }else if (typeof oldVdom.type === 'string') {
+        let currentDOM = newVdom.dom = findDOM(oldVdom)
+        updateProps(currentDOM, oldVdom.props, newVdom.props)
+        updateChildren(currentDOM, oldVdom.props.children, newVdom.props.children) // 递归对比
+    }else if (typeof oldVdom.type === 'function') {
+        if (oldVdom.type.isReactComponent) {
+            updateClassComponent(oldVdom, newVdom)
+        }else {
+            updateFunctionComponent(oldVdom, newVdom)
+        }
+    }
+}
+
+function updateChildren(parentDOM, oldChildrenVdom, newChildrenVdom) {
+    oldChildrenVdom = Array.isArray(oldChildrenVdom) ? oldChildrenVdom : oldChildrenVdom ? [oldChildrenVdom] : []
+    newChildrenVdom = Array.isArray(newChildrenVdom) ? newChildrenVdom : newChildrenVdom ? [newChildrenVdom] : []
+    let maxChildrenLength = Math.max(oldChildrenVdom.length, newChildrenVdom.length)
+    for (let i = 0; i < maxChildrenLength; i++) {
+        let nextVdom = oldChildrenVdom.find((item, index) => {
+            return (index > i) && item && findDOM(item)
+        })
+        compareToVdom(parentDOM, oldChildrenVdom[i], newChildrenVdom[i], findDOM(nextVdom))
+    }
+}
+
+function updateClassComponent(oldVdom, newVdom) {
+    let classInstance = newVdom.classInstance = oldVdom.classInstance
+    let oldRenderVdom = newVdom.oldRenderVdom = oldVdom.oldRenderVdom
+    if (classInstance.componentWillReceiveProps) {
+        classInstance.componentWillReceiveProps()
+    }
+    classInstance.updater.emitUpdate(newVdom.props)
+}
+
+function updateFunctionComponent(oldVdom, newVdom) {
+    let currentDOM = findDOM(oldVdom)
+    let parentDOM = currentDOM.parentNode
+    let {type, props} = newVdom
+    let newRenderVdom = type(props)
+    compareToVdom(parentDOM, oldVdom.oldRenderVdom, newRenderVdom)
+    newVdom.oldRenderVdom = newRenderVdom
 }
 
 const ReactDOM = {

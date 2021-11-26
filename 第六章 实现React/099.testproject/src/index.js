@@ -1,8 +1,8 @@
-// import React from "./core/react";
-// import ReactDOM from "./core/react-dom";
+import React from "./core/react";
+import ReactDOM from "./core/react-dom";
 
-import React from "react";
-import ReactDOM from "react-dom";
+// import React from "react";
+// import ReactDOM from "react-dom";
 
 /**
  * 1.直接定义组件
@@ -239,9 +239,8 @@ class Counter extends React.Component {
         return (
             <div>
                 <p>count: {this.state.count}</p>
-                <button onClick={this.handleClick}>+</button>
-                <br/>
                 {this.state.count === 4 ? null : <ChildCounter count={this.state.count} />}
+                <button onClick={this.handleClick}>+</button>
             </div>
         )
     }
