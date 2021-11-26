@@ -37,10 +37,11 @@ class Component {
             let newState = this.constructor.getDerivedStateFromProps(this.props, this.state)
             if (newState) this.state = { ...this.state, ...newState }
         }
+        let snapshot = this.getSnapshotBeforeUpdate && this.getSnapshotBeforeUpdate()
         compareToVdom(oldRealDOM.parentNode, oldRenderVdom, newRenderVdom)
         this.oldRenderVdom = newRenderVdom
         if (this.componentDidUpdate) {
-            this.componentDidUpdate()
+            this.componentDidUpdate(this.props, this.state, snapshot)
         }
     }
 }
