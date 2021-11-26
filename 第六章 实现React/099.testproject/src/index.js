@@ -1,8 +1,10 @@
-import React from "./core/react";
-import ReactDOM from "./core/react-dom";
+// import React from "./core/react";
+// import ReactDOM from "./core/react-dom";
 
-// import React from "react";
-// import ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
+
+let ThemeContext = React.createContext()
 
 /**
  * 1.直接定义组件
@@ -377,7 +379,7 @@ ReactDOM.render(<Counter />, document.getElementById("root"));*/
 /**
  * 10.React16生命周期 - getSnapshotBeforeUpdate
  */
-class ScrollList extends React.Component {
+/*class ScrollList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -392,14 +394,14 @@ class ScrollList extends React.Component {
         })
     }
 
-    /**
+    /!**
      * getSnapshotBeforeUpdate
      *  - 给更新前来一个快照, 可以用于和更新后对比
      *  - 返回值给componentDidUpdate
      * @param prevProps
      * @param prevState
      * @returns {{prevScrollHeoght: number, prevScrollTop: *}}
-     */
+     *!/
     getSnapshotBeforeUpdate(prevProps, prevState) {
         return {
             prevScrollTop: this.wrapperRef.current.scrollTop,
@@ -442,5 +444,74 @@ class ScrollList extends React.Component {
     }
 }
 
-ReactDOM.render(<ScrollList/>, document.getElementById("root"));
+ReactDOM.render(<ScrollList/>, document.getElementById("root"));*/
+
+/**
+ * 11.使用Context上下文, 用于爷孙组件通信
+ * 类似vue的provide/inject
+ *
+ * 1. 创建context - let ThemeContext = React.createContext()
+ * 2. 父组件传出去 - <ThemeContext.Provider value={value}> ...  </ThemeContext.Provider>
+ * 3. 子组件接受 - static contextType = ThemeContext
+ * 4. 子组件使用 - this.context.color
+ */
+class Page extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            color: 'skyblue'
+        }
+    }
+
+    changeColor = (color) => {
+        this.setState({
+            color
+        })
+    }
+
+    render() {
+        let value = {color: this.state.color, changeColor: this.changeColor}
+        return (
+            <ThemeContext.Provider value={value}>
+                <div style={{border: `3px solid ${this.state.color}`, width: '200px', height: '300px', padding: '5px'}}>
+                    Page
+                    <Header />
+                </div>
+            </ThemeContext.Provider>
+        );
+    }
+}
+
+class Header extends React.Component {
+    static contextType = ThemeContext
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <div style={{border: `3px solid ${this.context.color}`, padding: '5px'}}>
+                Header
+                <Title />
+            </div>
+        )
+    }
+}
+
+class Title extends React.Component {
+    static contextType = ThemeContext
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <div style={{border: `3px solid ${this.context.color}`, padding: '5px'}}>
+                Title
+                <button onClick={() => this.context.changeColor('orange')}>橙色</button>
+                <button onClick={() => this.context.changeColor('greenyellow')}>黄色</button>
+            </div>
+        )
+    }
+}
+
+ReactDOM.render(<Page/>, document.getElementById("root"));
 
