@@ -68,7 +68,7 @@ class Updater {
     updateComponent() {
         let {classInstance, nextProps, pendingStates} = this
         if (nextProps || pendingStates.length > 0) {
-            shouldUpdate(classInstance, this.nextProps, this.getState())
+            shouldUpdate(classInstance, nextProps, this.getState())
         }
     }
 
