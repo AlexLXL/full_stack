@@ -33,6 +33,10 @@ class Component {
         let oldRenderVdom = this.oldRenderVdom
         let oldRealDOM = findDOM(oldRenderVdom)
         let newRenderVdom = this.render()
+        if (this.constructor.getDerivedStateFromProps) {
+            let newState = this.constructor.getDerivedStateFromProps(this.props, this.state)
+            if (newState) this.state = { ...this.state, ...newState }
+        }
         compareToVdom(oldRealDOM.parentNode, oldRenderVdom, newRenderVdom)
         this.oldRenderVdom = newRenderVdom
         if (this.componentDidUpdate) {
