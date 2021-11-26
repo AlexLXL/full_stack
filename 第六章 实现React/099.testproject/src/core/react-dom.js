@@ -344,16 +344,46 @@ function updateChildren(parentDOM, oldChildrenVdom, newChildrenVdom) {
         }
     });
 
-    Object.values(keyedOldMap).forEach(oldVChild => {
+    /*Object.values(keyedOldMap).forEach(oldVChild => {
         patch.push({
             type: DELETION,
             oldVChild,
             fromIndex: oldVChild._mountIndex
         })
+    });*/
+    // 不记录删除操作, 直接删
+    const moveChilds = patch.filter(action => action.type === MOVE).map(action => action.oldVChild);
+    Object.values(keyedOldMap).concat(moveChilds).forEach(oldVChild => {
+        let currentDOM = findDOM(oldVChild);
+        currentDOM.parentNode.removeChild(currentDOM);
+    });
+
+    /**
+     * 4.执行操作
+     */
+    patch.forEach(action => {
+        let {type, oldVChild, newVChild, fromIndex, toIndex} = action;
+        let childNodes = parentDOM.childNodes; //获取真实的子DOM元素的集合[A,C,E]
+        if (type === PLACEMENT) {
+            let newDOM = createDOM(newVChild); //根据虚拟DOM创建真实DOM
+            let childDOMNode = childNodes[toIndex]; //找一下目标索引现在对应的真实DOM元素
+            if (childDOMNode) { //如果此位置 上已经 有DOM元素的，插入到它前面是
+                parentDOM.insertBefore(newDOM, childDOMNode);
+            } else {
+                parentDOM.appendChild(newDOM); //添加到最后就可以了
+            }
+        } else if (type === MOVE) {
+            let oldDOM = findDOM(oldVChild); //找到老的真实DOM 还可以把内存中的B取到，插入到指定的位置 B
+            let childDOMNode = childNodes[toIndex]; //找一下目标索引现在对应的真实DOM元素
+            if (childDOMNode) { //如果此位置 上已经 有DOM元素的，插入到它前面是
+                parentDOM.insertBefore(oldDOM, childDOMNode);
+            } else {
+                parentDOM.appendChild(oldDOM); //添加到最后就可以了
+            }
+        }
     });
     
-    console.log(patch)
-    
+
 
     
     /*let maxChildrenLength = Math.max(oldChildrenVdom.length, newChildrenVdom.length)
