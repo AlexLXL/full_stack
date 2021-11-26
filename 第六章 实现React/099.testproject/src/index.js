@@ -452,8 +452,10 @@ ReactDOM.render(<ScrollList/>, document.getElementById("root"));*/
  *
  * 1. 创建context - let ThemeContext = React.createContext()
  * 2. 父组件传出去 - <ThemeContext.Provider value={value}> ...  </ThemeContext.Provider>
- * 3. 子组件接受 - static contextType = ThemeContext
- * 4. 子组件使用 - this.context.color
+ * 3. 类子组件接收 - static contextType = ThemeContext
+ * 4. 子类组件使用 - this.context.color
+ *
+ * 5. 函数组件接收、使用 - <ThemeContext.Consumer>{value => {}</ThemeContext.Consumer>
  */
 class Page extends React.Component {
     constructor(props) {
@@ -497,20 +499,36 @@ class Header extends React.Component {
     }
 }
 
-class Title extends React.Component {
-    static contextType = ThemeContext
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <div style={{border: `3px solid ${this.context.color}`, padding: '5px'}}>
-                Title
-                <button onClick={() => this.context.changeColor('orange')}>橙色</button>
-                <button onClick={() => this.context.changeColor('greenyellow')}>黄色</button>
-            </div>
-        )
-    }
+// class Title extends React.Component {
+//     static contextType = ThemeContext
+//     constructor(props) {
+//         super(props);
+//     }
+//     render() {
+//         return (
+//             <div style={{border: `3px solid ${this.context.color}`, padding: '5px'}}>
+//                 Title
+//                 <button onClick={() => this.context.changeColor('orange')}>橙色</button>
+//                 <button onClick={() => this.context.changeColor('greenyellow')}>黄色</button>
+//             </div>
+//         )
+//     }
+// }
+
+function Title() {
+    return (
+        <ThemeContext.Consumer>
+            {
+                value => (
+                    <div style={{border: `3px solid ${value.color}`, padding: '5px'}}>
+                        Title
+                        <button onClick={() => value.changeColor('orange')}>橙色</button>
+                        <button onClick={() => value.changeColor('greenyellow')}>黄色</button>
+                    </div>
+                )
+            }
+        </ThemeContext.Consumer>
+    )
 }
 
 ReactDOM.render(<Page/>, document.getElementById("root"));
