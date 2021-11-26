@@ -29,7 +29,7 @@ function createElement(type, config, children) {
     if (arguments.length > 3) {
         props.children = Array.prototype.slice.call(arguments, 2).map(wrapToVdom);
     } else {
-        props.children = children.map(wrapToVdom)
+        props.children = wrapToVdom(children);
     }
 
     /**
