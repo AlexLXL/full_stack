@@ -1,8 +1,8 @@
-// import React from "./core/react";
-// import ReactDOM from "./core/react-dom";
+import React from "./core/react";
+import ReactDOM from "./core/react-dom";
 
-import React from "react";
-import ReactDOM from "react-dom";
+// import React from "react";
+// import ReactDOM from "react-dom";
 
 /**
  * 1.直接定义组件
@@ -325,9 +325,8 @@ ReactDOM.render(<WorkList />, document.getElementById('root'))*/
 
 /**
  * 9.React16生命周期 - getDerivedStateFromProps
- *
  */
-class Counter extends React.Component {
+/*class Counter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {count: 0}
@@ -353,9 +352,9 @@ class ChildCounter extends React.Component {
             number: 0,
         }
     }
-    /**
+    /!**
      * 通过props修改该组件的this.state.number
-     */
+     *!/
     static getDerivedStateFromProps(nextProps, prevState) {
         let { count } = nextProps
         if (count % 2 === 0) {
@@ -373,5 +372,75 @@ class ChildCounter extends React.Component {
     }
 }
 
-ReactDOM.render(<Counter />, document.getElementById("root"));
+ReactDOM.render(<Counter />, document.getElementById("root"));*/
+
+/**
+ * 10.React16生命周期 - getSnapshotBeforeUpdate
+ */
+class ScrollList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            messages: []
+        }
+        this.wrapperRef = React.createRef();
+    }
+
+    addMessage = () => {
+        this.setState({
+            messages: [`${this.state.messages.length}`, ...this.state.messages]
+        })
+    }
+
+    /**
+     * getSnapshotBeforeUpdate
+     *  - 给更新前来一个快照, 可以用于和更新后对比
+     *  - 返回值给componentDidUpdate
+     * @param prevProps
+     * @param prevState
+     * @returns {{prevScrollHeoght: number, prevScrollTop: *}}
+     */
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        return {
+            prevScrollTop: this.wrapperRef.current.scrollTop,
+            prevScrollHeoght: this.wrapperRef.current.scrollHeight,
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        let {prevScrollTop, prevScrollHeoght} = snapshot
+        let scrollHeightDiff = this.wrapperRef.current.scrollHeight - prevScrollHeoght
+        this.wrapperRef.current.scrollTop = prevScrollTop + scrollHeightDiff
+    }
+
+    componentDidMount() {
+        this.timer = setInterval(() => {
+            this.addMessage()
+        }, 1000)
+    }
+
+    render() {
+        let style = {
+            height: '100px',
+            width: '200px',
+            border: '1px solid red',
+            overflow: 'auto'
+        }
+        return (
+            <div style={style} ref={this.wrapperRef}>
+                {
+                    this.state.messages.map((message, index) => (
+                        <div key={index}>{message}</div>
+                    ))
+                }
+            </div>
+        )
+    }
+
+    handleClick = (event) => {
+        this.setState({count: this.state.count + 1})
+    }
+}
+
+ReactDOM.render(<ScrollList/>, document.getElementById("root"));
 
