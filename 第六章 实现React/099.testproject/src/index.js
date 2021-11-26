@@ -1,8 +1,8 @@
-import React from "./core/react";
-import ReactDOM from "./core/react-dom";
+// import React from "./core/react";
+// import ReactDOM from "./core/react-dom";
 
-// import React from "react";
-// import ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 
 /**
  * 1.直接定义组件
@@ -296,7 +296,7 @@ ReactDOM.render(<Counter />, document.getElementById("root"));*/
 /**
  * 8.DOM-DIFF
  */
-class WorkList extends React.Component {
+/*class WorkList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -321,5 +321,57 @@ class WorkList extends React.Component {
         )
     }
 }
-ReactDOM.render(<WorkList />, document.getElementById('root'))
+ReactDOM.render(<WorkList />, document.getElementById('root'))*/
+
+/**
+ * 9.React16生命周期 - getDerivedStateFromProps
+ *
+ */
+class Counter extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {count: 0}
+    }
+    render() {
+        return (
+            <div>
+                <p>count: {this.state.count}</p>
+                <ChildCounter count={this.state.count} />
+                <button onClick={this.handleClick}>+</button>
+            </div>
+        )
+    }
+    handleClick = (event) => {
+        this.setState({count: this.state.count + 1})
+    }
+}
+
+class ChildCounter extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            number: 0,
+        }
+    }
+    /**
+     * 通过props修改该组件的this.state.number
+     */
+    static getDerivedStateFromProps(nextProps, prevState) {
+        let { count } = nextProps
+        if (count % 2 === 0) {
+            return {number: count * 2}
+        }else {
+            return {number: count * 3}
+        }
+    }
+    render() {
+        return (
+            <div>
+                我是子组件{this.state.number}
+            </div>
+        )
+    }
+}
+
+ReactDOM.render(<Counter />, document.getElementById("root"));
 
