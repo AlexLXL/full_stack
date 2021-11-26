@@ -1,8 +1,8 @@
-import React from "./core/react";
-import ReactDOM from "./core/react-dom";
+// import React from "./core/react";
+// import ReactDOM from "./core/react-dom";
 
-// import React from "react";
-// import ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 
 /**
  * 1.直接定义组件
@@ -169,12 +169,9 @@ class TextInput extends React.Component {
 
 ReactDOM.render(<Form />, document.getElementById("root"));*/
 
-
-
 /**
  * 6.ref使用（类组件嵌套函数组件）
  */
-
 /**
  * 不能对函数组件加ref,
  * 1.需要配合React.forwardRef使用
@@ -210,12 +207,11 @@ class Form extends React.Component {
 
 ReactDOM.render(<Form />, document.getElementById("root"));*/
 
-
 /**
  * 7.生命周期的Mounting、Updation、Unmounting
  * 见: ./img/react15_lifecycle2.jpg
  */
-class Counter extends React.Component {
+/*class Counter extends React.Component {
     static defaultProps = {
         name: 'alex'
     }
@@ -295,4 +291,35 @@ class ChildCounter extends React.Component {
     }
 }
 
-ReactDOM.render(<Counter />, document.getElementById("root"));
+ReactDOM.render(<Counter />, document.getElementById("root"));*/
+
+/**
+ * 8.DOM-DIFF
+ */
+class WorkList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            list: ['A', 'B', 'C', 'D', 'E', 'F']
+        }
+    }
+    handleClick = () => {
+        this.setState({
+            list: ['A', 'C', 'E', 'B', 'G']
+        })
+    }
+    render() {
+        return (
+            <React.Fragment>
+                <ul>
+                    {
+                        this.state.list.map(item => <li key={item}>{item}</li>)
+                    }
+                </ul>
+                <button onClick={this.handleClick}>+</button>
+            </React.Fragment>
+        )
+    }
+}
+ReactDOM.render(<WorkList />, document.getElementById('root'))
+
