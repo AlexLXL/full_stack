@@ -1,4 +1,4 @@
-import {REACT_TEXT, REACT_FORWARD_REF} from './constants'
+import {REACT_TEXT, REACT_FORWARD_REF, REACT_FRAGMENT} from './constants'
 import {addEvent} from "./event";
 
 /**
@@ -28,12 +28,15 @@ export function createDOM(vdom) {
     let dom;                        // 真实DOM
     /**
      * 分类:
-     * 1. React.forwardRef包装过的函数组件
-     * 2. 函数组件、类组件
-     * 3. 文本组件
-     * 4. div span p
+     * 1. React.Fragment
+     * 2. React.forwardRef包装过的函数组件
+     * 3. 函数组件、类组件
+     * 4. 文本组件
+     * 5. div span p
      */
-    if (type && type.$$typeof === REACT_FORWARD_REF) {
+    if (type === REACT_FRAGMENT) {
+        dom = document.createDocumentFragment()
+    }else if (type && type.$$typeof === REACT_FORWARD_REF) {
         dom = mountForwardRefComponent(vdom)
     }else if (typeof type === 'function') {
         if (type.isReactComponent) {
@@ -253,6 +256,7 @@ function updateElement(oldVdom, newVdom) {
      *    1.1 内容不同, 更新内容
      * 2. 原生组件: div、span
      * 3. 类组件或函数组件
+     * 4. React.Fragment
      */
     if (oldVdom.type === REACT_TEXT) {
         if (oldVdom.props.content !== newVdom.props.content) {
@@ -269,6 +273,9 @@ function updateElement(oldVdom, newVdom) {
         }else {
             updateFunctionComponent(oldVdom, newVdom)
         }
+    }else if (oldVdom.type === REACT_FRAGMENT) {
+        let currentDOM = newVdom.dom = findDOM(oldVdom)
+        updateChildren(currentDOM, oldVdom.props.children, newVdom.props.children)
     }
 }
 
