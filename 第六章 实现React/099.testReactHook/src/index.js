@@ -1,9 +1,8 @@
-// import React from "./core/react";
-// import ReactDOM from "./core/react-dom";
+import React from "./core/react";
+import ReactDOM from "./core/react-dom";
 
-import React from 'react'
-import ReactDOM from 'react-dom'
-
+// import React from 'react'
+// import ReactDOM from 'react-dom'
 
 /**
  * React.useState基础使用
@@ -40,7 +39,7 @@ ReactDOM.render(<Counter />, document.getElementById('root'))*/
 let Child = ({data, handleClick}) => {
     console.log('Child render');
     return (
-        <button onClick={handleClick}>{data.number}</button>
+        <button onClick={handleClick}>{data}</button>
     )
 }
 Child = React.memo(Child);
@@ -56,13 +55,14 @@ function App() {
      */
     let data = React.useMemo(() => ({number}), [number]) // 缓存对象
     let handleClick = React.useCallback(() => setNumber(number + 1), [number]); // 缓存回调函数
+    // let data = {number})
+    // let handleClick = () => setNumber(number + 1)
     return (
-        <div>
+        <div id="test1">
             <input type="text" value={name} onChange={event => setName(event.target.value)}/>
-            <Child data={data} handleClick={handleClick} />
+            <Child data={number} handleClick={handleClick} />
         </div>
     )
 }
 
-ReactDOM.render(<App/>, document.getElementById('root')
-);
+ReactDOM.render(<App/>, document.getElementById('root'));

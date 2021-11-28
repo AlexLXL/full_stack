@@ -574,3 +574,49 @@ export function useState(initialState) {
     return [hookState[hookIndex++], setState];
 }
 
+/**
+ * Hook: useMemo
+ */
+export function useMemo(factory, deps) {
+    //先判断是不是初次渲染
+    if (hookState[hookIndex]) {
+        let [lastMemo, lastDeps] = hookState[hookIndex];
+        let same = deps && deps.every((item, index) => item === lastDeps[index]);
+        if (same) {
+            hookIndex++;
+            return lastMemo;
+        } else {
+            let newMemo = factory();
+            hookState[hookIndex++] = [newMemo, deps];
+            return newMemo;
+        }
+    } else {
+        //说明是初次渲染
+        let newMemo = factory();
+        hookState[hookIndex++] = [newMemo, deps];
+        return newMemo;
+    }
+}
+
+/**
+ * Hook: useCallback
+ */
+export function useCallback(callback, deps) {
+    //先判断是不是初次渲染
+    if (hookState[hookIndex]) {
+        let [lastCallback, lastDeps] = hookState[hookIndex];
+        let same = deps && deps.every((item, index) => item === lastDeps[index]);
+        if (same) {
+            hookIndex++;
+            return lastCallback;
+        } else {
+            hookState[hookIndex++] = [callback, deps];
+            return callback;
+        }
+    } else {
+        //说明是初次渲染
+        hookState[hookIndex++] = [callback, deps];
+        return callback;
+    }
+}
+
