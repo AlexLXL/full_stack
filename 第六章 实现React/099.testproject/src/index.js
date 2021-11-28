@@ -533,7 +533,6 @@ function Title() {
 
 ReactDOM.render(<Page/>, document.getElementById("root"));*/
 
-
 /**
  * 12. 高阶组件
  *
@@ -574,8 +573,7 @@ class Hello extends React.Component {
 
 let LoadingHello = loading('正在加载...')(Hello);
 ReactDOM.render(<LoadingHello title="myTitle" />, document.getElementById('root'));*/
-
-// 2. 反向继承
+/*// 2. 反向继承
 class Button extends React.Component {
     state = {name: '张三'}
 
@@ -624,5 +622,45 @@ const wrapper = OldComponent => {
     }
 }
 let WrappedButton = wrapper(Button);
-ReactDOM.render(<WrappedButton title="标题"/>, document.getElementById('root'));
+ReactDOM.render(<WrappedButton title="标题"/>, document.getElementById('root'));*/
+
+/**
+ * 13. renderProps基础使用
+ * - 1. 普通写法
+ * - 2. render写法
+ * - 3. children写法
+ * - 4. HOC写法
+ *
+ * - 详细的看 004.renderProp.md
+ */
+// 2. render写法
+class MouseTracker extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {x: 0, y: 0};
+    }
+
+    // 这个逻辑就只需要写一次, 具体显示交给子组件
+    handleMouseMove = (event) => {
+        this.setState({
+            x: event.clientX,
+            y: event.clientY
+        });
+    }
+
+    render() {
+        return (
+            <div onMouseMove={this.handleMouseMove}>
+                {this.props.render(this.state)}
+            </div>
+        );
+    }
+}
+
+ReactDOM.render(<MouseTracker render={ params => (
+    <React.Fragment>
+        <h1>移动鼠标!</h1>
+        <p>当前的鼠标位置是 ({params.x}, {params.y})</p>
+    </React.Fragment>
+)}/>, document.getElementById('root'));
 
