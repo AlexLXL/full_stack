@@ -1,10 +1,10 @@
-import React from "./core/react";
-import ReactDOM from "./core/react-dom";
+// import React from "./core/react";
+// import ReactDOM from "./core/react-dom";
 
-// import React from "react";
-// import ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 
-let ThemeContext = React.createContext()
+// let ThemeContext = React.createContext()
 
 /**
  * 1.直接定义组件
@@ -457,7 +457,7 @@ ReactDOM.render(<ScrollList/>, document.getElementById("root"));*/
  *
  * 5. 函数组件接收、使用 - <ThemeContext.Consumer>{value => {}</ThemeContext.Consumer>
  */
-class Page extends React.Component {
+/*class Page extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -531,5 +531,44 @@ function Title() {
     )
 }
 
-ReactDOM.render(<Page/>, document.getElementById("root"));
+ReactDOM.render(<Page/>, document.getElementById("root"));*/
+
+
+/**
+ * 12. 高阶组件
+ *
+ * 1. 属性代理
+ */
+const loading = message => OldComponent => {
+    return class extends React.Component {
+        render() {
+            const state = {
+                show: () => {
+                    let div = document.createElement('div');
+                    div.innerHTML = `<p id="loading" style="position:absolute;top:100px;z-index:10;background-color:yellowgreen">${message}</p>`;
+                    document.body.appendChild(div);
+                },
+                hide: () => {
+                    document.getElementById('loading').remove();
+                }
+            }
+            return (
+                <OldComponent {...this.props} {...state} />
+            )
+        }
+    }
+}
+
+class Hello extends React.Component {
+    render() {
+        return <div>
+            <p>{this.props.title}</p>
+            <button onClick={this.props.show}>show</button>
+            <button onClick={this.props.hide}>hide</button>
+        </div>;
+    }
+}
+
+let LoadingHello = loading('正在加载...')(Hello);
+ReactDOM.render(<LoadingHello title="myTitle" />, document.getElementById('root'));
 
