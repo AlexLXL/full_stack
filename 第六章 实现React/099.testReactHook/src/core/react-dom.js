@@ -665,3 +665,36 @@ export function useEffect(effect, deps) {
         });
     }
 }
+
+/**
+ * Hook: useLayoutEffect
+ */
+export function useLayoutEffect(callback, dependencies) {
+    let currentIndex = hookIndex;
+    if (hookState[hookIndex]) {
+        let [destroy, lastDeps] = hookState[hookIndex];
+        let same = dependencies && dependencies.every((item, index) => item === lastDeps[index]);
+        if (same) {
+            hookIndex++;
+        } else {
+            destroy && destroy();
+            queueMicrotask(() => {
+                hookState[currentIndex] = [callback(), dependencies];
+            });
+            hookIndex++
+        }
+    } else {
+        queueMicrotask(() => {
+            hookState[currentIndex] = [callback(), dependencies];
+        });
+        hookIndex++;
+    }
+}
+
+/**
+ * Hook: useRef
+ */
+export function useRef(initialState) {
+    hookState[hookIndex] = hookState[hookIndex] || {current: initialState};
+    return hookState[hookIndex++];
+}
