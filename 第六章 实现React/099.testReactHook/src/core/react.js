@@ -1,7 +1,7 @@
 import { wrapToVdom, shallowEquals } from './utils';
 import Component from './Component';
 import {REACT_ELEMENT, REACT_FORWARD_REF, REACT_FRAGMENT, REACT_PROVIDER, REACT_CONTEXT, REACT_MEMO} from './constants'
-import {useState, useCallback, useMemo, useReducer, useEffect, useLayoutEffect, useRef} from './react-dom'
+import {useState, useCallback, useMemo, useReducer, useEffect, useLayoutEffect, useRef, useImperativeHandle} from './react-dom'
 
 /**
  * 创建一个虚拟DOM，也就是一个React元素
@@ -112,6 +112,7 @@ const React = {
     useEffect,
     useLayoutEffect,
     useRef,
+    useImperativeHandle,
 }
 
 export default React;

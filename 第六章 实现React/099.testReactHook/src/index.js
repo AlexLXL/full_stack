@@ -159,7 +159,7 @@ ReactDOM.render(<Counter/>, document.getElementById('root'));*/
 /**
  * 6. React.useLayoutEffect和React.useRef
  */
-function Animate () {
+/*function Animate () {
     const ref = React.useRef();
     React.useLayoutEffect(() => {
         console.log(`调用了React.useLayoutEffect`)
@@ -179,12 +179,11 @@ function Animate () {
         <div style={style} onClick={handleClick} ref={ref}></div>
     )
 }
-ReactDOM.render(<Animate/>, document.getElementById('root'));
+ReactDOM.render(<Animate/>, document.getElementById('root'));*/
 
 /**
  * 7. React.useEffect
  */
-/*
 function Child(props, ref) {
     const inputRef = React.useRef();
     // 定制暴露给父组件的ref值, 这里仅让外界调focus1方法
@@ -203,7 +202,6 @@ function Child(props, ref) {
 const ForwardChild = React.forwardRef(Child);
 
 function Parent() {
-    let [number, setNumber] = React.useState(0);
     const inputRef = React.useRef();
 
     function getFocus() {
@@ -215,13 +213,8 @@ function Parent() {
         <div>
             <ForwardChild ref={inputRef}/>
             <button onClick={getFocus}>获得焦点</button>
-            <p>{number}</p>
-            <button onClick={() => {
-                setNumber(number + 1)
-            }}>+
-            </button>
         </div>
     )
 }
 
-ReactDOM.render(<Parent/>, document.getElementById('root'));*/
+ReactDOM.render(<Parent/>, document.getElementById('root'));

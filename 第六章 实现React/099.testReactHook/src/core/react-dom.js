@@ -698,3 +698,10 @@ export function useRef(initialState) {
     hookState[hookIndex] = hookState[hookIndex] || {current: initialState};
     return hookState[hookIndex++];
 }
+
+/**
+ * Hook: useImperativeHandle
+ */
+export function useImperativeHandle(ref, handler) {
+    ref.current = handler();
+}
