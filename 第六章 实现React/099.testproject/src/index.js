@@ -1,8 +1,8 @@
-// import React from "./core/react";
-// import ReactDOM from "./core/react-dom";
+import React from "./core/react";
+import ReactDOM from "./core/react-dom";
 
-import React from "react";
-import ReactDOM from "react-dom";
+// import React from "react";
+// import ReactDOM from "react-dom";
 
 let ThemeContext = React.createContext()
 
@@ -487,7 +487,7 @@ class Page extends React.Component {
 class Header extends React.Component {
     static contextType = ThemeContext
     constructor(props) {
-        super(props);
+        super(props)
     }
     render() {
         return (

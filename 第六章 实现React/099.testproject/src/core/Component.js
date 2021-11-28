@@ -32,12 +32,15 @@ class Component {
     forceUpdate() {
         let oldRenderVdom = this.oldRenderVdom
         let oldRealDOM = findDOM(oldRenderVdom)
-        let newRenderVdom = this.render()
+        if (this.constructor.contextType) {
+            this.context = this.constructor.contextType._currentValue
+        }
         if (this.constructor.getDerivedStateFromProps) {
             let newState = this.constructor.getDerivedStateFromProps(this.props, this.state)
             if (newState) this.state = { ...this.state, ...newState }
         }
         let snapshot = this.getSnapshotBeforeUpdate && this.getSnapshotBeforeUpdate()
+        let newRenderVdom = this.render()
         compareToVdom(oldRealDOM.parentNode, oldRenderVdom, newRenderVdom)
         this.oldRenderVdom = newRenderVdom
         if (this.componentDidUpdate) {

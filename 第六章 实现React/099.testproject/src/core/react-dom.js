@@ -1,4 +1,5 @@
-import {REACT_TEXT, REACT_FORWARD_REF, REACT_FRAGMENT, MOVE, PLACEMENT, DELETION} from './constants'
+import {REACT_TEXT, REACT_FORWARD_REF, REACT_FRAGMENT, MOVE, PLACEMENT, DELETION,
+    REACT_PROVIDER, REACT_CONTEXT} from './constants'
 import {addEvent} from "./event";
 
 /**
@@ -28,13 +29,19 @@ export function createDOM(vdom) {
     let dom;                        // 真实DOM
     /**
      * 分类:
-     * 1. React.Fragment
-     * 2. React.forwardRef包装过的函数组件
-     * 3. 函数组件、类组件
-     * 4. 文本组件
-     * 5. div span p
+     * 1. ThemeContext.Provider
+     * 2. ThemeContext.Consumer
+     * 3. React.Fragment
+     * 4. React.forwardRef包装过的函数组件
+     * 5. 函数组件、类组件
+     * 6. 文本组件
+     * 7. div span p
      */
-    if (type === REACT_FRAGMENT) {
+    if (type && type.$$typeof === REACT_PROVIDER) {
+        return mountProvider(vdom)
+    }else if (type && type.$$typeof === REACT_CONTEXT) {
+        return mountContext(vdom);
+    }else if (type === REACT_FRAGMENT) {
         dom = document.createDocumentFragment()
     }else if (type && type.$$typeof === REACT_FORWARD_REF) {
         dom = mountForwardRefComponent(vdom)
@@ -118,7 +125,35 @@ function updateProps(dom, oldProps = {}, newProps = {}) {
 }
 
 /**
- * 挂载类组件
+ * 挂载ThemeContext.Provider组件
+ * @param vdom 虚拟DOM
+ */
+function mountProvider(vdom ) {
+    let {type, props, ref} = vdom;
+    // 赋值
+    let context = type._context;
+    context._currentValue = props.value;
+    // 拿子元素挂载
+    let renderVdom = props.children;
+    vdom.oldRenderVdom = renderVdom; // 这个操作就是让当前的虚拟DOM的oldRenderVdom指向要渲染的虚拟DOM
+    return createDOM(renderVdom);
+}
+
+/**
+ * 挂载ThemeContext.Consumer组件
+ * @param vdom 虚拟DOM
+ */
+function mountContext(vdom) {
+    let {type, props, ref} = vdom;
+    let context = type._context;
+    let currentValue = context._currentValue;
+    let renderVdom = props.children(currentValue);
+    vdom.oldRenderVdom = renderVdom; // 这个操作就是让当前的虚拟DOM的oldRenderVdom指向要渲染的虚拟DOM
+    return createDOM(renderVdom);
+}
+
+/**
+ * 挂载方法组件
  * @param vdom 虚拟DOM
  */
 function mountForwardRefComponent(vdom) {
@@ -135,6 +170,9 @@ function mountForwardRefComponent(vdom) {
 function mountClassComponent(vdom) {
     let { type: ClassComponent, props, ref } = vdom;
     let classInstance = new ClassComponent(props);
+    if (ClassComponent.contextType) {
+        classInstance.context = ClassComponent.contextType._currentValue
+    }
     if (ref) (ref.current = classInstance)
     if (classInstance.componentWillMount) {
         classInstance.componentWillMount()
@@ -161,6 +199,7 @@ function mountFunctionComponent(vdom) {
     vdom.oldRenderVdom = oldRenderVdom;
     return createDOM(oldRenderVdom);
 }
+
 
 /**
  * children为数组的时候循环挂载
@@ -268,6 +307,8 @@ function updateElement(oldVdom, newVdom) {
      * 2. 原生组件: div、span
      * 3. 类组件或函数组件
      * 4. React.Fragment
+     * 5. REACT_PROVIDER ( ThemeContext.Provider )
+     * 6. REACT_CONTEXT ( ThemeContext.Consumer )
      */
     if (oldVdom.type === REACT_TEXT) {
         if (oldVdom.props.content !== newVdom.props.content) {
@@ -288,6 +329,10 @@ function updateElement(oldVdom, newVdom) {
     }else if (oldVdom.type === REACT_FRAGMENT) {
         let currentDOM = newVdom.dom = findDOM(oldVdom)
         updateChildren(currentDOM, oldVdom.props.children, newVdom.props.children)
+    }else if (oldVdom.type.$$typeof === REACT_PROVIDER) {
+        updateProvider(oldVdom, newVdom)
+    }else if (oldVdom.type.$$typeof === REACT_CONTEXT) {
+        updateContext(oldVdom, newVdom)
     }
 }
 
@@ -421,6 +466,37 @@ function updateFunctionComponent(oldVdom, newVdom) {
     let newRenderVdom = type(props)
     compareToVdom(parentDOM, oldVdom.oldRenderVdom, newRenderVdom)
     newVdom.oldRenderVdom = newRenderVdom
+}
+
+/**
+ * 复用老节点, 更新组件(4)
+ * @param oldVdom
+ * @param newVdom
+ */
+function updateProvider(oldVdom, newVdom) {
+    let currentDOM = findDOM(oldVdom);// <div style={{margin:'10px'
+    let parentDOM = currentDOM.parentNode;// div#root
+    let {type, props} = newVdom;// type ={$$typeof:REACT_PROVIDER,_context:context }
+    let context = type._context;
+    context._currentValue = props.value;// 给context赋上新的_currentValue
+    let renderVdom = props.children;
+    compareToVdom(parentDOM, oldVdom.oldRenderVdom, renderVdom);
+    newVdom.oldRenderVdom = renderVdom;
+}
+
+/**
+ * 复用老节点, 更新组件(5)
+ * @param oldVdom
+ * @param newVdom
+ */
+function updateContext(oldVdom, newVdom) {
+    let currentDOM = findDOM(oldVdom); //<div style={{margin:'10px'
+    let parentDOM = currentDOM.parentNode; //div#root
+    let {type, props} = newVdom; //type ={$$typeof:REACT_PROVIDER,_context:context }
+    let context = type._context;
+    let renderVdom = props.children(context._currentValue);
+    compareToVdom(parentDOM, oldVdom.oldRenderVdom, renderVdom);
+    newVdom.oldRenderVdom = renderVdom;
 }
 
 const ReactDOM = {
