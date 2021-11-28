@@ -539,9 +539,13 @@ function updateMemo(oldVdom, newVdom) {
     newVdom.oldRenderVdom = renderVdom;
 }
 
+function f() {
+
+}
+
 const ReactDOM = {
     render,
-    findDOM
+    createPortal: render,
 }
 
 export default ReactDOM;
