@@ -98,7 +98,7 @@ ReactDOM.render(<Counter/>, document.getElementById('root'));*/
 /**
  * 4. React.useContext
  */
-const CounterContext = React.createContext();
+/*const CounterContext = React.createContext();
 
 function reducer(state, action) {
     switch (action.type) {
@@ -129,4 +129,29 @@ function App(){
     )
 }
 
-ReactDOM.render(<App/>,document.getElementById('root'));
+ReactDOM.render(<App/>,document.getElementById('root'));*/
+
+/**
+ * 5. React.useEffect
+ */
+function Counter() {
+    console.log(`Counter render`)
+    const [number, setNumber] = React.useState(0);
+    // useEffect里的函数会在当前组件渲染到页面之后执行(类似componentDidMount)
+    // 每次执行useEffect里的函数前,先会执行上次useEffect的返回值
+    React.useEffect(() => {
+        console.log('开启一个新的定时器')
+        const $timer = setInterval(() => {
+            setNumber(number => number + 1);
+        }, 1000);
+        return () => {
+            console.log('销毁老的定时器');
+            clearInterval($timer);
+        }
+    });
+    return (
+        <p>{number}</p>
+    )
+}
+
+ReactDOM.render(<Counter/>, document.getElementById('root'));
