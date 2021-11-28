@@ -538,7 +538,10 @@ ReactDOM.render(<Page/>, document.getElementById("root"));*/
  * 12. 高阶组件
  *
  * 1. 属性代理
+ * 2. 反向继承 - 比如我们有一个第三方组件, 我们不能改, 也不能继承, 但是想做一些修改或增强
+ *
  */
+/*// 1. 属性代理
 const loading = message => OldComponent => {
     return class extends React.Component {
         render() {
@@ -570,5 +573,56 @@ class Hello extends React.Component {
 }
 
 let LoadingHello = loading('正在加载...')(Hello);
-ReactDOM.render(<LoadingHello title="myTitle" />, document.getElementById('root'));
+ReactDOM.render(<LoadingHello title="myTitle" />, document.getElementById('root'));*/
+
+// 2. 反向继承
+class Button extends React.Component {
+    state = {name: '张三'}
+
+    componentWillMount() {
+        console.log('Button componentWillMount');
+    }
+
+    componentDidMount() {
+        console.log('Button componentDidMount');
+    }
+
+    render() {
+        console.log('Button render');
+        return <button name={this.state.name} title={this.props.title}/>
+    }
+}
+
+const wrapper = OldComponent => {
+    return class NewComponent extends OldComponent {
+        state = {number: 0}
+
+        componentWillMount() {
+            console.log('WrapperButton componentWillMount');
+            super.componentWillMount();
+        }
+
+        componentDidMount() {
+            console.log('WrapperButton componentDidMount');
+            super.componentDidMount();
+        }
+
+        handleClick = () => {
+            this.setState({number: this.state.number + 1});
+        }
+
+        render() {
+            console.log('WrapperButton render');
+            let renderElement = super.render(); // 1.调用父类的render方法, 返回虚拟dom
+            let newProps = {
+                ...renderElement.props,
+                ...this.state,              // 2.给button扩展属性
+                onClick: this.handleClick   // 3.给button扩展一个点击事件
+            }
+            return React.cloneElement(renderElement, newProps, this.state.number); // 给button元素扩展一个children显示this.state.number
+        }
+    }
+}
+let WrappedButton = wrapper(Button);
+ReactDOM.render(<WrappedButton title="标题"/>, document.getElementById('root'));
 
