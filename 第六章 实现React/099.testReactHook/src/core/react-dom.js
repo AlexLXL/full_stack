@@ -563,7 +563,7 @@ export default ReactDOM;
  * Hook: useState
  */
 export function useState(initialState) {
-    hookState[hookIndex] = hookState[hookIndex] || initialState;//hookState[0]=10
+    /*hookState[hookIndex] = hookState[hookIndex] || initialState;//hookState[0]=10
     let currentIndex = hookIndex;
 
     function setState(newState) {
@@ -571,7 +571,9 @@ export function useState(initialState) {
         scheduleUpdate();//状态变化后，要执行调度更新任务
     }
 
-    return [hookState[hookIndex++], setState];
+    return [hookState[hookIndex++], setState];*/
+
+    return useReducer(null,initialState);
 }
 
 /**
@@ -618,5 +620,21 @@ export function useCallback(callback, deps) {
         hookState[hookIndex++] = [callback, deps];
         return callback;
     }
+}
+
+/**
+ * Hook: useReducer
+ */
+export function useReducer(reducer, initialState) {
+    hookState[hookIndex] = hookState[hookIndex] || initialState;//hookState[0]=10
+    let currentIndex = hookIndex;
+
+    function dispatch(action) {
+        action = typeof action === 'function' ? action(hookState[currentIndex]) : action;
+        hookState[currentIndex] = reducer ? reducer(hookState[currentIndex], action) : action;
+        scheduleUpdate();
+    }
+
+    return [hookState[hookIndex++], dispatch];
 }
 
