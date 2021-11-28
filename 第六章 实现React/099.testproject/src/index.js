@@ -1,8 +1,8 @@
-import React from "./core/react";
-import ReactDOM from "./core/react-dom";
+// import React from "./core/react";
+// import ReactDOM from "./core/react-dom";
 
-// import React from "react";
-// import ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 
 // let ThemeContext = React.createContext()
 
@@ -667,7 +667,7 @@ ReactDOM.render(<MouseTracker render={ params => (
 /**
  * 14. PureComponent和React.memo减少不必要的更新(使用setState但实际属性值没变化)
  */
-class ClassCounter extends React.PureComponent { // 加0的时候不会触发render了
+/*class ClassCounter extends React.PureComponent { // 加0的时候不会触发render了
     render() {
         console.log('ClassCounter render');
         return <div>ClassCounter:{this.props.count}</div>
@@ -692,6 +692,38 @@ class App extends React.Component {
                 <MemoFunctionCounter count={this.state.number} />
                 <input ref={this.amountRef} />
                 <button onClick={this.handleClick}>+</button>
+            </div>
+        )
+    }
+}
+ReactDOM.render(<App />, document.getElementById('root'));*/
+
+/**
+ * 15. ReactDOM.createPortal
+ * 用于把div放到最外层, 如弹窗
+ */
+class Dialog extends React.Component {
+    constructor(props) {
+        super(props);
+        this.node = document.createElement('div');
+        document.body.appendChild(this.node);
+    }
+    render() {
+        // 把一个jsx渲染到对应DOM节点中
+        return ReactDOM.createPortal(
+            <div className="dialog">{this.props.children}</div>,
+            this.node
+        );
+    }
+    componentWillUnmount() {
+        window.document.body.removeChild(this.node);
+    }
+}
+class App extends React.Component {
+    render() {
+        return (
+            <div>
+                <Dialog>模态窗</Dialog>
             </div>
         )
     }
