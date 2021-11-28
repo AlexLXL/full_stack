@@ -638,3 +638,30 @@ export function useReducer(reducer, initialState) {
     return [hookState[hookIndex++], dispatch];
 }
 
+/**
+ * Hook: useEffect
+ */
+export function useEffect(effect, deps) {
+    //先判断是不是初次渲染
+    if (hookState[hookIndex]) {
+        let [lastDestroy, lastDeps] = hookState[hookIndex];
+        let same = deps && deps.every((item, index) => item === lastDeps[index]);
+        if (same) {
+            hookIndex++;
+        } else {
+            //如果有任何一个值不一样，则执行上一个销毁函数
+            lastDestroy && lastDestroy();
+            //开启一个新的宏任务
+            setTimeout(() => {
+                let destroy = effect();
+                hookState[hookIndex++] = [destroy, deps]
+            });
+        }
+    } else {
+        //如果是第一次执行执行到此
+        setTimeout(() => {
+            let destroy = effect();
+            hookState[hookIndex++] = [destroy, deps]
+        });
+    }
+}
