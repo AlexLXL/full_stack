@@ -1,6 +1,6 @@
 import { wrapToVdom, shallowEquals } from './utils';
 import Component from './Component';
-import {REACT_ELEMENT, REACT_FORWARD_REF, REACT_FRAGMENT, REACT_PROVIDER, REACT_CONTEXT} from './constants'
+import {REACT_ELEMENT, REACT_FORWARD_REF, REACT_FRAGMENT, REACT_PROVIDER, REACT_CONTEXT, REACT_MEMO} from './constants'
 
 /**
  * 创建一个虚拟DOM，也就是一个React元素
@@ -82,6 +82,14 @@ class PureComponent extends Component{
     }
 }
 
+function memo(type, compare = shallowEquals) {
+    return {
+        $$typeof: REACT_MEMO,
+        type, // type即函数组件
+        compare
+    }
+}
+
 const React = {
     createElement,
     Component,
@@ -89,7 +97,8 @@ const React = {
     forwardRef,
     Fragment: REACT_FRAGMENT,
     createContext,
-    PureComponent
+    PureComponent,
+    memo
 }
 
 export default React;

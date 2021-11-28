@@ -1,5 +1,5 @@
 import {REACT_TEXT, REACT_FORWARD_REF, REACT_FRAGMENT, MOVE, PLACEMENT, DELETION,
-    REACT_PROVIDER, REACT_CONTEXT} from './constants'
+    REACT_PROVIDER, REACT_CONTEXT, REACT_MEMO} from './constants'
 import {addEvent} from "./event";
 
 /**
@@ -29,15 +29,18 @@ export function createDOM(vdom) {
     let dom;                        // 真实DOM
     /**
      * 分类:
-     * 1. ThemeContext.Provider
-     * 2. ThemeContext.Consumer
-     * 3. React.Fragment
-     * 4. React.forwardRef包装过的函数组件
-     * 5. 函数组件、类组件
-     * 6. 文本组件
-     * 7. div span p
+     * 1. React.memo(函数组件)
+     * 2. ThemeContext.Provider
+     * 3. ThemeContext.Consumer
+     * 4. React.Fragment
+     * 5. React.forwardRef包装过的函数组件
+     * 6. 函数组件、类组件
+     * 7. 文本组件
+     * 8. div span p
      */
-    if (type && type.$$typeof === REACT_PROVIDER) {
+    if (type && type.$$typeof === REACT_MEMO) {
+        return mountMemo(vdom)
+    }else if (type && type.$$typeof === REACT_PROVIDER) {
         return mountProvider(vdom)
     }else if (type && type.$$typeof === REACT_CONTEXT) {
         return mountContext(vdom);
@@ -122,6 +125,20 @@ function updateProps(dom, oldProps = {}, newProps = {}) {
             dom[key] = null;
         }
     }
+}
+
+/**
+ * 挂载React.memo(函数组件)组件
+ * @param vdom 虚拟DOM
+ */
+function mountMemo(vdom){
+    // type = { $$typeof:REACT_MEMO, type, compare }
+    // type.type是函数组件
+    let { type, props } = vdom;
+    let renderVdom = type.type(props);
+    vdom.prevProps= props;          // 在vdom记录上一次的属性对象
+    vdom.oldRenderVdom = renderVdom;// findDOM的时候用的
+    return createDOM(renderVdom);
 }
 
 /**
@@ -309,6 +326,7 @@ function updateElement(oldVdom, newVdom) {
      * 4. React.Fragment
      * 5. REACT_PROVIDER ( ThemeContext.Provider )
      * 6. REACT_CONTEXT ( ThemeContext.Consumer )
+     * 7. React.memo(函数组件)
      */
     if (oldVdom.type === REACT_TEXT) {
         if (oldVdom.props.content !== newVdom.props.content) {
@@ -333,6 +351,8 @@ function updateElement(oldVdom, newVdom) {
         updateProvider(oldVdom, newVdom)
     }else if (oldVdom.type.$$typeof === REACT_CONTEXT) {
         updateContext(oldVdom, newVdom)
+    }else if(oldVdom.type.$$typeof === REACT_MEMO) {
+        updateMemo(oldVdom, newVdom)
     }
 }
 
@@ -496,6 +516,26 @@ function updateContext(oldVdom, newVdom) {
     let context = type._context;
     let renderVdom = props.children(context._currentValue);
     compareToVdom(parentDOM, oldVdom.oldRenderVdom, renderVdom);
+    newVdom.oldRenderVdom = renderVdom;
+}
+
+/**
+ * 复用老节点, 更新组件(6)
+ * @param oldVdom
+ * @param newVdom
+ */
+function updateMemo(oldVdom, newVdom) {
+    let {type, prevProps} = oldVdom;
+    //比较结果是相等,就不需要重新渲染 render
+    let renderVdom = oldVdom.oldRenderVdom;
+    if (!type.compare(prevProps, newVdom.props)) {
+        let currentDOM = findDOM(oldVdom);
+        let parentDOM = currentDOM.parentNode;
+        let {type, props} = newVdom;
+        renderVdom = type.type(props);
+        compareToVdom(parentDOM, oldVdom.oldRenderVdom, renderVdom);
+    }
+    newVdom.prevProps = newVdom.props;
     newVdom.oldRenderVdom = renderVdom;
 }
 
