@@ -633,7 +633,7 @@ ReactDOM.render(<WrappedButton title="标题"/>, document.getElementById('root')
  *
  * - 详细的看 004.renderProp.md
  */
-// 2. render写法
+/*// 2. render写法
 class MouseTracker extends React.Component {
     constructor(props) {
         super(props);
@@ -662,5 +662,38 @@ ReactDOM.render(<MouseTracker render={ params => (
         <h1>移动鼠标!</h1>
         <p>当前的鼠标位置是 ({params.x}, {params.y})</p>
     </React.Fragment>
-)}/>, document.getElementById('root'));
+)}/>, document.getElementById('root'));*/
 
+/**
+ * 14. PureComponent和React.memo减少不必要的更新(使用setState但实际属性值没变化)
+ */
+class ClassCounter extends React.PureComponent { // 加0的时候不会触发render了
+    render() {
+        console.log('ClassCounter render');
+        return <div>ClassCounter:{this.props.count}</div>
+    }
+}
+function FunctionCounter(props) {
+    console.log('FunctionCounter render');
+    return <div>FunctionCounter:{props.count}</div>
+}
+const MemoFunctionCounter = React.memo(FunctionCounter); // 加0的时候不会触发render了
+class App extends React.Component {
+    state = { number: 0 }
+    amountRef = React.createRef()
+    handleClick = () => {
+        let nextNumber = this.state.number + parseInt(this.amountRef.current.value);
+        this.setState({ number: nextNumber });
+    }
+    render() {
+        return (
+            <div>
+                <ClassCounter count={this.state.number} />
+                <MemoFunctionCounter count={this.state.number} />
+                <input ref={this.amountRef} />
+                <button onClick={this.handleClick}>+</button>
+            </div>
+        )
+    }
+}
+ReactDOM.render(<App />, document.getElementById('root'));

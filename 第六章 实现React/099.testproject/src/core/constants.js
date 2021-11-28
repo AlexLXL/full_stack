@@ -10,4 +10,4 @@ export const DELETION = 'DELETION'; // 删除
 export const REACT_PROVIDER = Symbol('react.provider'); // 提供者
 export const REACT_CONTEXT = Symbol('react.context'); // 消费者
 
-export const REACT_MEMO = Symbol('react.memo');
+export const REACT_MEMO = Symbol('react.memo'); // 函数组件减少不必要的渲染
