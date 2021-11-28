@@ -1,8 +1,8 @@
-import React from "./core/react";
-import ReactDOM from "./core/react-dom";
+// import React from "./core/react";
+// import ReactDOM from "./core/react-dom";
 
-// import React from 'react'
-// import ReactDOM from 'react-dom'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 /**
  * 1. React.useState基础使用
@@ -134,7 +134,7 @@ ReactDOM.render(<App/>,document.getElementById('root'));*/
 /**
  * 5. React.useEffect
  */
-function Counter() {
+/*function Counter() {
     console.log(`Counter render`)
     const [number, setNumber] = React.useState(0);
     // useEffect里的函数会在当前组件渲染到页面之后执行(类似componentDidMount)
@@ -154,4 +154,48 @@ function Counter() {
     )
 }
 
-ReactDOM.render(<Counter/>, document.getElementById('root'));
+ReactDOM.render(<Counter/>, document.getElementById('root'));*/
+
+/**
+ * 6. React.useEffect
+ */
+function Child(props, ref) {
+    const inputRef = React.useRef();
+    // 定制暴露给父组件的ref值, 这里仅让外界调focus1方法
+    React.useImperativeHandle(ref, () => (
+        {
+            focus1() {
+                inputRef.current.focus();
+            }
+        }
+    ));
+    return (
+        <input type="text" ref={inputRef}/>
+    )
+}
+
+const ForwardChild = React.forwardRef(Child);
+
+function Parent() {
+    let [number, setNumber] = React.useState(0);
+    const inputRef = React.useRef();
+
+    function getFocus() {
+        inputRef.current.value = 'focus';
+        inputRef.current.focus1();
+    }
+
+    return (
+        <div>
+            <ForwardChild ref={inputRef}/>
+            <button onClick={getFocus}>获得焦点</button>
+            <p>{number}</p>
+            <button onClick={() => {
+                setNumber(number + 1)
+            }}>+
+            </button>
+        </div>
+    )
+}
+
+ReactDOM.render(<Parent/>, document.getElementById('root'));
