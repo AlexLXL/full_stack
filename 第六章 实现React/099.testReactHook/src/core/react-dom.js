@@ -3,6 +3,13 @@ import {REACT_TEXT, REACT_FORWARD_REF, REACT_FRAGMENT, MOVE, PLACEMENT, DELETION
 import {addEvent} from "./event";
 
 /**
+ * Hook
+ */
+let hookState = []; // 这是一个全局变量，用来记录hook的值
+let hookIndex = 0; // 存放当前hook的索引值
+let scheduleUpdate;
+
+/**
  * 1.虚拟DOM变成真实DOM
  * 2.插入到容器内部
  * @param {*} vdom 虚拟DOM
@@ -10,6 +17,11 @@ import {addEvent} from "./event";
  */
 function render(vdom, parentDOM) {
     mount(vdom, parentDOM);
+    //在React里不管在哪里触发的更新，真正的调度都是从根节点开始的
+    scheduleUpdate = () => {
+        hookIndex = 0
+        compareToVdom(parentDOM, vdom, vdom)
+    }
 }
 
 function mount(vdom, parentDOM) {
@@ -329,8 +341,8 @@ function updateElement(oldVdom, newVdom) {
      * 7. React.memo(函数组件)
      */
     if (oldVdom.type === REACT_TEXT) {
+        let currentDOM = newVdom.dom = findDOM(oldVdom)
         if (oldVdom.props.content !== newVdom.props.content) {
-            let currentDOM = newVdom.dom = findDOM(oldVdom)
             currentDOM.textContent = newVdom.props.content
         }
     }else if (typeof oldVdom.type === 'string') {
@@ -539,13 +551,26 @@ function updateMemo(oldVdom, newVdom) {
     newVdom.oldRenderVdom = renderVdom;
 }
 
-function f() {
-
-}
-
 const ReactDOM = {
     render,
     createPortal: render,
 }
 
 export default ReactDOM;
+
+
+/**
+ * Hook: useState
+ */
+export function useState(initialState) {
+    hookState[hookIndex] = hookState[hookIndex] || initialState;//hookState[0]=10
+    let currentIndex = hookIndex;
+
+    function setState(newState) {
+        hookState[currentIndex] = newState;//currentIndex指向hookIndex赋值的时候的那个值 0
+        scheduleUpdate();//状态变化后，要执行调度更新任务
+    }
+
+    return [hookState[hookIndex++], setState];
+}
+
