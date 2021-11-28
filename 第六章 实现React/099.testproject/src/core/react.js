@@ -1,4 +1,4 @@
-import { wrapToVdom } from './utils';
+import { wrapToVdom, shallowEquals } from './utils';
 import Component from './Component';
 import {REACT_ELEMENT, REACT_FORWARD_REF, REACT_FRAGMENT, REACT_PROVIDER, REACT_CONTEXT} from './constants'
 
@@ -75,13 +75,21 @@ function createContext(render) {
     return context
 }
 
+class PureComponent extends Component{
+    shouldComponentUpdate(nextProps,nextState){
+        // 属性或状态对象变了，就会进行更新。
+        return !shallowEquals(this.props,nextProps) || !shallowEquals(this.state,nextState)
+    }
+}
+
 const React = {
     createElement,
     Component,
     createRef,
     forwardRef,
     Fragment: REACT_FRAGMENT,
-    createContext
+    createContext,
+    PureComponent
 }
 
 export default React;
