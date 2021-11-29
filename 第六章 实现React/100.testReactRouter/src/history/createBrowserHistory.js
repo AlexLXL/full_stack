@@ -5,6 +5,7 @@
 function createBrowserHistory() {
     let globalHistory = window.history
     let listeners = [] // 存放所有监听函数
+    let message
 
     function go(n) {
         globalHistory.go(n)
@@ -38,6 +39,11 @@ function createBrowserHistory() {
             state = pathname.state
             pathname = pathname.pathname
         }
+        if (message) {
+            let comfirmMessage = message({pathname})
+            let allow = window.confirm(comfirmMessage)
+            if (!allow) return
+        }
         // 核心原理
         globalHistory.pushState(state, null, pathname)
         let location = {pathname, state}
@@ -62,6 +68,11 @@ function createBrowserHistory() {
         })
     });
 
+    function block(newMessage) {
+        message = newMessage;
+        return () => message = null;
+    }
+
     let history = {
         action: 'POP',
         go,
@@ -72,7 +83,8 @@ function createBrowserHistory() {
         location: {
             pathname: window.location.pathname,
             state: window.location.state
-        }
+        },
+        block
     }
     return history
 }

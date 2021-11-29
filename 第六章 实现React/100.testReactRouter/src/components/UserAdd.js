@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {UserAPI} from '../utils/utils';
+import {Prompt} from "../react-router"
 
 export default class UserAdd extends Component {
     state = {isBlocking: false} //是否阻止跳转，默认值是不阻止
@@ -23,6 +24,10 @@ export default class UserAdd extends Component {
             <form onSubmit={this.handleSubmit}>
                 <input type="text" ref={this.nameRef} onChange={this.handleChange}/>
                 <button type="submit">添加</button>
+
+                <Prompt when={this.state.isBlocking}
+                        message={(location) => `确认离开当前页面, 跳转至${location.pathname}, 内容将不会保存`}
+                ></Prompt>
             </form>
         )
     }
