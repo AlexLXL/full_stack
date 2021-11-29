@@ -1,13 +1,31 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>实战React</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #root{
+            border:1px solid red;
+        }
+    </style>
 </head>
 <body>
 <div id="root"></div>
+<ul>
+    <li><a href="#/a">/a</a></li>
+    <li><a href="#/b">/b</a></li>
+</ul>
+<script>
+    /**
+     * HashRouter的原理
+     */
+    window.addEventListener('hashchange',()=>{
+        console.log(window.location.hash);
+        let pathname = window.location.hash.slice(1);//把最前面的那个#删除
+        root.innerHTML = pathname;
+    });
+
+</script>
 </body>
 </html>
