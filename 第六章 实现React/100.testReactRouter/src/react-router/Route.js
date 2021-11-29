@@ -7,7 +7,7 @@ class Route extends React.Component {
 
     render() {
         const {history, location} = this.context
-        const {path, component: RouteComponent, exact = false, computedMatch} = this.props
+        const {path, component: RouteComponent, exact = false, computedMatch, render} = this.props
         const match = computedMatch ? computedMatch : matchPath(location.pathname, this.props);
         // const match = exact ? location.pathname === path : location.pathname.startsWith(path)
         const routeProps = {history, location}
@@ -15,7 +15,13 @@ class Route extends React.Component {
         let renderElement = null
         if (match) {
             routeProps.match = match;
-            renderElement = <RouteComponent {...routeProps}/>
+            if (RouteComponent) {
+                renderElement = <RouteComponent {...routeProps}/>
+            }else if (render) {
+                renderElement = render(routeProps)
+            }else {
+                renderElement = null
+            }
         }
         return renderElement
     }

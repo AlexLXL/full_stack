@@ -7,6 +7,8 @@ import {BrowserRouter as Router, Route, Switch, Redirect, Link} from './react-ro
 import Home from './components/Home';
 import User from './components/User';
 import Profile from './components/Profile';
+import Login from './components/Login';
+import Protect from './components/Protect';
 
 /**
  * react-router-dom@5.2.0
@@ -24,7 +26,8 @@ ReactDOM.render(
         </ul>
         <Switch>
             <Route path="/" component={Home} exact/>
-            <Route path="/user" component={User}/>
+            <Protect path="/user" component={User}/>
+            <Route path="/login" component={Login}/>
             <Route path="/profile" component={Profile}/>
             <Redirect to="/" />
         </Switch>
