@@ -5,7 +5,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {BrowserRouter as Router, Route, Switch, Redirect, Link, NavLink,
 useParams, useLocation, useHistory, useRouteMatch
-} from 'react-router-dom';
+} from './react-router-dom';
 /*import Home from './components/Home';
 import User from './components/User';
 import Profile from './components/Profile';
