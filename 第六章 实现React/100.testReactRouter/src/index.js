@@ -9,6 +9,7 @@ import User from './components/User';
 import Profile from './components/Profile';
 import Login from './components/Login';
 import Protect from './components/Protect';
+import NavHeader from './components/NavHeader';
 
 /**
  * react-router-dom@5.2.0
@@ -19,6 +20,7 @@ import Protect from './components/Protect';
  */
 ReactDOM.render(
     <Router>
+        <NavHeader title="首页" />
         <ul>
             <li><NavLink to='/' activeClassName={"active11"} activeStyle={{color:'blue'}} exact>首页</NavLink></li>
             <li><NavLink to='/user' activeClassName={"active11"} activeStyle={{color:'blue'}}>用户</NavLink></li>
