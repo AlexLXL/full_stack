@@ -3,13 +3,15 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {BrowserRouter as Router, Route, Switch, Redirect, Link, NavLink} from './react-router-dom';
-import Home from './components/Home';
+import {BrowserRouter as Router, Route, Switch, Redirect, Link, NavLink,
+useParams, useLocation, useHistory, useRouteMatch
+} from 'react-router-dom';
+/*import Home from './components/Home';
 import User from './components/User';
 import Profile from './components/Profile';
 import Login from './components/Login';
 import Protect from './components/Protect';
-import NavHeader from './components/NavHeader';
+import NavHeader from './components/NavHeader';*/
 
 /**
  * react-router-dom@5.2.0
@@ -18,7 +20,7 @@ import NavHeader from './components/NavHeader';
  * <Switch></Switch> 表示只匹配一个, 匹配到就不向下匹配了
  * <Link></Link> 表示跳转标签, 其实就是a标签, (等比vue的router-link)
  */
-ReactDOM.render(
+/*ReactDOM.render(
     <Router>
         <NavHeader title="首页" />
         <ul>
@@ -35,8 +37,7 @@ ReactDOM.render(
         </Switch>
     </Router>
     , document.getElementById('root')
-);
-
+);*/
 
 /**
  * react-router-dom@6.0.2 出了新的写法
@@ -45,3 +46,51 @@ ReactDOM.render(
  * https://blog.csdn.net/weixin_40906515/article/details/104957712
  * https://zhuanlan.zhihu.com/p/191419879
  */
+
+/**
+ * Hook: 路由
+ */
+
+function Home() {
+    return <div>Home</div>
+}
+
+function UserDetail() {
+    let params = useParams()
+    console.log('params', params)
+    let location = useLocation()
+    console.log('location', location)
+    let history = useHistory()
+    console.log('history', history)
+    return (
+        <div>
+            id:{params.id} ;
+            name:{location.state.name}
+        </div>
+    )
+}
+
+function Post() {
+    // 使用当前浏览器地址栏中的路径和此path路径以及对应的配置信息进行匹配
+    let match = useRouteMatch({
+        path: "/post/:id",
+        strict: true,
+        sensitive: true
+    })
+    console.log("match", match)
+    return match ? <div>id: {match.params.id}</div> : <div>404</div>
+}
+
+ReactDOM.render(
+    <Router>
+        <ul>
+            <li><Link to="/">首页</Link></li>
+            <li><Link to={{pathname: '/user/detail/1', state: {id: 1, name: 'zhangsan'}}}>张三</Link></li>
+            <li><Link to={{pathname: '/post/2'}}>文章</Link></li>
+        </ul>
+        <Route path="/" component={Home} />
+        <Route path="/user/detail/:id" component={UserDetail} />
+        <Route path="/post/:id" component={Post} />
+    </Router>
+    , document.getElementById('root')
+)
