@@ -6,7 +6,6 @@ import UserDetail from './UserDetail';
 
 export default class User extends React.Component {
     render() {
-        console.log(this.props.location.state);
         return (
             <div>
                 <ul>
