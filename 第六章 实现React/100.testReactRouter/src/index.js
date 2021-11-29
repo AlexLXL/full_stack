@@ -3,7 +3,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {HashRouter as Router, Route} from './react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Home from './components/Home';
 import User from './components/User';
 import Profile from './components/Profile';
@@ -12,14 +12,15 @@ import Profile from './components/Profile';
  * react-router-dom@5.2.0
  *
  * exact表示精确匹配,/user就不会被/匹配到
+ * <Switch></Switch> 表示只匹配一个, 匹配到就不向下匹配了
  */
 ReactDOM.render(
     <Router>
-        <div>
+        <Switch>
             <Route path="/" component={Home} exact/>
             <Route path="/user" component={User}/>
             <Route path="/profile" component={Profile}/>
-        </div>
+        </Switch>
     </Router>
     , document.getElementById('root')
 );
