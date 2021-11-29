@@ -3,6 +3,13 @@ import {createStore} from 'redux'
 
 const ADD = 'ADD'
 const MINUS = 'MINUS'
+function add() {
+    return {type: ADD}
+}
+function minus() {
+    return {type: MINUS}
+}
+
 let initialState = {number: 0}
 function reducer(preState, action) {
     switch(action.type) {
@@ -30,8 +37,8 @@ class Counter01 extends Component{
         return (
             <div>
                 <p>{this.state.number}</p>
-                <button onClick={() => store.dispatch({type: ADD})}>+</button>
-                <button onClick={() => store.dispatch({type: MINUS})}>-</button>
+                <button onClick={() => store.dispatch(add())}>+</button>
+                <button onClick={() => store.dispatch(minus())}>-</button>
             </div>
         )
     }
