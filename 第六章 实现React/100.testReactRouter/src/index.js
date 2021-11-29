@@ -17,6 +17,11 @@ import Profile from './components/Profile';
  */
 ReactDOM.render(
     <Router>
+        <ul>
+            <li><Link to='/'>首页</Link></li>
+            <li><Link to='/user'>用户</Link></li>
+            <li><Link to='/profile'>个人中心</Link></li>
+        </ul>
         <Switch>
             <Route path="/" component={Home} exact/>
             <Route path="/user" component={User}/>
