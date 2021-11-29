@@ -5,8 +5,17 @@
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/第一章 LeetCode/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/第一章 数据结构与算法/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/第一章 数据结构与算法/data" />
+      <excludeFolder url="file://$MODULE_DIR$/第三章 Typescript/dist" />
       <excludeFolder url="file://$MODULE_DIR$/第九章 Test/001.test/elementui源码" />
       <excludeFolder url="file://$MODULE_DIR$/第九章 Test/001.test/vue-next-master" />
+      <excludeFolder url="file://$MODULE_DIR$/第九章 Test/002.task/001.vue_directive(第二章 实现vue2扩充知识点)/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/第九章 Test/004.Sentry/001.sentryProject/hello_world01/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/第九章 Test/006.webAssembly/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/第九章 Test/006.webAssembly/001.project/mywasm/pkg" />
+      <excludeFolder url="file://$MODULE_DIR$/第九章 Test/006.webAssembly/001.project/mywasm/target" />
       <excludeFolder url="file://$MODULE_DIR$/第二章 实现vue2/node_modules" />
     </content>
     <orderEntry type="inheritedJdk" />

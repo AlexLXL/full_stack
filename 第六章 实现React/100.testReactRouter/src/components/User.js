@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 export default class User extends React.Component {
     render() {
-        console.log(this.props.location.state);
+        console.log(`拿到路由传参: ${JSON.stringify(this.props.location.state)}`)
         return (
             <div>
                 <p>User</p>
