@@ -1,13 +1,21 @@
 import React, {Component} from 'react'
-import {createStore, bindActionCreators} from 'redux'
+import {createStore, bindActionCreators} from '../redux'
 
 const ADD = 'ADD'
 const MINUS = 'MINUS'
-function add() {
+/*function add() {
     return {type: ADD}
 }
 function minus() {
     return {type: MINUS}
+}*/
+let actions = {
+    add() {
+        return {type: ADD}
+    },
+    minus() {
+        return {type: MINUS}
+    }
 }
 
 let initialState = {number: 0}
@@ -22,9 +30,9 @@ function reducer(preState, action) {
     }
 }
 let store = createStore(reducer, initialState)
-let bounddAdd = bindActionCreators(add, store.dispatch)
-let boundMinus = bindActionCreators(minus, store.dispatch)
-
+/*let bounddAdd = bindActionCreators(add, store.dispatch)
+let boundMinus = bindActionCreators(minus, store.dispatch)*/
+let boundActions = bindActionCreators(actions, store.dispatch)
 class Counter01 extends Component{
     /**
      * 组件关联仓库的两种形式:
@@ -39,8 +47,8 @@ class Counter01 extends Component{
         return (
             <div>
                 <p>{this.state.number}</p>
-                <button onClick={bounddAdd}>+</button>
-                <button onClick={boundMinus}>-</button>
+                <button onClick={boundActions.add}>+</button>
+                <button onClick={boundActions.minus}>-</button>
             </div>
         )
     }
