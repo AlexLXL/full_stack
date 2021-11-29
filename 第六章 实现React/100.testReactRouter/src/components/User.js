@@ -1,12 +1,21 @@
-import React, {Component} from 'react';
+import React from "react";
+import {Route, Link} from "../react-router-dom";
+import UserList from './UserList';
+import UserAdd from './UserAdd';
+import UserDetail from './UserDetail';
 
 export default class User extends React.Component {
     render() {
-        console.log(`拿到路由传参: ${JSON.stringify(this.props.location.state)}`)
+        console.log(this.props.location.state);
         return (
             <div>
-                <p>User</p>
-                <button onClick={() => this.props.history.goBack()}>返回</button>
+                <ul>
+                    <li><Link to="/user/list">用户列表</Link></li>
+                    <li><Link to="/user/add">添加用户</Link></li>
+                </ul>
+                <Route path="/user/list" component={UserList}/>
+                <Route path="/user/add" component={UserAdd}/>
+                <Route path="/user/detail/:id" component={UserDetail}/>
             </div>
         )
     }
