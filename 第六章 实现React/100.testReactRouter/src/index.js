@@ -3,7 +3,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {BrowserRouter as Router, Route, Switch, Redirect} from './react-router-dom';
+import {BrowserRouter as Router, Route, Switch, Redirect, Link} from 'react-router-dom';
 import Home from './components/Home';
 import User from './components/User';
 import Profile from './components/Profile';
@@ -13,9 +13,15 @@ import Profile from './components/Profile';
  *
  * exact表示精确匹配,/user就不会被/匹配到
  * <Switch></Switch> 表示只匹配一个, 匹配到就不向下匹配了
+ * <Link></Link> 表示跳转标签, 其实就是a标签, (等比vue的router-link)
  */
 ReactDOM.render(
     <Router>
+        <ul>
+            <li><Link to='/'>首页</Link></li>
+            <li><Link to='/user'>用户</Link></li>
+            <li><Link to='/profile'>个人中心</Link></li>
+        </ul>
         <Switch>
             <Route path="/" component={Home} exact/>
             <Route path="/user" component={User}/>
