@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {createStore} from 'redux'
+import {createStore, bindActionCreators} from 'redux'
 
 const ADD = 'ADD'
 const MINUS = 'MINUS'
@@ -22,6 +22,8 @@ function reducer(preState, action) {
     }
 }
 let store = createStore(reducer, initialState)
+let bounddAdd = bindActionCreators(add, store.dispatch)
+let boundMinus = bindActionCreators(minus, store.dispatch)
 
 class Counter01 extends Component{
     /**
@@ -37,8 +39,8 @@ class Counter01 extends Component{
         return (
             <div>
                 <p>{this.state.number}</p>
-                <button onClick={() => store.dispatch(add())}>+</button>
-                <button onClick={() => store.dispatch(minus())}>-</button>
+                <button onClick={bounddAdd}>+</button>
+                <button onClick={boundMinus}>-</button>
             </div>
         )
     }
