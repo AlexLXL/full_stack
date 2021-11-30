@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from "react-redux";
 import counter02Actions from "../store/action/counter02";
 
 function Counter02() {
+    // 状态映射为属性
     let counter02 = useSelector(state => state.counter02R)
     let dispatch = useDispatch()
     let {number, color} = counter02
