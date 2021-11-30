@@ -23,9 +23,25 @@ let counter01Actions = {
     promiseAdd1() {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
+                // 只能处理成功
                 resolve({type: actionTypes.ADD1})
             }, 1000)
         })
+    },
+    promiseAdd2() {
+        return {
+            type: actionTypes.ADD1,
+            data: new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    let number = Math.random()
+                    if (number >= .5) {
+                        resolve({type: actionTypes.ADD1})
+                    }else {
+                        reject(number)
+                    }
+                }, 1000)
+            })
+        }
     }
 }
 
