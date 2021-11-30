@@ -15,6 +15,8 @@ function createStore(reducer, initialState) {
         listeners.push(listener)
     }
 
+    dispatch({type:'@@REDXU/INIT'});
+
     return {
         dispatch,
         getState,
