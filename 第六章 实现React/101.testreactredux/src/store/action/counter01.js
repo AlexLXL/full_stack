@@ -18,6 +18,14 @@ let counter01Actions = {
                 dispatch({type: actionTypes.ADD1})
             }, 1000)
         }
+    },
+    // Promise
+    promiseAdd1() {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve({type: actionTypes.ADD1})
+            }, 1000)
+        })
     }
 }
 

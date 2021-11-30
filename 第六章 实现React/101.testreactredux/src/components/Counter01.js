@@ -5,7 +5,7 @@ import * as actionTypes from "../store/action-types";
 
 class Counter01 extends Component {
     render() {
-        let {color, number, add1, minus1, changeColor1, thunkAdd1} = this.props
+        let {color, number, add1, minus1, changeColor1, thunkAdd1, promiseAdd1} = this.props
         return (
             <div style={{color: color}}>
                 <p>{number}</p>
@@ -13,6 +13,7 @@ class Counter01 extends Component {
                 <button onClick={minus1}>-</button>
                 <button onClick={() => changeColor1('red')}>改成红色</button>
                 <button onClick={thunkAdd1}>thunkAdd</button>
+                <button onClick={promiseAdd1}>promiseAdd1</button>
             </div>
         )
     }

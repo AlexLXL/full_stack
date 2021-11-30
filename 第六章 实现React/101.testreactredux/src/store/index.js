@@ -2,6 +2,7 @@ import {createStore, bindActionCreators, applyMiddleware} from 'zredux'
 import rootReducer from "./reducers";
 import logger from '../redux-logger'
 import thunk from '../redux-thunk'
+import reduxPromise from '../redux-promise'
 
 // let store = createStore(rootReducer)
 
@@ -29,6 +30,6 @@ store.dispatch = function (action) {
 }*/
 
 
-let store = applyMiddleware(thunk)(createStore)(rootReducer)
+let store = applyMiddleware(reduxPromise)(createStore)(rootReducer)
 
 export default store
