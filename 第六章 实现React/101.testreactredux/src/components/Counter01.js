@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {createStore, bindActionCreators} from 'redux'
+import {bindActionCreators} from 'zredux'
 import store from "../store";
 import counter01Actions from "../store/action/counter01";
 

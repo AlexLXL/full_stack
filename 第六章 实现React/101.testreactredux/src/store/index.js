@@ -1,4 +1,4 @@
-import {createStore, bindActionCreators} from 'redux'
+import {createStore, bindActionCreators} from 'zredux'
 import rootReducer from "./reducers";
 
 let store = createStore(rootReducer)

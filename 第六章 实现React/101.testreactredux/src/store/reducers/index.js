@@ -1,4 +1,4 @@
-import {combineReducers} from 'redux'
+import {combineReducers} from 'zredux'
 import counter01R from './counter01R'
 import counter02R from './counter02R'
 
