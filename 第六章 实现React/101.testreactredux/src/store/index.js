@@ -30,6 +30,6 @@ store.dispatch = function (action) {
 }*/
 
 
-let store = applyMiddleware(reduxPromise)(createStore)(rootReducer)
+let store = applyMiddleware(thunk, reduxPromise, logger)(createStore)(rootReducer)
 
 export default store
