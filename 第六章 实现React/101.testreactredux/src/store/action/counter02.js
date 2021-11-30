@@ -6,6 +6,9 @@ let counter02Actions = {
     },
     minus2() {
         return {type: actionTypes.MINUS2}
+    },
+    changeColor2(color) {
+        return {type: actionTypes.CHANGE_COLOR, data: color}
     }
 }
 

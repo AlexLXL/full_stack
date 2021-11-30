@@ -7,22 +7,27 @@ let boundActions = bindActionCreators(counter01Actions, store.dispatch)
 
 class Counter01 extends Component {
     state = {
-        number: store.getState().counter01R.number
+        number: store.getState().counter01R.number,
+        color: store.getState().counter01R.color
     };
 
     render() {
         return (
-            <div>
+            <div style={{color: this.state.color}}>
                 <p>{this.state.number}</p>
                 <button onClick={boundActions.add1}>+</button>
                 <button onClick={boundActions.minus1}>-</button>
+                <button onClick={() => boundActions.changeColor1('red')}>改成红色</button>
             </div>
         )
     }
 
     componentDidMount() {
         this.unsubscribe = store.subscribe(() => {
-            this.setState({number: store.getState().counter01R.number})
+            this.setState({
+                number: store.getState().counter01R.number,
+                color: store.getState().counter01R.color
+            })
         })
     }
 
