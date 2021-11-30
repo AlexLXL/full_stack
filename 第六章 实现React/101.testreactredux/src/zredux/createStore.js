@@ -13,6 +13,9 @@ function createStore(reducer, initialState) {
 
     function subscribe(listener) {
         listeners.push(listener)
+        return () => {
+            listeners = listeners.filter(l => l !== listener)
+        }
     }
 
     dispatch({type:'@@REDXU/INIT'});
