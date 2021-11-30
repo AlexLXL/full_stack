@@ -9,6 +9,15 @@ let counter01Actions = {
     },
     changeColor1(color) {
         return {type: actionTypes.CHANGE_COLOR, data: color}
+    },
+
+    // 异步action（异步加1）
+    thunkAdd1() {
+        return function (dispatch, getState) {
+            setTimeout(() => {
+                dispatch({type: actionTypes.ADD1})
+            }, 1000)
+        }
     }
 }
 
