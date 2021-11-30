@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
-import {useSelector, useDispatch} from "react-redux";
+import {useSelector, useDispatch} from "zreact-redux";
 import counter02Actions from "../store/action/counter02";
 
 function Counter02() {
     // 状态映射为属性
     let counter02 = useSelector(state => state.counter02R)
     let dispatch = useDispatch()
+    // let {add2, minus2, changeColor} = useBoundDispatch(actions)
     let {number, color} = counter02
     return (
         <div style={{color: color}}>
