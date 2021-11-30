@@ -1,4 +1,4 @@
-import {createStore, bindActionCreators} from 'redux'
+import {createStore, bindActionCreators, applyMiddleware} from 'zredux'
 import rootReducer from "./reducers";
 
 // let store = createStore(rootReducer)
@@ -36,19 +36,6 @@ function logger({getState, dispatch}) {
             console.log(`prev state`, getState())
             next(action)
             console.log(`next state`, getState())
-        }
-    }
-}
-
-function applyMiddleware(logger) {
-    return function (createStore) {
-        return function (reducer) {
-            let store = createStore(reducer) // 闭包
-            let dispatch = logger(store)(store.dispatch)
-            return {
-                ...store,
-                dispatch
-            }
         }
     }
 }
