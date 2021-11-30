@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {connect} from "react-redux";
+import {connect} from "../zreact-redux";
 import counter01Actions from "../store/action/counter01";
 import * as actionTypes from "../store/action-types";
 
