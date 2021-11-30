@@ -1,39 +1,23 @@
 import React, {Component} from 'react'
-import {bindActionCreators} from 'zredux'
-import store from "../store";
+import {connect} from "react-redux";
 import counter02Actions from "../store/action/counter02";
 
-let boundActions = bindActionCreators(counter02Actions, store.dispatch)
-
 class Counter02 extends Component {
-    state = {
-        number: store.getState().counter02R.number,
-        color: store.getState().counter02R.color
-    };
-
     render() {
+        let {color, number, add2, minus2, changeColor2} = this.props
         return (
-            <div style={{color: this.state.color}}>
-                <p>{this.state.number}</p>
-                <button onClick={boundActions.add2}>+</button>
-                <button onClick={boundActions.minus2}>-</button>
-                <button onClick={() => boundActions.changeColor2('yellow')}>改成黄色</button>
+            <div style={{color: color}}>
+                <p>{number}</p>
+                <button onClick={add2}>+</button>
+                <button onClick={minus2}>-</button>
+                <button onClick={() => changeColor2('yellow')}>改成黄色</button>
             </div>
         )
     }
-
-    componentDidMount() {
-        this.unsubscribe = store.subscribe(() => {
-            this.setState({
-                number: store.getState().counter02R.number,
-                color: store.getState().counter02R.color
-            })
-        })
-    }
-
-    componentWillUnmount() {
-        this.unsubscribe()
-    }
 }
 
-export default Counter02
+let mapStateToProps = state => state.counter02R
+export default connect(
+    mapStateToProps,
+    counter02Actions
+)(Counter02)

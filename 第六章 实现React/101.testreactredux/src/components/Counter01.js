@@ -1,39 +1,28 @@
 import React, {Component} from 'react'
-import {bindActionCreators} from 'zredux'
-import store from "../store";
+import {connect} from "react-redux";
 import counter01Actions from "../store/action/counter01";
 
-let boundActions = bindActionCreators(counter01Actions, store.dispatch)
-
 class Counter01 extends Component {
-    state = {
-        number: store.getState().counter01R.number,
-        color: store.getState().counter01R.color
-    };
-
     render() {
+        let {color, number, add1, minus1, changeColor1} = this.props
         return (
-            <div style={{color: this.state.color}}>
-                <p>{this.state.number}</p>
-                <button onClick={boundActions.add1}>+</button>
-                <button onClick={boundActions.minus1}>-</button>
-                <button onClick={() => boundActions.changeColor1('red')}>改成红色</button>
+            <div style={{color: color}}>
+                <p>{number}</p>
+                <button onClick={add1}>+</button>
+                <button onClick={minus1}>-</button>
+                <button onClick={() => changeColor1('red')}>改成红色</button>
             </div>
         )
     }
-
-    componentDidMount() {
-        this.unsubscribe = store.subscribe(() => {
-            this.setState({
-                number: store.getState().counter01R.number,
-                color: store.getState().counter01R.color
-            })
-        })
-    }
-
-    componentWillUnmount() {
-        this.unsubscribe()
-    }
 }
 
-export default Counter01
+// 把仓库状态 映射为 组件的属性对象
+let mapStateToProps = state => state.counter01R
+// 把仓库动作 映射为 组件的属性对象
+
+export default connect(
+    mapStateToProps,
+    counter01Actions
+)(Counter01)
+// 执行connect的效果如下
+// Counter01.props = {...state.counter1, ...actions}
