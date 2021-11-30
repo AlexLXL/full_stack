@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux'
-import counter01R from './counter01'
-import counter02R from './counter02'
+import counter01R from './counter01R'
+import counter02R from './counter02R'
 
 let rootReducer = combineReducers({
     counter01R,
