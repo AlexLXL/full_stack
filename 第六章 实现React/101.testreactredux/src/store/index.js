@@ -1,12 +1,14 @@
-import {createStore, bindActionCreators} from 'redux'
+import {createStore, bindActionCreators, applyMiddleware} from 'redux'
 import rootReducer from "./reducers";
 
-let store = createStore(rootReducer)
+// let store = createStore(rootReducer)
 
 /**
  * redux中间件
  * 实例1: 打印更新前后值
  * 实例2: 发请求
+ *
+ * 示例3.固定格式
  */
 /*let oldDispatch = store.dispatch
 store.dispatch = function (action) {
@@ -23,6 +25,21 @@ store.dispatch = function (action) {
         oldDispatch(action)
     })
 }*/
+/**
+ * 中间件, 不管是什么功能, 格式是固定的
+ * next - 原是的store.dispatch方法
+ * 最内部函数 - 改造后的dispatch
+ */
+function logger({getState, dispatch}) {
+    return function (next) {
+        return function (action) {
+            console.log(`prev state`, getState())
+            next(action)
+            console.log(`next state`, getState())
+        }
+    }
+}
 
+let store = applyMiddleware(logger)(createStore)(rootReducer)
 
 export default store
