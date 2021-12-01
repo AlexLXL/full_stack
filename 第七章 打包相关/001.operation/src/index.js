@@ -1,2 +1,4 @@
-var a = 1
-console.log(a)
+require('./index.css')
+
+// var a = 2
+// console.log(a)
