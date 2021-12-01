@@ -6,6 +6,7 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
 module.exports = {
+    mode: 'development',
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -27,6 +28,32 @@ module.exports = {
                 use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
             },
             {
+                test: /\.jsx?$/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ["@babel/preset-env", '@babel/preset-react'],
+                        plugins: [
+                            ["@babel/plugin-proposal-decorators", {legacy: true}],
+                            ["@babel/plugin-proposal-private-property-in-object", {"loose": true}],
+                        ],
+                    },
+                },
+            },
+            {
+                test: /\.js$/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ["@babel/preset-env"],
+                        plugins: [
+                            ["@babel/plugin-proposal-decorators", {legacy: true}],
+                            ["@babel/plugin-proposal-private-property-in-object", {"loose": true}],
+                        ],
+                    },
+                },
+            },
+            {
                 test: /\.(png|jpg|jpeg|gif)$/,
                 use: [
                     {
@@ -45,9 +72,9 @@ module.exports = {
         new htmlWebpackPlugin({
             template: './src/index.html'
         }),
-        new Webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-        }),
+        // new Webpack.DefinePlugin({
+        //     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+        // }),
         new CleanWebpackPlugin({
             cleanOnceBeforeBuildPatterns: ['**/*']
         })
