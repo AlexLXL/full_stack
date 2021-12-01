@@ -25,7 +25,13 @@ let p1 = new Person();
 p1.PI = 3.15;
 console.log(p1.PI) */
 
-const a = 'cccccc';
+/*const a = 'cccccc';
 const b = 4;
 let c = () => {console.log(998)}
-console.log(a + b);
+console.log(a + b);*/
+
+fetch('/api/home').then(res => {
+    return res.json()
+}).then(res => {
+    console.log(res)
+})

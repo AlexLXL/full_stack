@@ -133,7 +133,10 @@ module.exports = {
         port: 8080,
         open: true,
         compress: true,
-        static: path.resolve(__dirname, 'static')
+        static: path.resolve(__dirname, 'static'), // 额外的静态文件目录(即通过8080端口也会查该文件夹)
+        proxy: {
+            "/api": "http://localhost:3000"
+        }
     },
 
     // sourcemap
