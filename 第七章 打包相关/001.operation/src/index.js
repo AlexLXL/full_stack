@@ -1,4 +1,6 @@
-require('./index.css')
+import('./css/index.css')
+import('./css/less.less')
+import('./css/sass.scss')
 
 // var a = 2
 // console.log(a)
