@@ -3,6 +3,7 @@ const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const FilemanagerPlugin = require('filemanager-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
@@ -117,6 +118,16 @@ module.exports = {
         //     jQuery: "jquery",
         //     "window.jQuery": "jquery"
         // }),
+
+        // 拷贝文件
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, 'src/mock'),
+                    to: path.resolve(__dirname, 'dist/mock'),
+                }
+            ]
+        })
     ],
     devServer: {
         port: 8080,
@@ -141,7 +152,7 @@ module.exports = {
     // watch: true,
     // watchOptions: {
     //     ignored: /node_modules/,
-    //     aggregateTimeout: 300, // 节流防抖
+    //     aggregateTimeout: 300, // 防抖
     //     poll: 1000, // 每秒1000次去问文件系统有没变化
     // }
 };
