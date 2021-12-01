@@ -1,5 +1,12 @@
 @import "./bg.css";
 
-body{
+body {
   color: red;
+}
+
+#postcss {
+  width: 100px;
+  height: 50px;
+  background-color: #fff9c4;
+  transform: rotate(45deg);
 }
