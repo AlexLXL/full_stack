@@ -129,17 +129,27 @@ module.exports = {
             ]
         })
     ],
+
+    // devServer就是一个express, 所以也可以自己返回东西
     devServer: {
         port: 8080,
         open: true,
         compress: true,
         static: path.resolve(__dirname, 'static'), // 额外的静态文件目录(即通过8080端口也会查该文件夹)
-        proxy: {
-            "/api": {
-                target: "http://localhost:3000",
-                // pathRewrite: {"^/api": ""}
+        // proxy: {
+        //     "/api": {
+        //         target: "http://localhost:3000",
+        //         // pathRewrite: {"^/api": ""}
+        //     }
+        onBeforeSetupMiddleware: function (devServer) {
+            if (!devServer) {
+                throw new Error('webpack-dev-server is not defined');
             }
-        }
+
+            devServer.app.get('/api/home', function (req, res) {
+                res.json({ custom: 'response' });
+            });
+        },
     },
 
     // sourcemap
