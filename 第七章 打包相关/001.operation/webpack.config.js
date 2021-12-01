@@ -135,7 +135,10 @@ module.exports = {
         compress: true,
         static: path.resolve(__dirname, 'static'), // 额外的静态文件目录(即通过8080端口也会查该文件夹)
         proxy: {
-            "/api": "http://localhost:3000"
+            "/api": {
+                target: "http://localhost:3000",
+                // pathRewrite: {"^/api": ""}
+            }
         }
     },
 
