@@ -5,7 +5,6 @@ const htmlWebpackPlugin = require('html-webpack-plugin');
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
 module.exports = {
-    mode: 'development',
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -27,5 +26,11 @@ module.exports = {
         new Webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
         })
-    ]
+    ],
+    devServer: {
+        port: 8080,
+        open: true,
+        compress: true,
+        static: path.resolve(__dirname, 'static')
+    },
 };
