@@ -94,4 +94,6 @@ module.exports = {
         compress: true,
         static: path.resolve(__dirname, 'static')
     },
+    // sourcemap
+    devtool: false,
 };
