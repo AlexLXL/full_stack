@@ -88,24 +88,35 @@ module.exports = {
         new CleanWebpackPlugin({
             cleanOnceBeforeBuildPatterns: ['**/*']
         }),
-        new webpack.SourceMapDevToolPlugin({
-            append: `\n//# sourceMappingURL=http://127.0.0.1:8081/[url]`, // 插入到源文件末尾
-            filename: `[file].map` // 示例: main.js 输出为 main.js.map
-        }),
+
+        // 测试环境使用sourcemap
+        // new webpack.SourceMapDevToolPlugin({
+        //     append: `\n//# sourceMappingURL=http://127.0.0.1:8081/[url]`, // 插入到源文件末尾
+        //     filename: `[file].map` // 示例: main.js 输出为 main.js.map
+        // }),
+
         // 把文件拷贝到maps目录, 不放在项目里
-        new FilemanagerPlugin({
-            events: {
-                onEnd: {
-                    copy: [
-                        {
-                            source: './dist/*.map',
-                            destination: path.resolve(__dirname, './maps')
-                        }
-                    ],
-                    delete: ['./dist/*.map']
-                }
-            }
-        })
+        // new FilemanagerPlugin({
+        //     events: {
+        //         onEnd: {
+        //             copy: [
+        //                 {
+        //                     source: './dist/*.map',
+        //                     destination: path.resolve(__dirname, './maps')
+        //                 }
+        //             ],
+        //             delete: ['./dist/*.map']
+        //         }
+        //     }
+        // }),
+
+        // 自动向模块内注入第三方模块, 减少引入
+        // 也可以使用expose-loader
+        // new webpack.ProvidePlugin({
+        //     $: "jquery",
+        //     jQuery: "jquery",
+        //     "window.jQuery": "jquery"
+        // }),
     ],
     devServer: {
         port: 8080,
@@ -115,4 +126,11 @@ module.exports = {
     },
     // sourcemap
     devtool: false,
+
+    // 打包的时候不一起打包
+    // 原本引入方式是生产依赖, 模块使用都会import/require。 但为了缩小体积, 上线改成使用CDN的方式引入, 并不再一起打包
+    externals: {
+        'vue': 'Vue',
+        'jquery': 'window.$'
+    },
 };
