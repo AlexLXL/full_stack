@@ -25,6 +25,7 @@ let p1 = new Person();
 p1.PI = 3.15;
 console.log(p1.PI) */
 
-const a = 1;
-const b = 3;
+const a = 'cccccc';
+const b = 4;
+let c = () => {console.log(998)}
 console.log(a + b);

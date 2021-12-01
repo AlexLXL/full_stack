@@ -124,13 +124,24 @@ module.exports = {
         compress: true,
         static: path.resolve(__dirname, 'static')
     },
+
     // sourcemap
     devtool: false,
 
-    // 打包的时候不一起打包
-    // 原本引入方式是生产依赖, 模块使用都会import/require。 但为了缩小体积, 上线改成使用CDN的方式引入, 并不再一起打包
+    /**
+     * 打包的时候不一起打包
+     * 原本引入方式是生产依赖, 模块使用都会import/require。 但为了缩小体积, 上线改成使用CDN的方式引入, 并不再一起打包
+     */
     externals: {
         'vue': 'Vue',
         'jquery': 'window.$'
     },
+
+    // npm run build打包的时候监控文件变化, 变化了就继续打 (开发插件/写源码的时候可以用)
+    // watch: true,
+    // watchOptions: {
+    //     ignored: /node_modules/,
+    //     aggregateTimeout: 300, // 节流防抖
+    //     poll: 1000, // 每秒1000次去问文件系统有没变化
+    // }
 };
