@@ -25,6 +25,19 @@ module.exports = {
                 test: /\.scss$/,
                 use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
             },
+            {
+                test: /\.(png|jpg|jpeg|gif)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            name: '[hash:8].[ext]',
+                            outputPath: '/image',
+                            limit: 8192 // 8K以下转换成base64
+                        }
+                    }
+                ]
+            },
         ]
     },
     plugins: [
