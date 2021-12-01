@@ -131,6 +131,8 @@ module.exports = {
     ],
 
     // devServer就是一个express, 所以也可以自己返回东西
+    // webpack-dev-server时帮你开一个express
+    // 如果时有现成写好的express,用webpack-dev-middleware就好
     devServer: {
         port: 8080,
         open: true,
