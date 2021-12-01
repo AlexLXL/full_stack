@@ -1,6 +1,7 @@
 const Webpack = require('webpack');
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
@@ -46,6 +47,9 @@ module.exports = {
         }),
         new Webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+        }),
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: ['**/*']
         })
     ],
     devServer: {
