@@ -14,6 +14,6 @@ module.exports = {
     rules: {
         "indent": ["error", 4],//缩进风格
         "quotes":  "off",//引号类型
-        "no-console": "error",//禁止使用console
+        "no-console": "off",//禁止使用console
     }
 }

@@ -1,7 +1,8 @@
-const Webpack = require('webpack');
+const webpack = require('webpack');
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const FilemanagerPlugin = require('filemanager-webpack-plugin')
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
@@ -81,11 +82,29 @@ module.exports = {
         new htmlWebpackPlugin({
             template: './src/index.html'
         }),
-        // new Webpack.DefinePlugin({
+        // new webpack.DefinePlugin({
         //     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
         // }),
         new CleanWebpackPlugin({
             cleanOnceBeforeBuildPatterns: ['**/*']
+        }),
+        new webpack.SourceMapDevToolPlugin({
+            append: `\n//# sourceMappingURL=http://127.0.0.1:8081/[url]`, // 插入到源文件末尾
+            filename: `[file].map` // 示例: main.js 输出为 main.js.map
+        }),
+        // 把文件拷贝到maps目录, 不放在项目里
+        new FilemanagerPlugin({
+            events: {
+                onEnd: {
+                    copy: [
+                        {
+                            source: './dist/*.map',
+                            destination: path.resolve(__dirname, './maps')
+                        }
+                    ],
+                    delete: ['./dist/*.map']
+                }
+            }
         })
     ],
     devServer: {
