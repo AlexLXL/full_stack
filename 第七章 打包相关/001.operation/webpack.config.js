@@ -16,6 +16,13 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'eslint-loader',
+                options: {fix: true},
+                enforce: 'pre'
+            },
+            {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader', 'postcss-loader']
             },
