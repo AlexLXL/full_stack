@@ -14,7 +14,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'main.js',
-        libraryTarget: 'umd'
+        // libraryTarget: 'umd'
     },
     // loader作用: 识别模块为主, plugin: 打包优化，资源管理，注入环境变量
     module: {
@@ -59,7 +59,7 @@ module.exports = {
                         plugins: [
                             ["@babel/plugin-proposal-decorators", {legacy: true}],
                             ["@babel/plugin-proposal-private-property-in-object", {"loose": true}],
-                            // ["import", {libraryName: 'loadsh', libraryDirectory: ''}]
+                            ["import", {libraryName: 'lodash', libraryDirectory: ''}]
                         ],
                     },
                 },
@@ -197,12 +197,12 @@ module.exports = {
     externals: {
         'vue': 'Vue',
         'jquery': 'window.$',
-        lodash: {
-            commonjs: 'lodash',
-            commonjs2: 'lodash',
-            amd: 'lodash',
-            root: '_'
-        }
+        // lodash: {
+        //     commonjs: 'lodash',
+        //     commonjs2: 'lodash',
+        //     amd: 'lodash',
+        //     root: '_'
+        // }
     },
 
     // npm run build打包的时候监控文件变化, 变化了就继续打 (开发插件/写源码的时候可以用)
