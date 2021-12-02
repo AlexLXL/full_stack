@@ -1,11 +1,11 @@
-/* import('./css/index.css')
+import('./css/index.css')
 import('./css/less.less')
-import('./css/sass.scss') */
+import('./css/sass.scss')
 
-/* import centOs from './images/1.jpg'
+import centOs from './images/1.jpg'
 let img = new Image()
 img.src = centOs
-document.body.appendChild(img) */
+document.body.appendChild(img)
 
 /* var a = 2
 console.log(a) */
@@ -30,8 +30,8 @@ const b = 4;
 let c = () => {console.log(998)}
 console.log(a + b);*/
 
-fetch('/api/home').then(res => {
-    return res.json()
-}).then(res => {
-    console.log(res)
-})
+// fetch('/api/home').then(res => {
+//     return res.json()
+// }).then(res => {
+//     console.log(res)
+// })

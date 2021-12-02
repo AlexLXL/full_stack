@@ -4,6 +4,7 @@ const htmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const FilemanagerPlugin = require('filemanager-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
@@ -26,15 +27,15 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader', 'postcss-loader']
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
             },
             {
                 test: /\.less$/,
-                use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader']
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'less-loader']
             },
             {
                 test: /\.scss$/,
-                use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
             },
             {
                 test: /\.jsx?$/,
@@ -72,6 +73,7 @@ module.exports = {
                         options: {
                             name: '[hash:8].[ext]',
                             outputPath: '/image',
+                            publicPath: '/image',
                             limit: 8192 // 8K以下转换成base64
                         }
                     }
@@ -127,7 +129,13 @@ module.exports = {
                     to: path.resolve(__dirname, 'dist/mock'),
                 }
             ]
-        })
+        }),
+
+        // 提取css到css目录
+        new MiniCssExtractPlugin({
+            filename: 'css/[name].[hash:8].css',
+            // chunkFilename: '[id].[hash:8].css',
+        }),
     ],
 
     // devServer就是一个express, 所以也可以自己返回东西
