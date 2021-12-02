@@ -27,7 +27,18 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: "css-loader",
+                        options: {
+                            modules: {
+                                mode: "local",
+                                localIdentName: "[path][name]__[local]--[hash:base64:5]",
+                            },
+                        },
+                    },
+                    'postcss-loader']
             },
             {
                 test: /\.less$/,
@@ -57,7 +68,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ["@babel/preset-env"],
+                        presets: ["@babel/preset-env", '@babel/preset-react'],
                         plugins: [
                             ["@babel/plugin-proposal-decorators", {legacy: true}],
                             ["@babel/plugin-proposal-private-property-in-object", {"loose": true}],
