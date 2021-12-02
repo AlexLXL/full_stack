@@ -67,17 +67,28 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|jpeg|gif)$/,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            name: '[hash:8].[ext]',
-                            outputPath: '/image',
-                            publicPath: '/image',
-                            limit: 8192 // 8K以下转换成base64
-                        }
-                    }
-                ]
+                type: 'asset/resource',
+                generator: {
+                    filename: 'image/[hash][ext][query]' // 生成到image文件夹
+                },
+                /**
+                 * asset/resource - 替代以前的file-loader
+                 * asset/inline - 替代以前的url-loader
+                 * asset/source - 替代以前的raw-loader - 给什么返回什么
+                 * asset - 自动选择
+                 */
+                // webpack5已经弃用url-loader、file-loader
+                // use: [
+                //     {
+                //         loader: 'url-loader',
+                //         options: {
+                //             name: '[hash:8].[ext]',
+                //             outputPath: '/image',
+                //             publicPath: '/image',
+                //             limit: 8192 // 8K以下转换成base64
+                //         }
+                //     }
+                // ]
             },
         ]
     },
