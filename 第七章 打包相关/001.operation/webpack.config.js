@@ -13,7 +13,8 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'main.js'
+        filename: 'main.js',
+        libraryTarget: 'umd'
     },
     // loader作用: 识别模块为主, plugin: 打包优化，资源管理，注入环境变量
     module: {
@@ -58,6 +59,7 @@ module.exports = {
                         plugins: [
                             ["@babel/plugin-proposal-decorators", {legacy: true}],
                             ["@babel/plugin-proposal-private-property-in-object", {"loose": true}],
+                            // ["import", {libraryName: 'loadsh', libraryDirectory: ''}]
                         ],
                     },
                 },
@@ -188,12 +190,19 @@ module.exports = {
     devtool: false,
 
     /**
-     * 打包的时候不一起打包
-     * 原本引入方式是生产依赖, 模块使用都会import/require。 但为了缩小体积, 上线改成使用CDN的方式引入, 并不再一起打包
+     * 从外部引入这些变量
+     * 但为了缩小体积, 上线使用CDN的方式引入, 并引入到项目中
+     * 配置output.libraryTarget: 'umd'使用
      */
     externals: {
         'vue': 'Vue',
-        'jquery': 'window.$'
+        'jquery': 'window.$',
+        lodash: {
+            commonjs: 'lodash',
+            commonjs2: 'lodash',
+            amd: 'lodash',
+            root: '_'
+        }
     },
 
     // npm run build打包的时候监控文件变化, 变化了就继续打 (开发插件/写源码的时候可以用)
