@@ -203,4 +203,11 @@ module.exports = {
     //     aggregateTimeout: 300, // 防抖
     //     poll: 1000, // 每秒1000次去问文件系统有没变化
     // }
+
+    // 别名, css/js引入文件、图片使用@都会传到这里给webpack解析
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, './src')
+        }
+    },
 };

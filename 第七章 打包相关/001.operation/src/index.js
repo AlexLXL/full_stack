@@ -36,7 +36,9 @@ console.log(a + b);*/
 //     console.log(res)
 // })
 
+/*
 import React,{Component} from 'react';
 import ReactDOM from 'react-dom'
 import rootStyle from './css/reactRoot.css'
 ReactDOM.render(<div className={rootStyle.root}>react渲染内容</div>, document.getElementById("root"))
+*/

@@ -1,5 +1,5 @@
 body {
   background-color: skyblue;
-  background-image: url("../images/1.jpg");
+  background-image: url("@/images/1.jpg");
   background-repeat: no-repeat;
 }
