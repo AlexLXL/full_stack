@@ -4,7 +4,9 @@ let htmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
     mode: 'development',
     devtool: false,
-    entry: './src/index.js',
+    entry: {
+        main: './src/index.js', // 一个入口代表一个代码块
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'main.js'
