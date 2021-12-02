@@ -1,0 +1,17 @@
+{
+  "name": "writecodeready",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "html-webpack-plugin": "^5.5.0",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1"
+  }
+}
