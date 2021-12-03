@@ -5,14 +5,15 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const FilemanagerPlugin = require('filemanager-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin');
-const smw = new SpeedMeasureWebpackPlugin();
+// const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin');
+// const smw = new SpeedMeasureWebpackPlugin();
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const TerserPlugin = require('terser-webpack-plugin');
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
-module.exports = smw.wrap({
+module.exports = {
     mode: 'none',
     entry: './src/index.js',
     output: {
@@ -168,7 +169,8 @@ module.exports = smw.wrap({
 
         // 提取css到css目录
         new MiniCssExtractPlugin({
-            filename: 'css/[name].[hash:8].css'
+            filename: 'css/[name].[hash:8].css',
+            chunkFilename: 'css/[name].[hash:8].chunk.css',
         }),
 
         // 打包花费时间(loader/plugin)
@@ -179,6 +181,9 @@ module.exports = smw.wrap({
 
         // 打包后生成文件依赖和大小报告
         // new BundleAnalyzerPlugin()
+
+        // 优化: 优化压缩css
+        new OptimizeCssAssetsWebpackPlugin(),
     ],
 
     // devServer就是一个express, 所以也可以自己返回东西
@@ -247,4 +252,4 @@ module.exports = smw.wrap({
             new TerserPlugin(),
         ],
     },
-})
+}

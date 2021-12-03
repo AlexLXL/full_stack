@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack server",
-    "build": " webpack",
+    "build": "webpack",
     "dev2": "cross-env NODE_ENV=development webpack server",
     "build2": "cross-env NODE_ENV=development webpack"
   },
@@ -37,6 +37,7 @@
     "less-loader": "^10.2.0",
     "mini-css-extract-plugin": "^2.4.5",
     "node-sass": "^6.0.1",
+    "optimize-css-assets-webpack-plugin": "^6.0.1",
     "postcss-loader": "^6.2.1",
     "postcss-preset-env": "^7.0.1",
     "sass-loader": "^12.3.0",
