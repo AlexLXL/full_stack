@@ -19,6 +19,8 @@ module.exports = {
     },
     // loader作用: 识别模块为主, plugin: 打包优化，资源管理，注入环境变量
     module: {
+        // 优化: 内部没有require和import的模块可以不解析, 加快构构建
+        noParse: /jquery|lodash/,
         rules: [
             {
                 test: /\.js$/,
@@ -215,7 +217,7 @@ module.exports = {
 
     // 别名, css/js引入文件、图片使用@都会传到这里给webpack解析
     resolve: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'], // 引入时不加后缀, webpack查找时匹配后缀
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.css'], // 引入时不加后缀, webpack查找时匹配后缀
         alias: {
             '@': path.resolve(__dirname, './src')
         }
