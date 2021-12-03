@@ -5,10 +5,12 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const FilemanagerPlugin = require('filemanager-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin');
+const smw = new SpeedMeasureWebpackPlugin();
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
-module.exports = {
+module.exports = smw.wrap({
     mode: 'development',
     entry: './src/index.js',
     output: {
@@ -227,4 +229,4 @@ module.exports = {
             '@': path.resolve(__dirname, './src')
         }
     },
-};
+})
