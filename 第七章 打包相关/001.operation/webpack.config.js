@@ -13,7 +13,8 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'main.js',
+        filename: '[name].[chunkhash:8].js',
+        chunkFilename: 'chunk/[name].bundle.js', // 修改chunk文件目录
         // libraryTarget: 'umd'
     },
     // loader作用: 识别模块为主, plugin: 打包优化，资源管理，注入环境变量
@@ -157,8 +158,7 @@ module.exports = {
 
         // 提取css到css目录
         new MiniCssExtractPlugin({
-            filename: 'css/[name].[hash:8].css',
-            // chunkFilename: '[id].[hash:8].css',
+            filename: 'css/[name].[hash:8].css'
         }),
     ],
 

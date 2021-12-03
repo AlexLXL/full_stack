@@ -1,6 +1,6 @@
-/*import('./css/index.css')
+import('./css/index.css')
 import('./css/less.less')
-import('./css/sass.scss')*/
+import('./css/sass.scss')
 
 /*import centOs from './images/1.jpg'
 let img = new Image()
