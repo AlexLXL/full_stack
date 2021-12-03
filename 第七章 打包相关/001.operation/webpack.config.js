@@ -114,7 +114,11 @@ module.exports = smw.wrap({
     },
     plugins: [
         new htmlWebpackPlugin({
-            template: './src/index.html'
+            template: './src/index.html',
+            minify: {
+                collapseWhitespace: true,
+                removeComments: true
+            }
         }),
         // new webpack.DefinePlugin({
         //     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
