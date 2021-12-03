@@ -215,6 +215,7 @@ module.exports = {
 
     // 别名, css/js引入文件、图片使用@都会传到这里给webpack解析
     resolve: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'], // 引入时不加后缀, webpack查找时匹配后缀
         alias: {
             '@': path.resolve(__dirname, './src')
         }
