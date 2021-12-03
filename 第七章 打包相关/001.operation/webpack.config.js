@@ -17,7 +17,7 @@ console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 const PATHS = {src: path.join(__dirname, 'src')}
 
 module.exports = {
-    mode: 'none',
+    mode: 'production',
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -262,10 +262,10 @@ module.exports = {
     },
 
     // 优化: 优化和压缩js
-    optimization: {
-        minimize: true,
-        minimizer: [
-            new TerserPlugin(),
-        ],
-    },
+    // optimization: {
+    //     minimize: true,
+    //     minimizer: [
+    //         new TerserPlugin(),
+    //     ],
+    // },
 }

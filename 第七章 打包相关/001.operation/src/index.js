@@ -1,8 +1,8 @@
-import('./css/index.css')
+/*import('./css/index.css')
 import('./css/less.less')
-import('./css/sass.scss')
+import('./css/sass.scss')*/
 
-import centOs2 from './images/2.jpg'
+/*import centOs2 from './images/2.jpg'
 import centOs3 from './images/3.jpg'
 import centOs4 from './images/4.jpg'
 import centOs5 from './images/5.jpg'
@@ -11,7 +11,10 @@ img.src = centOs2
 img.src = centOs3
 img.src = centOs4
 img.src = centOs5
-document.body.appendChild(img)
+document.body.appendChild(img)*/
+
+import {func2} from './func'
+console.log(func2())
 
 /* var a = 2
 console.log(a) */
@@ -54,7 +57,7 @@ ReactDOM.render(<div className={rootStyle.root}>react渲染内容</div>, documen
 import {last, flatten} from 'lodash' // 打包出来523kb, 添加webpack配置后, 17.9kb
 console.log(last, flatten)*/
 
-import moment from 'moment'
+/*import moment from 'moment'
 require('moment/locale/zh-cn')
-console.log(moment("20111031", "YYYYMMDD").fromNow())
+console.log(moment("20111031", "YYYYMMDD").fromNow())*/
 
