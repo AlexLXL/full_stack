@@ -2,10 +2,16 @@ import('./css/index.css')
 import('./css/less.less')
 import('./css/sass.scss')
 
-/*import centOs from './images/1.jpg'
+import centOs2 from './images/2.jpg'
+import centOs3 from './images/3.jpg'
+import centOs4 from './images/4.jpg'
+import centOs5 from './images/5.jpg'
 let img = new Image()
-img.src = centOs
-document.body.appendChild(img)*/
+img.src = centOs2
+img.src = centOs3
+img.src = centOs4
+img.src = centOs5
+document.body.appendChild(img)
 
 /* var a = 2
 console.log(a) */

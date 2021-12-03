@@ -22,8 +22,8 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].[chunkhash:8].js',
-        chunkFilename: 'chunk/[name].bundle.js', // 修改chunk文件目录
-        // libraryTarget: 'umd'
+        chunkFilename: 'chunk/[chunkhash:8].chunk.js', // 修改chunk文件目录
+        // libraryTarget: 'umd' // 将项目以commonjs + commonjs2 + amd的方式导出
     },
     // loader作用: 识别模块为主, plugin: 打包优化，资源管理，注入环境变量
     module: {
@@ -101,7 +101,7 @@ module.exports = {
                 test: /\.(png|jpg|jpeg|gif)$/,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'image/[hash][ext][query]' // 生成到image文件夹
+                    filename: 'image/[name].[hash:5][ext]' // 生成到image文件夹
                 },
                 /**
                  * asset/resource - 替代以前的file-loader
@@ -180,8 +180,8 @@ module.exports = {
 
         // 提取css到css目录
         new MiniCssExtractPlugin({
-            filename: 'css/[name].[hash:8].css',
-            chunkFilename: 'css/[name].[hash:8].chunk.css',
+            filename: 'css/[name].[chunkhash:8].css',
+            chunkFilename: 'css/[chunkhash:8].chunk.css',
         }),
 
         // 打包花费时间(loader/plugin)
