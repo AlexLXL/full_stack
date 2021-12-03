@@ -8,11 +8,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin');
 const smw = new SpeedMeasureWebpackPlugin();
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+const TerserPlugin = require('terser-webpack-plugin');
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
 module.exports = smw.wrap({
-    mode: 'development',
+    mode: 'none',
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -233,5 +234,13 @@ module.exports = smw.wrap({
         alias: {
             '@': path.resolve(__dirname, './src')
         }
+    },
+
+    // 优化: 优化和压缩js
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new TerserPlugin(),
+        ],
     },
 })
