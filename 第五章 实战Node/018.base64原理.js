@@ -33,5 +33,7 @@ str += '0123456789+/'
 
 console.log(str[57] + str[43] + str[22] + str[42])  // 这就是base64输出的值: 5rWq
 
+// 图片流转base64
+// var base64str = `data:${mime.getType(filepath)};base64,${图片buffer.toString('base64')}`
 
 
