@@ -78,16 +78,24 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ["@babel/preset-env", '@babel/preset-react'],
-                        plugins: [
-                            ["@babel/plugin-proposal-decorators", {legacy: true}],
-                            ["@babel/plugin-proposal-private-property-in-object", {"loose": true}],
-                        ],
-                    },
-                },
+                use: [
+                    // {
+                    //     loader: 'thread-loader',
+                    //     options: {
+                    //         workers: 2
+                    //     }
+                    // },
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ["@babel/preset-env", '@babel/preset-react'],
+                            plugins: [
+                                ["@babel/plugin-proposal-decorators", {legacy: true}],
+                                ["@babel/plugin-proposal-private-property-in-object", {"loose": true}],
+                            ],
+                        },
+                    }
+                ],
             },
             {
                 test: /\.(png|jpg|jpeg|gif)$/,
