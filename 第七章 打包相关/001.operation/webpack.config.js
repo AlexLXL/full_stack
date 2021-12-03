@@ -1,17 +1,20 @@
 const webpack = require('webpack');
 const path = require('path');
-const htmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const FilemanagerPlugin = require('filemanager-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin');
 // const smw = new SpeedMeasureWebpackPlugin();
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+const htmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+const glob = require("glob");
+const PurgecssPlugin = require("purgecss-webpack-plugin");
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+const PATHS = {src: path.join(__dirname, 'src')}
 
 module.exports = {
     mode: 'none',
@@ -184,6 +187,11 @@ module.exports = {
 
         // 优化: 优化压缩css
         new OptimizeCssAssetsWebpackPlugin(),
+
+        // 优化: 去除未使用的 css
+        new PurgecssPlugin({
+            paths: glob.sync(`${PATHS.src}/**/*`, {nodir: true}),
+        })
     ],
 
     // devServer就是一个express, 所以也可以自己返回东西

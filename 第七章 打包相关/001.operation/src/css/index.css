@@ -10,3 +10,7 @@ body {
   background-color: #fff9c4;
   transform: rotate(45deg);
 }
+
+#superHero {
+  width: 99px;
+}
