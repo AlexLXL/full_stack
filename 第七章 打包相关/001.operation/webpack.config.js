@@ -162,6 +162,11 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: 'css/[name].[hash:8].css'
         }),
+
+        new webpack.IgnorePlugin({
+            contextRegExp: /moment$/,
+            resourceRegExp: /^\.\/locale/
+        })
     ],
 
     // devServer就是一个express, 所以也可以自己返回东西

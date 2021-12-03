@@ -1,6 +1,6 @@
-import('./css/index.css')
+/*import('./css/index.css')
 import('./css/less.less')
-import('./css/sass.scss')
+import('./css/sass.scss')*/
 
 /*import centOs from './images/1.jpg'
 let img = new Image()
@@ -44,5 +44,11 @@ ReactDOM.render(<div className={rootStyle.root}>react渲染内容</div>, documen
 */
 
 
+/*
 import {last, flatten} from 'lodash' // 打包出来523kb, 添加webpack配置后, 17.9kb
-console.log(last, flatten)
+console.log(last, flatten)*/
+
+import moment from 'moment'
+require('moment/locale/zh-cn')
+console.log(moment("20111031", "YYYYMMDD").fromNow())
+
