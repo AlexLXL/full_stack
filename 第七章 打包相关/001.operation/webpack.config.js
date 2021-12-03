@@ -7,6 +7,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin');
 const smw = new SpeedMeasureWebpackPlugin();
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
@@ -165,10 +166,14 @@ module.exports = smw.wrap({
             filename: 'css/[name].[hash:8].css'
         }),
 
-        new webpack.IgnorePlugin({
-            contextRegExp: /moment$/,
-            resourceRegExp: /^\.\/locale/
-        })
+        // 打包花费时间(loader/plugin)
+        // new webpack.IgnorePlugin({
+        //     contextRegExp: /moment$/,
+        //     resourceRegExp: /^\.\/locale/
+        // }),
+
+        // 打包后生成文件依赖和大小报告
+        // new BundleAnalyzerPlugin()
     ],
 
     // devServer就是一个express, 所以也可以自己返回东西
