@@ -91,6 +91,10 @@ module.exports = {
                     {
                         loader: 'babel-loader',
                         options: {
+                            // 开启缓存, 如果loader本身不支持可以使用cache-loader
+                            // 一般只有开销比较大的loader才使用缓存,
+                            // 读缓存、写缓存、判断缓存都是需要性能开销
+                            cacheDirectory: true,
                             presets: ["@babel/preset-env", '@babel/preset-react'],
                             plugins: [
                                 ["@babel/plugin-proposal-decorators", {legacy: true}],
