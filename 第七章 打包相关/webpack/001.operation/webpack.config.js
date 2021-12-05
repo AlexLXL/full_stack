@@ -18,6 +18,9 @@ const PATHS = {src: path.join(__dirname, 'src')}
 
 module.exports = {
     mode: 'production',
+    // 多入口的时候如果一个入口对应一个新的html
+    // 需要配置多个htmlWebpackPlugin指定
+    // 否则会在一个html里全部引入
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -261,11 +264,63 @@ module.exports = {
         }
     },
 
-    // 优化: 优化和压缩js
-    // optimization: {
-    //     minimize: true,
-    //     minimizer: [
-    //         new TerserPlugin(),
-    //     ],
-    // },
+
+    optimization: {
+        /*
+        // 优化: 优化和压缩js
+        minimize: true,
+        minimizer: [
+            new TerserPlugin(),
+        ],*/
+
+        // 自定义chunk拆分规则
+        splitChunk: {
+            // 代码块分割的方式: async、initial、all (异步、同步、全部的意思)
+            // async, 如: import('./a.js')
+            // initial, 如: import _ from 'lodash'
+            chunks: 'all',
+            // 分割出去的代码块最小体积, 0代表不限制
+            minSize: 0,
+            // 表示一个模块至少被几个入口引用才会分割出代码块
+            minChunks: 2,
+            // 分割出去的代码块名称的连接符, 默认值时cacheGroup~代码块名称
+            automaticNameDelimiter: '~',
+            // 最大异步模块请求数(入口文件最多拆成几个代码块)
+            maxAsyncRequests: 30,
+            // 最大同步模块请求数(入口文件最多拆成几个代码块)
+            // 超过值后就会把剩下的模块内嵌一起
+            maxInitialRequests: 30,
+            // 定义缓存组
+            cacheGroups: {
+                // 缓存组名称
+                defaultVendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    // 如果lodash模块同时可以归入多个缓存组, 打包后引入时,会使用优先级比较高的
+                    priority: -10,
+                    // 如果当前块包含已经从主包中分离出来的模块，它将被重用，而不是生成一个新的。
+                    // 如lodash以来module1模块, 带module1已经抽离出来, 重用就好, 没必要再打包进来
+                    reuseExistingChunk: true,
+                },
+                default: {
+                    minChunks: 2,
+                    priority: -20,
+                    reuseExistingChunk: true,
+                },
+            },
+            /**
+             * 示例:
+             * page1.js 依赖 module1、module2、jquery、asyncModule1
+             * page2.js 依赖 module1、module2、jquery
+             * page3.js 依赖 module1、module2、jquery
+             *
+             * 按缓存组分割
+             * default-src_module1_js.js    // 分到default组
+             * default-src_module2_js.js    // 分到default组
+             * asyncModule1.js              // 动态导入, 所以被单独分割
+             * defaultVendors-node_modules_jquery_dist_jquery_js.js // 分到defaultVendors组
+             */
+        }
+
+        // runtime
+    },
 }
