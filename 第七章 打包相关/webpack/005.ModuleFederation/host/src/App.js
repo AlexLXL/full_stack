@@ -1,6 +1,6 @@
 import React from "react";
 import Slides from './Slides';
-const RemoteNewsList = React.lazy(() => import("remote/NewsList"));
+const RemoteNewsList = React.lazy(() => import("remote_appOne_remoteEntry/NewsList"));
 
 const App = () => (
     <div>

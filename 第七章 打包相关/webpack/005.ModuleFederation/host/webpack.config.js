@@ -31,10 +31,10 @@ module.exports = {
             template: './public/index.html'
         }),
         new ModuleFederationPlugin({
-            name: "host",
+            name: "appTwo",
             // filename: "remoteEntry.js",
             remotes: {
-                remote: "remote@http://localhost:3000/remoteEntry.js"
+                remote_appOne_remoteEntry: "appOne@http://localhost:3000/remoteEntry.js"
             },
             shared: {
                 react: {singleton: true},

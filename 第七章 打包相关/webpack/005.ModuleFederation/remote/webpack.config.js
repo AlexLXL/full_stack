@@ -32,7 +32,7 @@ module.exports = {
             template: './public/index.html'
         }),
         new ModuleFederationPlugin({
-            name: "remote",
+            name: "appOne",
             filename: "remoteEntry.js",
             exposes: {
                 "./NewsList": "./src/NewsList",
