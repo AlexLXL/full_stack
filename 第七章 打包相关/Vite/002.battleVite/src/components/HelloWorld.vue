@@ -4,7 +4,7 @@
     <p class="sass">sass</p>
     <div class="postcss"></div>
 </template>
-<script scoped>
+<script>
     export default {
         name: 'HelloWorld',
         props: {

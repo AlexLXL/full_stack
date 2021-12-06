@@ -3,11 +3,13 @@
     <img  :src="imgUrl" />
     <div class="bgWrap"></div>
     <HelloWorld msg="Vue3 + Vite测试"/>
+    <ShopList msg="uuuu1"/>
 </template>
 
 <script setup>
     import imgUrl from '@/assets/2.jpg'
     import HelloWorld from '@/components/HelloWorld.vue'
+    import ShopList from '@/components/ShopList.vue'
 </script>
 
 <style scoped>
