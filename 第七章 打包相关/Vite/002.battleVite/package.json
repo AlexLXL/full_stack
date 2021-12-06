@@ -11,6 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "autoprefixer": "^10.4.0",
+    "less": "^4.1.2",
+    "sass": "^1.44.0",
     "vue": "^3.2.23"
   },
   "devDependencies": {
