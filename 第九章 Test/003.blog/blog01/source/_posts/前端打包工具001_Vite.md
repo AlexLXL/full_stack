@@ -1,7 +1,13 @@
 ---
-title: 前端打包工具001_Vite实战
+title: 前端打包工具001_Vite
 date: 2021-12-06 16:08:33
-tags:
+categories:  
+- [window, 前端, 打包, rollup]  
+tags:  
+- window
+- 前端
+- 打包
+- rollup
 ---
 
 ## 1.Vite

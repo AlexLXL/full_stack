@@ -1,5 +1,5 @@
 ---
-title: 微前端002-single-spa和qiankun实战
+title: 微前端002_single-spa和qiankun实战
 date: 2021-12-06 09:54:59
 categories:  
 - [window, 前端, 微前端, sing-spa, qiankun]  
