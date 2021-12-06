@@ -11,8 +11,6 @@ tags:
 - qiankun
 ---
 
-实战代码github：https://github.com/AlexLXL/ZF_002.weiQianDuan
-
 ## 一、微前端知识
 
 ### 一) 为什么需要微前端

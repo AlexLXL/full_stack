@@ -29,8 +29,6 @@ remotes	   | object	| 远程引用的应用名及其别名的映射，使用时�
 exposes	   | object	| 被远程引用时可暴露的资源路径及其别名
 shared	   | object	| 与其他应用之间可以共享的第三方依赖，使你的代码中不用重复加载同一份依赖
 
-5. 实战代码github: https://github.com/AlexLXL/full_stack/tree/master/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%89%93%E5%8C%85%E7%9B%B8%E5%85%B3/webpack/005.ModuleFederation
-
 ### 二、模块联邦
 
 - 微前端实现方式之一, 可以将一个大项目拆成多个独立的子项目, 子项目中可以共享一些模块给其他模块使用
