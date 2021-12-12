@@ -44,20 +44,12 @@
 
     Promise.prototype.then = function (onfulfilled, onrejected) {
         let status = this.status
-        let promise
 
         typeof onfulfilled === "function" ? onfulfilled : (value) => { return value }
         typeof onrejected === "function" ? onrejected : (value) => { throw new Error(value) }
 
-        if (status === "pending") {
-            // --wait--
-            // 一会存一下callbacks
-            // this.callbacks.push({
-            //     onfulfilled: onfulfilled,
-            //     onrejected: onrejected
-            // })
-            // onfulfilled、onrejected有可能没有返回promise，还是要处理一下
-            promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
+            if (status === "pending") {
                 this.callbacks.push({
                     onfulfilled: function () {
                         handlePromiseStatus(resolve, reject, onfulfilled, this.data)
@@ -66,16 +58,19 @@
                         handlePromiseStatus(resolve, reject, onrejected, this.data)
                     }
                 })
-            })
-        }else if (status === "fulfilled") {
-            promise =  new Promise((resolve, reject) => {
+                // --wait--
+                // 一会存一下callbacks
+                // this.callbacks.push({
+                //     onfulfilled: onfulfilled,
+                //     onrejected: onrejected
+                // })
+                // onfulfilled、onrejected有可能没有返回promise，还是要处理一下
+            } else if (status === "fulfilled") {
                 handlePromiseStatus(resolve, reject, onfulfilled, this.data)
-            })
-        }else if(status === "rejected"){
-            promise =  new Promise((resolve, reject) => {
+            } else if (status === "rejected") {
                 handlePromiseStatus(resolve, reject, onrejected, data)
-            })
-        }
+            }
+        })
         return promise
 
     }
