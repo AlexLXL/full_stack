@@ -52,7 +52,7 @@ function treeTransverseLast(tree) {
 /**
  * ★★ 问题4: 树的遍历(中序) (左下、根、右下的顺序)
  * OUTPUT: [5, 10, 7, 3, 11, 2], order为1时
- * 前序好后序都是中序的两种边界
+ * 前序好后序都是中序的两种边界(前序理解为纯右侧树, 后序理解为纯左侧树)
  */
 function treeTransverseMiddle(tree, order) {
     // 简化一下问题, order为1时,在循环子树时，如果遇到下标为1，就去打印父节点
