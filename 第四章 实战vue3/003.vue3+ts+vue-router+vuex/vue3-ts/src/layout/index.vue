@@ -8,11 +8,13 @@
         <Header></Header>
       </el-header>
       <el-main class="main">
+        <Tabs></Tabs>
         <router-view v-slot="{ Component }">
           <keep-alive>
             <component :is="Component" />
           </keep-alive>
         </router-view>
+
       </el-main>
     </el-container>
   </el-container>
@@ -22,6 +24,7 @@
 import MenuBar from "@/layout/menu/MenuBar.vue"
 import Header from "@/layout/header/Header.vue"
 import Main from "@/layout/main/Main.vue"
+import Tabs from "@/layout/tab/Tabs.vue"
 
 export default {
   name: "index",
@@ -29,7 +32,8 @@ export default {
   components: {
     MenuBar,
     Header,
-    Main
+    Main,
+    Tabs
   }
 }
 </script>
@@ -46,7 +50,7 @@ export default {
       border-bottom: 1px solid #e5e5e5;
     }
     .main {
-      //background-color: darkgray;
+      padding-top: 0;
     }
   }
 </style>

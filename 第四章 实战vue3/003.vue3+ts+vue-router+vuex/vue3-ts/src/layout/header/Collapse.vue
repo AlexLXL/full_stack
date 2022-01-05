@@ -21,5 +21,6 @@
     font-size: 20px;
     cursor: pointer;
     color: #303123;
+    margin-right: 15px;
   }
 </style>
