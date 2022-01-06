@@ -3,6 +3,12 @@ import Layout from '@/layout/index.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
+    path: '/login',
+    component: () => import('@/views/login/Login.vue'),
+    name: 'login',
+    children: []
+  },
+  {
     path: '/',
     component: Layout,
     name: 'Layout',
