@@ -14,7 +14,7 @@ enum StatusCode {
   Success = 200 //返回成功
 }
 
-class request {
+class Request {
   private instance: AxiosInstance;
 
   constructor(config: AxiosRequestConfig) {
@@ -246,11 +246,27 @@ class request {
     })
   }
 
+  /**
+   * 获取验证码图片
+   * @param url
+   */
   getImage(url: string) {
     return this.instance.post(url, null, {
       responseType: 'arraybuffer'
     })
   }
+
+  /**
+   * 单例模式
+   * @private
+   */
+  private static RequestInstance: Request;
+  public static getInstance(config: AxiosRequestConfig) {
+    if (!Request.RequestInstance) {
+      Request.RequestInstance = new Request(config)
+    }
+    return Request.RequestInstance
+  }
 }
 
-export default request;
+export default Request;
