@@ -17,5 +17,6 @@
     <mapping directory="$PROJECT_DIR$/第九章 Test/ZF_001.impl_vue" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/第九章 Test/elementui注释版" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/第二章 vue源码" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/第四章 实战vue3/003.vue3+ts+vue-router+vuex/002.资料/源码/初始版-已安装依赖/vue3-project" vcs="Git" />
   </component>
 </project>

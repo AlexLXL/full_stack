@@ -25,7 +25,8 @@ import { ITab } from '@/store/type'
   let router = useRouter()
   let activedTab = ref('')
   let tabList = computed(() => {
-    return store.getters['getTabList']
+    // return store.getters['getTabList']
+    return store.getters['tabs/getTabList']
   })
   const removeTab = (targetName: string) => {
     if(targetName === '/homepage') return
@@ -41,11 +42,13 @@ import { ITab } from '@/store/type'
     } 
     console.log(activeName)
     activedTab.value = activeName
-    store.commit('removeTabList', {path: targetName, name: ''})
+    // store.commit('removeTabList', {path: targetName, name: ''})
+    store.commit('tabs/removeTabList', {path: targetName, name: ''})
     router.push({path: activeName})
   }
   const addTab = () => {
-    store.commit('addTabList', {path: route.path, name: route.meta.title as string})
+    // store.commit('addTabList', {path: route.path, name: route.meta.title as string})
+    store.commit('tabs/addTabList', {path: route.path, name: route.meta.title as string})
   }
   const setActivedTab = () => {
     activedTab.value = route.path
@@ -60,8 +63,9 @@ import { ITab } from '@/store/type'
     })
     let tabListSession = sessionStorage.getItem('tabList')
     if(tabListSession) {
-      let oldTabList = JSON.parse(tabListSession)
-      oldTabList && store.commit('setTabList', oldTabList)
+      let oldTabList = JSON.parse(tabListSession);
+      // oldTabList && store.commit('setTabList', oldTabList)
+      oldTabList && store.commit('tabs/setTabList', oldTabList)
     }
   }
 

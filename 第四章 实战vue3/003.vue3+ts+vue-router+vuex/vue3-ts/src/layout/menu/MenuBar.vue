@@ -26,7 +26,8 @@ export default defineComponent({
   setup() {
     let store = useStore()
     let isCollapse = computed(() => {
-      return store.getters['getCollapse']
+      // return store.getters['getCollapse']
+      return store.getters['menu/getCollapse']
     })
     const handleOpen = (key: string, keyPath: string[]) => {
       console.log(key, keyPath)
