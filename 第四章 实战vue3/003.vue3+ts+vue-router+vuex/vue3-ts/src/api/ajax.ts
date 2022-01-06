@@ -15,11 +15,11 @@ enum StatusCode {
 }
 
 class Request {
-  private instance: AxiosInstance;
+  private axiosInstance: AxiosInstance;
 
   constructor(config: AxiosRequestConfig) {
     // 创建axios实例
-    this.instance = axios.create(config)
+    this.axiosInstance = axios.create(config)
     // 初始化拦截器
     this.interceptors()
   }
@@ -27,7 +27,7 @@ class Request {
   //axios拦截器
   private interceptors() {
     // 请求发送之前拦截
-    this.instance.interceptors.request.use((config: AxiosRequestConfig) => {
+    this.axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
       let token = getToken() || '';
       if (token) {
         //把token添加到请求头部
@@ -48,7 +48,7 @@ class Request {
      * 请求返回之后拦截
      * res的类型是AxiosResponse<any>
      */
-    this.instance.interceptors.response.use((res: AxiosResponse) => {
+    this.axiosInstance.interceptors.response.use((res: AxiosResponse) => {
       if (res && res.data) {
         const data = res.data as any;
         if (data.code == StatusCode.NoAuth) {
@@ -138,7 +138,7 @@ class Request {
    */
   get<T = any>(url: string, params?: any): Promise<Result<T>> {
     return new Promise((resolve, reject) => {
-      this.instance.get<T>(url, {
+      this.axiosInstance.get<T>(url, {
         params: params,
         paramsSerializer: (params) => {
           return qs.stringify(params)
@@ -159,7 +159,7 @@ class Request {
    */
   getRestApi<T = any>(url: string, params?: any): Promise<Result<T>> {
     return new Promise((resolve, reject) => {
-      this.instance.get<T>(this.getParams(params) ? `${url}/${this.getParams(params)}` : url)
+      this.axiosInstance.get<T>(this.getParams(params) ? `${url}/${this.getParams(params)}` : url)
         .then((res) => {
           resolve(res.data as any)
         }).catch((error) => {
@@ -186,7 +186,7 @@ class Request {
 
   post<T = any>(url: string, params: any): Promise<Result<T>> {
     return new Promise((resolve, reject) => {
-      this.instance.post<T>(url, params, {
+      this.axiosInstance.post<T>(url, params, {
         transformRequest: [(params) => {
           return JSON.stringify(params)
         }],
@@ -203,7 +203,7 @@ class Request {
 
   put<T = any>(url: string, params: any): Promise<Result<T>> {
     return new Promise((resolve, reject) => {
-      this.instance.put<T>(url, params, {
+      this.axiosInstance.put<T>(url, params, {
         transformRequest: [(params) => {
           return JSON.stringify(params)
         }],
@@ -220,7 +220,7 @@ class Request {
 
   delete<T = any>(url: string, params: any): Promise<Result<T>> {
     return new Promise((resolve, reject) => {
-      this.instance.delete<T>(this.getParams(params) ? `${url}/${this.getParams(params)}` : url)
+      this.axiosInstance.delete<T>(this.getParams(params) ? `${url}/${this.getParams(params)}` : url)
         .then((res) => {
           resolve(res.data as any)
         }).catch((error) => {
@@ -231,7 +231,7 @@ class Request {
 
   login<T>(url: string, params: any): Promise<Result<T>> {
     return new Promise((resolve, reject) => {
-      this.instance.post<T>(url, params, {
+      this.axiosInstance.post<T>(url, params, {
         transformRequest: [(params) => {
           return qs.stringify(params)
         }],
@@ -247,11 +247,11 @@ class Request {
   }
 
   /**
-   * 获取验证码图片
+   * 获取图片（验证码）
    * @param url
    */
   getImage(url: string) {
-    return this.instance.post(url, null, {
+    return this.axiosInstance.post(url, null, {
       responseType: 'arraybuffer'
     })
   }
@@ -260,12 +260,12 @@ class Request {
    * 单例模式
    * @private
    */
-  private static RequestInstance: Request;
+  private static instance: Request;
   public static getInstance(config: AxiosRequestConfig) {
-    if (!Request.RequestInstance) {
-      Request.RequestInstance = new Request(config)
+    if (!Request.instance) {
+      Request.instance = new Request(config)
     }
-    return Request.RequestInstance
+    return Request.instance
   }
 }
 

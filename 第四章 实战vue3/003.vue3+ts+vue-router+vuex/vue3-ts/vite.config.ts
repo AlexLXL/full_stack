@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import {resolve} from "path";
 import externalGlobals from "rollup-plugin-external-globals";
 
+// console.log(import.meta.env)
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
@@ -26,6 +27,9 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, 'src')
     }
+  },
+  define: {
+    // RUNNING_ENV: JSON.stringify(process.env.RUNNING_ENV)
   },
   css: {
     postcss: {

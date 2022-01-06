@@ -2,8 +2,9 @@
   "name": "vue3-ts",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build2": "vite build",
+    "dev": "vite --mode dev",
+    "build:test": "vite build --mode test",
+    "build:prod": "vite build --mode prod",
     "preview": "vite preview"
   },
   "dependencies": {
