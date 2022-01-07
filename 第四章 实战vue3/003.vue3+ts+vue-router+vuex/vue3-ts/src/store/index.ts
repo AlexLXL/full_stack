@@ -57,17 +57,20 @@ import {InjectionKey} from 'vue'
 import {createStore, useStore as baseUseStore, Store} from 'vuex'
 import tabs, {TabState} from '../store/modules/tabs'
 import menu, {MenuState} from '../store/modules/menu'
+import user, {UserState} from '../store/modules/user'
 import {CommonStore} from './help'
 
 //是一种规范
 export type RootState = {
   tabs: TabState,
   menu: MenuState,
+  user: UserState,
 }
 //导入所有的模块
 export const modules = {
-  tabs: tabs,
-  menu: menu,
+  tabs,
+  menu,
+  user
 }
 export const key: InjectionKey<Store<RootState>> = Symbol()
 

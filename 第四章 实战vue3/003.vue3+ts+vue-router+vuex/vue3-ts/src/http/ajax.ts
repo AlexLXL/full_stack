@@ -199,7 +199,7 @@ class Request {
     config = Object.assign(defaultConfig, config)
     return new Promise((resolve, reject) => {
       this.axiosInstance.post<T>(url, params, config).then((res) => {
-        resolve(res.data as any)
+        resolve(res as any)
       }).catch((error) => {
         reject(error)
       })
@@ -213,7 +213,7 @@ class Request {
     config = Object.assign(defaultConfig, config)
     return new Promise((resolve, reject) => {
       this.axiosInstance.put<T>(url, params, config).then((res) => {
-        resolve(res.data as any)
+        resolve(res as any)
       }).catch((error) => {
         reject(error)
       })
@@ -224,7 +224,7 @@ class Request {
     return new Promise((resolve, reject) => {
       this.axiosInstance.delete<T>(this.getParams(params) ? `${url}/${this.getParams(params)}` : url)
         .then((res) => {
-          resolve(res.data as any)
+          resolve(res as any)
         }).catch((error) => {
         reject(error)
       })

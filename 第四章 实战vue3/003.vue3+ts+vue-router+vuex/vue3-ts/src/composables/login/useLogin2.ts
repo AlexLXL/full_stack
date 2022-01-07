@@ -1,14 +1,20 @@
 import {getCurrentInstance} from "vue";
 import {loginApi} from '@/services/userService'
+import { useStore } from "@/store";
+import { useRouter } from "vue-router";
 
 export default function useLogin2(loginModel: any) {
   const {proxy} = getCurrentInstance() as any;
+  const store = useStore()
+  const router = useRouter()
 
   let login = () => {
     proxy.$refs.loginFormRef.validate(async (valid: boolean) => {
       if (valid) {
-        loginApi(loginModel).then((res) => {
-          console.log(res)
+        store.dispatch('user/login', loginModel).then((res: any) => {
+          if(res.data.code === 200) {
+            router.push({path: '/'})
+          }
         })
       }
     })
