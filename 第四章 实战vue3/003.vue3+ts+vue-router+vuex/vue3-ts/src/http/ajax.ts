@@ -150,10 +150,7 @@ class Request {
    */
   get<T = any>(url: string, params?: any): Promise<Result<T>> {
     return new Promise((resolve, reject) => {
-      this.axiosInstance.get<T>(url, {
-        params: params,
-        paramsSerializer: (params) => qs.stringify(params)
-      }).then((res) => {
+      this.axiosInstance.get<T>(url, params).then((res) => {
         resolve(res.data as any)
       }).catch((error) => {
         reject(error)
@@ -233,20 +230,6 @@ class Request {
       })
     })
   }
-
-  // login<T>(url: string, params: any): Promise<Result<T>> {
-  //   return new Promise((resolve, reject) => {
-  //     this.axiosInstance.post<T>(url, params, {
-  //       headers: {
-  //         'Content-Type': 'application/x-www-form-urlencoded'
-  //       }
-  //     }).then((res) => {
-  //       resolve(res as any)
-  //     }).catch((error) => {
-  //       reject(error)
-  //     })
-  //   })
-  // }
 
   /**
    * 获取图片（验证码）

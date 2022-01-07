@@ -28,10 +28,13 @@ let prod = {
   aeURL: 'http://42.193.158.170:8098/testPsgsDuAe'
 }
 
-let dict = { dev, test, prod }
-let {normalURL} =  dict[import.meta.env.VITE_RUNNING_ENV]
+// @ts-ignore
+let RUNNING_ENV = { dev, test, prod }[import.meta.env.VITE_RUNNING_ENV]
 
-export let loginUrls =  {
-  getImg: normalURL + '/api/sysUser/image',
-  login: normalURL + '/api/user/login',
-}
+export const normalURL =  RUNNING_ENV.normalURL
+export const iotURL =  RUNNING_ENV.iotURL
+export const woURL =  RUNNING_ENV.woURL
+export const authURL =  RUNNING_ENV.authURL
+export const safeProdURL =  RUNNING_ENV.safeProdURL
+export const pumpUrl =  RUNNING_ENV.pumpUrl
+export const aeURL =  RUNNING_ENV.aeURL

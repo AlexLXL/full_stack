@@ -64,8 +64,6 @@ const {imgSrc, getImage} = useImage();
 
 //登录
 const {login} = useLogin2(loginModel);
-
-
 </script>
 <style scoped lang='scss'>
 .logincontainer {
