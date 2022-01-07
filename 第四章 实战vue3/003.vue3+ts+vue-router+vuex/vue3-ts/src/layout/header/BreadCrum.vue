@@ -11,7 +11,7 @@
   let route = useRoute()
   let getBreadCrum = () => {
     let matched = route.matched.filter(item => item.meta && item.meta.title)
-    if(matched[0].path !== '/homepage') {
+    if(matched && matched[0] && matched[0].path !== '/homepage') {
       matched = [{path: '/homepage', meta: {title: '首页'}} as any].concat(matched)
     }
     tabs.value = matched
