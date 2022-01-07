@@ -1,7 +1,33 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Layout from '@/layout/index.vue'
 
-const routes: Array<RouteRecordRaw> = [
+export const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/login',
+    component: () => import('@/views/login/Login.vue'),
+    name: 'login',
+    children: []
+  },
+  {
+    path: '/',
+    component: Layout,
+    name: 'Layout',
+    redirect: '/homepage',
+    children: [
+      {
+        path: '/homepage',
+        component: () => import('@/layout/homepage/Index.vue'),
+        name: 'homepage',
+        meta: {
+          title: '首页',
+          icon: '#icondashboard'
+        }
+      }
+    ]
+  }
+]
+
+/*const routes1: Array<RouteRecordRaw> = [
   {
     path: '/login',
     component: () => import('@/views/login/Login.vue'),
@@ -48,7 +74,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/userList',
-        component: () => import('@/views/system/user/UserList.vue'),
+        component: () => import('@/views/system/User/UserList.vue'),
         name: 'userList',
         meta: {
           title: '用户管理',
@@ -58,7 +84,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/roleList',
-        component: () => import('@/views/system/role/RoleList.vue'),
+        component: () => import('@/views/system/Role/RoleList.vue'),
         name: 'roleList',
         meta: {
           title: '角色管理',
@@ -68,7 +94,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/menuList',
-        component: () => import('@/views/system/menu/MenuList.vue'),
+        component: () => import('@/views/system/Menu/MenuList.vue'),
         name: 'menuList',
         meta: {
           title: '权限管理',
@@ -90,7 +116,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '/goodCategory',
-        component: () => import('@/views/goods/goodCategory/goodCategoryList.vue'),
+        component: () => import('@/views/goods/goodsCategory/goodCategoryList.vue'),
         name: 'goodCategory',
         meta: {
           title: '商品分类',
@@ -122,7 +148,7 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
-]
+]*/
 
 const router = createRouter({
   history: createWebHistory(),

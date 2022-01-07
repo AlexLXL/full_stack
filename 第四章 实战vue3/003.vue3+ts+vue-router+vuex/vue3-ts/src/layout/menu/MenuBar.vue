@@ -36,7 +36,12 @@ export default defineComponent({
       console.log(key, keyPath)
     }
 
-    let mockDataMenu: IMenuList[] = [
+    //菜单数据
+    const menuList = computed(() =>{
+      return store.getters['menu/getMenuList']
+    })
+
+    /*let mockDataMenu: IMenuList[] = [
       {
         path: '/homepage',
         component: 'Layout',
@@ -172,7 +177,8 @@ export default defineComponent({
         ]
       },
     ]
-    let menuList = reactive(mockDataMenu)
+    let menuList = reactive(mockDataMenu)*/
+
     let {path} = useRoute()
     let activeIndex = computed(() => {
       return path
