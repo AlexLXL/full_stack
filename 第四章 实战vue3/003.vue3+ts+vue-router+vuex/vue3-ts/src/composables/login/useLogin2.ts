@@ -14,7 +14,7 @@ export default function useLogin2(loginModel: any) {
         store.dispatch('user/login', loginModel).then((res) => {
           if(res.code === 200) {
             // 请求用户权限
-            store.dispatch('user/getUserInfo')
+            // store.dispatch('user/getUserInfo')
             router.push({path: '/'})
           }
         })

@@ -3,7 +3,7 @@
     <el-sub-menu v-if="menu.children && menu.children.length" :index="menu.path">
       <template #title>
         <el-icon>
-          <Icon :icon="menu.meta.icon2" />
+<!--          <Icon :icon="menu.meta.icon2" />-->
         </el-icon>
         <span>{{menu.meta.title}}</span>
       </template>
@@ -11,7 +11,7 @@
     </el-sub-menu>
     <el-menu-item v-else :index="menu.path">
       <el-icon>
-        <Icon :icon="menu.meta.icon2" />
+<!--        <Icon :icon="menu.meta.icon2" />-->
       </el-icon>
       <template #title>{{menu.meta.title}}</template>
     </el-menu-item>
