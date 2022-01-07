@@ -31,6 +31,6 @@ let prod = {
 let dict = { dev, test, prod }
 let {normalURL} =  dict[import.meta.env.VITE_RUNNING_ENV]
 
-export let basicURLs =  {
+export let userUrls =  {
   getImg: normalURL + '/api/sysUser/image'
 }
