@@ -20,8 +20,20 @@ class Request {
   constructor(config: AxiosRequestConfig) {
     // 创建axios实例
     this.axiosInstance = axios.create(config)
-    // 初始化拦截器
+    // axios默认配置
+    this.defaults()
+    // axios拦截器
     this.interceptors()
+  }
+
+  private defaults() {
+    this.axiosInstance.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest'
+    this.axiosInstance.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest'
+    // this.axiosInstance.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+    this.axiosInstance.defaults.responseType = 'json'
+    this.axiosInstance.defaults.transformRequest = [
+      (params) => qs.stringify(params, {indices: false})
+    ]
   }
 
   //axios拦截器
@@ -140,9 +152,7 @@ class Request {
     return new Promise((resolve, reject) => {
       this.axiosInstance.get<T>(url, {
         params: params,
-        paramsSerializer: (params) => {
-          return qs.stringify(params)
-        }
+        paramsSerializer: (params) => qs.stringify(params)
       }).then((res) => {
         resolve(res.data as any)
       }).catch((error) => {
@@ -162,9 +172,10 @@ class Request {
       this.axiosInstance.get<T>(this.getParams(params) ? `${url}/${this.getParams(params)}` : url)
         .then((res) => {
           resolve(res.data as any)
-        }).catch((error) => {
-        reject(error)
-      })
+        })
+        .catch((error) => {
+          reject(error)
+        })
     })
   }
 
@@ -184,16 +195,13 @@ class Request {
     return _params;
   }
 
-  post<T = any>(url: string, params: any): Promise<Result<T>> {
+  post<T = any>(url: string, params: any, config: AxiosRequestConfig = {}): Promise<Result<T>> {
+    let defaultConfig = {
+      headers: {'Content-Type': 'application/json'}
+    }
+    config = Object.assign(defaultConfig, config)
     return new Promise((resolve, reject) => {
-      this.axiosInstance.post<T>(url, params, {
-        transformRequest: [(params) => {
-          return JSON.stringify(params)
-        }],
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then((res) => {
+      this.axiosInstance.post<T>(url, params, config).then((res) => {
         resolve(res.data as any)
       }).catch((error) => {
         reject(error)
@@ -201,16 +209,13 @@ class Request {
     })
   }
 
-  put<T = any>(url: string, params: any): Promise<Result<T>> {
+  put<T = any>(url: string, params: any, config: AxiosRequestConfig = {}): Promise<Result<T>> {
+    let defaultConfig = {
+      headers: {'Content-Type': 'application/json'}
+    }
+    config = Object.assign(defaultConfig, config)
     return new Promise((resolve, reject) => {
-      this.axiosInstance.put<T>(url, params, {
-        transformRequest: [(params) => {
-          return JSON.stringify(params)
-        }],
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then((res) => {
+      this.axiosInstance.put<T>(url, params, config).then((res) => {
         resolve(res.data as any)
       }).catch((error) => {
         reject(error)
@@ -229,22 +234,19 @@ class Request {
     })
   }
 
-  login<T>(url: string, params: any): Promise<Result<T>> {
-    return new Promise((resolve, reject) => {
-      this.axiosInstance.post<T>(url, params, {
-        transformRequest: [(params) => {
-          return qs.stringify(params)
-        }],
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      }).then((res) => {
-        resolve(res as any)
-      }).catch((error) => {
-        reject(error)
-      })
-    })
-  }
+  // login<T>(url: string, params: any): Promise<Result<T>> {
+  //   return new Promise((resolve, reject) => {
+  //     this.axiosInstance.post<T>(url, params, {
+  //       headers: {
+  //         'Content-Type': 'application/x-www-form-urlencoded'
+  //       }
+  //     }).then((res) => {
+  //       resolve(res as any)
+  //     }).catch((error) => {
+  //       reject(error)
+  //     })
+  //   })
+  // }
 
   /**
    * 获取图片（验证码）
@@ -261,6 +263,7 @@ class Request {
    * @private
    */
   private static instance: Request;
+
   public static getInstance(config: AxiosRequestConfig) {
     if (!Request.instance) {
       Request.instance = new Request(config)

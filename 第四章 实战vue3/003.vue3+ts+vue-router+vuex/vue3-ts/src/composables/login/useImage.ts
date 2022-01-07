@@ -1,6 +1,7 @@
 import {ref, onMounted} from 'vue'
-import {getImageApi} from '@/api/user/user'
+import {getImageApi} from '@/services/userService'
 
+// 验证码
 export default function useImage() {
   let imgSrc = ref('')
 

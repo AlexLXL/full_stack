@@ -3,9 +3,9 @@
     <el-form
         class="loginForm"
         :model="loginModel"
-        ref="loginFormRef"
         :rules="rules"
         :inline="false"
+        ref="loginFormRef"
     >
       <el-form-item>
         <div class="loginTitle">系统登录</div>
@@ -41,30 +41,29 @@
   </div>
 </template>
 <script setup lang='ts'>
-import {ref, reactive} from 'vue'
-
-let loginModel = reactive({
-  username: '',
-  password: '',
-  code: ''
-})
-let rules = ref([])
+// import {ref, reactive} from 'vue'
+// let loginModel = reactive({
+//   username: '',
+//   password: '',
+//   code: ''
+// })
+// let rules = ref([])
 // let imgSrc = ref('')
 // let getImage = () => {}
-let login = () => {}
+// let login = () => {}
 
 // 组合API
 import useImage from '@/composables/login/useImage';
-// import useBaseLogin from '@/composables/login/useBaseLogin';
-// import useLogin from '@/composables/login/useLogin';
-// //基础数据
-// const {loginModel, rules, loginFormRef} = useBaseLogin();
+import useLogin from '@/composables/login/useLogin';
+import useLogin2 from '@/composables/login/useLogin2';
+//基础数据
+const {loginModel, rules, loginFormRef} = useLogin();
 
 //验证码
 const {imgSrc, getImage} = useImage();
 
-// //登录
-// const {login} = useLogin(loginModel);
+//登录
+const {login} = useLogin2(loginModel);
 
 
 </script>
