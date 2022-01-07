@@ -1,5 +1,5 @@
 <template>
-    <div ref="root">
+    <div ref="rootRef">
         <h1>{{title}}</h1>
         <p>支持人数: {{state.supNum}}</p>
         <p>反对人数: {{state.oppNum}}</p>
