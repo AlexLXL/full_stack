@@ -22,8 +22,8 @@
             <el-input placeholder="请输入验证码" v-model="loginModel.code"></el-input>
           </el-col>
           <el-col :span="8">
-            <el-input placeholder="请输入验证码" v-model="loginModel.code"></el-input>
-            <!-- <img :src='imgSrc' @click="getImage"/> -->
+<!--            <el-input placeholder="请输入验证码" v-model="loginModel.code"></el-input>-->
+             <img :src='imgSrc' @click="getImage"/>
           </el-col>
         </el-row>
       </el-form-item>
@@ -48,23 +48,20 @@ let loginModel = reactive({
   password: '',
   code: ''
 })
-
-let imgSrc = ref('')
 let rules = ref([])
-let getImage = () => {
-}
-let login = () => {
-}
+// let imgSrc = ref('')
+// let getImage = () => {}
+let login = () => {}
 
-// // 组合API
-// import useImage from '@/composables/login/useImage';
+// 组合API
+import useImage from '@/composables/login/useImage';
 // import useBaseLogin from '@/composables/login/useBaseLogin';
 // import useLogin from '@/composables/login/useLogin';
 // //基础数据
 // const {loginModel, rules, loginFormRef} = useBaseLogin();
 
-// //验证码
-// const {imgSrc, getImage} = useImage();
+//验证码
+const {imgSrc, getImage} = useImage();
 
 // //登录
 // const {login} = useLogin(loginModel);
