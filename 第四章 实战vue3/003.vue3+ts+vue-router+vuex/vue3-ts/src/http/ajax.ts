@@ -16,6 +16,9 @@ enum StatusCode {
 
 class Request {
   private axiosInstance: AxiosInstance;
+  private defaultConfig: AxiosRequestConfig = {
+    headers: {'Content-Type': 'application/json'}
+  };
 
   constructor(config: AxiosRequestConfig) {
     // 创建axios实例
@@ -40,14 +43,9 @@ class Request {
   private interceptors() {
     // 请求发送之前拦截
     this.axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
-      let token = getToken() || '';
-      if (token) {
-        //把token添加到请求头部
-        config.headers = {
-          token: token
-        };
-      }
       //这里可以设置头部token携带到后端进行token的验证
+      let token = getToken() || '';
+      if (token) config.headers!.token = token
       return config
     }, (error) => {
       // 错误抛到业务代码
@@ -193,13 +191,10 @@ class Request {
   }
 
   post<T = any>(url: string, params: any, config: AxiosRequestConfig = {}): Promise<Result<T>> {
-    let defaultConfig = {
-      headers: {'Content-Type': 'application/json'}
-    }
-    config = Object.assign(defaultConfig, config)
+    config = Object.assign(this.defaultConfig, config)
     return new Promise((resolve, reject) => {
       this.axiosInstance.post<T>(url, params, config).then((res) => {
-        resolve(res as any)
+        resolve(res.data as any)
       }).catch((error) => {
         reject(error)
       })
@@ -207,13 +202,10 @@ class Request {
   }
 
   put<T = any>(url: string, params: any, config: AxiosRequestConfig = {}): Promise<Result<T>> {
-    let defaultConfig = {
-      headers: {'Content-Type': 'application/json'}
-    }
-    config = Object.assign(defaultConfig, config)
+    config = Object.assign(this.defaultConfig, config)
     return new Promise((resolve, reject) => {
       this.axiosInstance.put<T>(url, params, config).then((res) => {
-        resolve(res as any)
+        resolve(res.data as any)
       }).catch((error) => {
         reject(error)
       })
@@ -224,8 +216,19 @@ class Request {
     return new Promise((resolve, reject) => {
       this.axiosInstance.delete<T>(this.getParams(params) ? `${url}/${this.getParams(params)}` : url)
         .then((res) => {
-          resolve(res as any)
+          resolve(res.data as any)
         }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
+
+  postAny<T = any>(url: string, params: any, config: AxiosRequestConfig): Promise<T> {
+    config = Object.assign(this.defaultConfig, config)
+    return new Promise((resolve, reject) => {
+      this.axiosInstance.post<T>(url, params, config).then((res) => {
+        resolve(res.data as any)
+      }).catch((error) => {
         reject(error)
       })
     })
@@ -246,7 +249,6 @@ class Request {
    * @private
    */
   private static instance: Request;
-
   public static getInstance(config: AxiosRequestConfig) {
     if (!Request.instance) {
       Request.instance = new Request(config)

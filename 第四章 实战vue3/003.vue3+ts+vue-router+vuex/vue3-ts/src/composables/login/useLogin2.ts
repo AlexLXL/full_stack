@@ -1,7 +1,7 @@
 import {getCurrentInstance} from "vue";
-import {loginApi} from '@/services/userService'
 import { useStore } from "@/store";
 import { useRouter } from "vue-router";
+import {LoginResult} from "@/services/userModel";
 
 export default function useLogin2(loginModel: any) {
   const {proxy} = getCurrentInstance() as any;
@@ -11,8 +11,10 @@ export default function useLogin2(loginModel: any) {
   let login = () => {
     proxy.$refs.loginFormRef.validate(async (valid: boolean) => {
       if (valid) {
-        store.dispatch('user/login', loginModel).then((res: any) => {
-          if(res.data.code === 200) {
+        store.dispatch('user/login', loginModel).then((res) => {
+          if(res.code === 200) {
+            // 请求用户权限
+            store.dispatch('user/getUserInfo')
             router.push({path: '/'})
           }
         })
