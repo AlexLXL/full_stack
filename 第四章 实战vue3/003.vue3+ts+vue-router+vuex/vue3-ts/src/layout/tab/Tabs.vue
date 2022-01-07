@@ -48,6 +48,7 @@ import { ITab } from '@/store/type'
   }
   const addTab = () => {
     // store.commit('addTabList', {path: route.path, name: route.meta.title as string})
+    if (['/login'].includes(route.path)) return
     store.commit('tabs/addTabList', {path: route.path, name: route.meta.title as string})
   }
   const setActivedTab = () => {
