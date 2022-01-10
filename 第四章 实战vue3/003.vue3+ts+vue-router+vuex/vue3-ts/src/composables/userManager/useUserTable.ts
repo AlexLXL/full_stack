@@ -40,12 +40,23 @@ export default function useUserTable() {
     listParams.currentPage = page
     getUserList();
   }
+  //搜索
+  const searchBtn = () =>{
+    getUserList();
+  }
+  //重置
+  const resetBtn = () =>{
+    listParams.loginName = '';
+    getUserList();
+  }
   return {
     listParams,
     tableData,
     getUserList,
     treeClick,
     sizeChange,
-    currentChange
+    currentChange,
+    searchBtn,
+    resetBtn
   }
 }
