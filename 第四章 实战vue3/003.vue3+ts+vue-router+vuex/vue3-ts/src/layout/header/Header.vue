@@ -1,8 +1,12 @@
 <template>
   <div class="header">
-    <Collapse></Collapse>
-    <BreadCrum></BreadCrum>
-    <el-button type="primary" @click="toLogin">登录页</el-button>
+    <div class="left">
+      <Collapse></Collapse>
+      <BreadCrum></BreadCrum>
+    </div>
+    <div class="right">
+      <el-button type="primary" @click="toLogin">登录页</el-button>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -25,5 +29,11 @@ let toLogin = () => {
   .header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+
+    .left {
+      display: flex;
+      align-items: center;
+    }
   }
 </style>

@@ -3,12 +3,12 @@
     <!-- 搜索栏 -->
     <el-form :model="searchForm" :rules="rules" label-width="80px" :inline="true" size="small">
       <el-form-item>
-        <el-input v-model="searchForm.searchName" placeholder="请输入部门名称"></el-input>
+        <el-input size="large" v-model="searchForm.searchName" placeholder="请输入部门名称"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button :icon="Search">查询</el-button>
+        <el-button size="large" :icon="Search">查询</el-button>
         <!-- <el-button type="primary" :icon='Plus'>新增</el-button> -->
-        <el-button size="mini" type="primary" :icon="Plus">新增</el-button>
+        <el-button size="large" type="primary" :icon="Plus">新增</el-button>
       </el-form-item>
     </el-form>
     <!-- 表格 -->
