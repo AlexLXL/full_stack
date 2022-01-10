@@ -32,8 +32,10 @@
 <script setup lang='ts'>
 import {DocumentRemove, Plus, Minus} from '@element-plus/icons-vue'
 import useLeftTree from '@/composables/userManager/useLeftTree';
+
+const emit = defineEmits(['treeClick'])
 //树相关数据
-const {treeData, defaultProps, handleNodeClick, getTreeData, openBtn, parentTree, selectNode} = useLeftTree();
+const {treeData, defaultProps, handleNodeClick, getTreeData, openBtn, parentTree, selectNode} = useLeftTree(emit);
 
 </script>
 

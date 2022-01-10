@@ -31,7 +31,7 @@ export interface UserInfo {
 /**
  * 用户列表查询参数
  */
-export interface UserListParm {
+export interface UserListParams {
   deptId: string | number;
   loginName: string;
   currentPage: number;

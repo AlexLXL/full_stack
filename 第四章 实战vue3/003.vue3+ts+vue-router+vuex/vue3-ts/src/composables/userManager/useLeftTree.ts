@@ -3,7 +3,7 @@ import {getLeftTreeApi} from '@/services/userService'
 import {ElTree} from 'element-plus';
 import {reactive, ref, onMounted, nextTick} from 'vue'
 
-export default function useLeftTree() {
+export default function useLeftTree(emit: any) {
   //树的ref
   const parentTree = ref<InstanceType<typeof ElTree>>();
   //树的数据
@@ -24,6 +24,7 @@ export default function useLeftTree() {
   const handleNodeClick = (data: DeptModel) => {
     selectNode.id = data.id;
     selectNode.name = data.name
+    emit('treeClick', data.id)
   }
   //获取树的数据
   const getTreeData = () => {
@@ -33,7 +34,7 @@ export default function useLeftTree() {
         nextTick(() => {
           const firstNode = document.querySelector(".el-tree-node") as any;
           if (firstNode) firstNode.click();
-        })
+        }).then()
       }
     });
 

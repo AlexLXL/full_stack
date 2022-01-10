@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from "./router"
 import {store, key} from './store'
 import ElementPlus from 'element-plus'
+import locale from 'element-plus/lib/locale/lang/zh-cn'
 import * as Icons from '@element-plus/icons-vue'
 import {cleanSession, getToken} from "@/utils/auth";
 // import 'element-plus/dist/index.css'
@@ -22,6 +23,7 @@ let app = createApp(App)
 app.use(router)
   .use(store, key)
   .use(ElementPlus)
+  .use(ElementPlus,{locale})
   .component('Icon', Icon)
   .mount('#app')
 
