@@ -1,8 +1,11 @@
 import {IListParams, ITableData} from '@/services/departmentModel'
 import {getDepartmentListApi} from '@/services/departmentService'
-import {reactive, onMounted} from "vue";
+import {ref, reactive, onMounted, nextTick} from "vue";
 
 export default function useDepartmentTable() {
+  //表格的高度
+  const tableHeigth = ref(0);
+
   // 搜索栏
   let searchForm = reactive<IListParams>({
     searchName: ''
@@ -23,9 +26,13 @@ export default function useDepartmentTable() {
 
   onMounted(() => {
     getTableData()
+    nextTick(() => {
+      tableHeigth.value = window.innerHeight - 200
+    })
   })
 
   return {
+    tableHeigth,
     searchForm,
     tableData,
     getTableData,

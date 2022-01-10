@@ -14,6 +14,7 @@
     <!-- 表格 -->
     <el-table
       :data="tableData.list"
+      :height="tableHeigth"
       style="width: 100%"
       row-key="id"
       default-expand-all
@@ -27,7 +28,7 @@
       <el-table-column width="200" align="center" label="操作">
         <template #default="scope">
           <el-button size="mini" type="success" :icon="Edit" @click="editBtn(scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" :icon="Close" @click="deleteBtn(scope.row)">删除</el-button>
+          <el-button size="mini" type="danger" :icon="Close" @click="deleteBtn(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -42,7 +43,7 @@ import {Edit,Close,Plus,Search} from '@element-plus/icons-vue'
 import useDeparment from '@/composables/department/useDeparment'
 
 let { rules } = useBaseModel()
-let { searchForm, tableData, getTableData } = useDepartmentTable()
+let { searchForm, tableData, getTableData, tableHeigth } = useDepartmentTable()
 const { serachBtn, resetBtn, addBtn, editBtn, deleteBtn, addDeptRef, save } = useDeparment(getTableData);
 </script>
 
