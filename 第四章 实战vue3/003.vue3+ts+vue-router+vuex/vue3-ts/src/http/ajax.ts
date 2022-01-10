@@ -9,7 +9,7 @@ export interface Result<T = any> {
   data: T;
 }
 
-enum StatusCode {
+export enum StatusCode {
   NoAuth = 600, //token失效
   Success = 200 //返回成功
 }
@@ -17,6 +17,7 @@ enum StatusCode {
 class Request {
   private axiosInstance: AxiosInstance;
   private defaultConfig: AxiosRequestConfig = {
+    transformRequest: [(params) => JSON.stringify(params)],
     headers: {'Content-Type': 'application/json'}
   };
 

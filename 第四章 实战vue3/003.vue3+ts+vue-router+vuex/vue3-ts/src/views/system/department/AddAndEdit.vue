@@ -76,10 +76,8 @@ import { ElForm } from 'element-plus'
 import {DeptModel, SelectNode} from '@/services/departmentModel'
 import deparentmentSelectTree from './deparentmentSelectTree.vue'
 import useSelectTree from '@/composables/department/useSelectTree'
+import useInstance from '@/hooks/useInstance'
 
-// import useInstance from '@/hooks/useInstance'
-//全局挂载global
-// const { global } = useInstance();
 
 //弹框属性
 const { dialog, onShow, onClose } = useDialog();
@@ -87,6 +85,8 @@ const { dialog, onShow, onClose } = useDialog();
 const { dialogModel, rules } = useBaseModel();
 //表单的ref属性
 const addDeptForm = ref<InstanceType<typeof ElForm>>();
+//全局挂载global
+const { global } = useInstance();
 //定义事件
 const emit = defineEmits(['save'])
 //弹框的确定,把表单的值，返回给父组件
@@ -105,14 +105,11 @@ const show = (type: string, row?: DeptModel) => {
   dialog.height = 250;
   type == EditType.ADD ? dialog.title = Title.ADD : dialog.title = Title.EDIT
   onShow();
-  // //清空表单
-  // global.$resetForm(addDeptForm.value, dialogModel);
-  // if (EditType.EDIT === type) {
-  //   //把要编辑的数据，放到表单绑定的model里面
-  //   global.$objCoppy(row, dialogModel)
-  // }
-  // //设置编辑属性
-  // dialogModel.type = type;
+  global.$util_resetForm(addDeptForm.value, dialogModel); // 清空表单
+  if (type === EditType.EDIT) {
+    global.$util_objCopy(row, dialogModel)
+  }
+  dialogModel.type = type;
 }
 
 // 父组件调用ref的时候使用

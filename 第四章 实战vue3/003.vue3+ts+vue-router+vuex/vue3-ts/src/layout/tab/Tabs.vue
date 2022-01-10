@@ -92,7 +92,7 @@ import { ITab } from '@/store/type'
    text-align: center;
    padding: 0 10px !important;
    border: 1px solid #d8dce5 !important;
-   margin: 0 3px !important;
+   margin: 0 0 !important;
  }
  :deep(.el-tabs_nav) {
    border: none !important;

@@ -1,26 +1,26 @@
-import { ref } from 'vue'
-import { EditType } from '@/type/BaseEnum';
-import { AddDeptModel, DeptModel } from '@/services/departmentModel';
-// import useInstance from '@/hooks/useInstance';
-// import { addDeptApi, editDeptApi, deleteDeptApi } from '@/api/dept/dept';
-// import { Result, StatusCode } from '@/http/request';
+import {ref} from 'vue'
+import {EditType} from '@/type/BaseEnum';
+import {AddDeptModel, DeptModel} from '@/services/departmentModel';
+import useInstance from '@/hooks/useInstance';
+import {Result, StatusCode} from "@/http/ajax";
+import {addDeptApi, editDeptApi} from "@/services/departmentService";
 // import AddAndEdit from '@/views/system/department/AddAndEdit.vue'
 
-export default function useDept() {
-  // const { global, proxy } = useInstance();
+export default function useDept(getTableData: any) {
+  const {global, proxy} = useInstance();
   //(vue的官方给的方式)打包的时候会报错
   // const addDeptRef = ref<InstanceType<typeof AddAndEdit>>();
   const addDeptRef = ref<{ show: (type: string, row?: DeptModel) => void }>();
 
   //搜索
   const serachBtn = () => {
-    // getDeptList();
+    // getTableData();
   }
   //重置
   const resetBtn = () => {
     //清空搜索框
     // searchParm.searchName = ''
-    // getDeptList();
+    // getTableData();
   }
   //新增
   const addBtn = () => {
@@ -33,7 +33,8 @@ export default function useDept() {
   }
   //删除
   const deleteBtn = async (id: number) => {
-    // console.log(global)
+    console.log(global)
+    console.log(proxy)
     // let parm = {
     //     id: id
     // }
@@ -45,26 +46,22 @@ export default function useDept() {
     //         //信息提示
     //         global.$message({ message: res.msg, type: 'success' })
     //         //刷新表格
-    //         getDeptList();
+    //         getTableData();
     //     }
     // }
   }
   //保存
   const save = async (params: AddDeptModel) => {
-    console.log(params)
-    // //提交表单
-    // let res: Result;
-    // if (parm.type == EditType.ADD) { //新增
-    //     res = await addDeptApi(parm)
-    // } else { //编辑
-    //     res = await editDeptApi(parm)
-    // }
-    // if (res && res.code == StatusCode.Success) {
-    //     //信息提示
-    //     global.$message({ message: res.msg, type: 'success' })
-    //     //刷新表格
-    //     getDeptList();
-    // }
+    let res: Result;
+    if (params.type === EditType.ADD) {
+      res = await addDeptApi(params)
+    } else {
+      res = await editDeptApi(params)
+    }
+    if (res && res.code === StatusCode.Success) {
+      global.$message({message: res.msg, type: 'success'})
+      getTableData();
+    }
   }
   return {
     serachBtn,

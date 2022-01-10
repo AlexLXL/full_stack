@@ -6,22 +6,35 @@ import ElementPlus from 'element-plus'
 import * as Icons from '@element-plus/icons-vue'
 import {cleanSession, getToken} from "@/utils/auth";
 // import 'element-plus/dist/index.css'
+import resetForm from './utils/resetForm'
+import objCopy from './utils/objCopy'
+import myConfirm from './utils/myConfirm'
 
+/**
+ * 全局组件
+ */
 const Icon = (props: { icon: string }) => {
   const {icon} = props
   return createVNode(Icons[icon as keyof typeof Icons])
 }
 
-createApp(App)
-  .use(router)
+let app = createApp(App)
+app.use(router)
   .use(store, key)
   .use(ElementPlus)
   .component('Icon', Icon)
   .mount('#app')
 
+/**
+ * 全局工具类
+ */
+app.config.globalProperties.$util_resetForm = resetForm; // 清空表单
+app.config.globalProperties.$util_objCopy = objCopy;    // 对象复制
+app.config.globalProperties.$util_myConfirm = myConfirm; // 确定弹框
 
-//权限验证处理:全集守卫路由实现
-//白名单
+/**
+ * 全局权限验证
+ */
 const whiteList = ['/login'];
 router.beforeEach(async (to, from, next) => {
   let token = getToken();
