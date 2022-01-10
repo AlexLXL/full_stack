@@ -1,6 +1,7 @@
 import http from '@/http'
 import {normalURL} from '@/services/serviceHelper'
 import {LoginResult, UserInfo} from './userModel'
+import qs from "qs";
 
 const Api = {
   getImg: normalURL + '/api/sysUser/image',
@@ -15,6 +16,7 @@ export async function getImageApi() {
 //登录
 export async function loginApi(params: any) {
   return await http.postAny<LoginResult>(Api.login, params, {
+    transformRequest: [(params) => qs.stringify(params, {indices: false})],
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
   })
 }

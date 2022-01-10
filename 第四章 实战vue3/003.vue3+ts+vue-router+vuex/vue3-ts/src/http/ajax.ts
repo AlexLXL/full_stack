@@ -75,7 +75,6 @@ class Request {
           return res || null // 返回数据
         }
       }
-
     }, (error) => { // 这里是遇到报错的回调
       console.log('进入错误')
       error.data = {};
@@ -149,7 +148,10 @@ class Request {
    */
   get<T = any>(url: string, params?: any): Promise<Result<T>> {
     return new Promise((resolve, reject) => {
-      this.axiosInstance.get<T>(url, params).then((res) => {
+      this.axiosInstance.get<T>(url, {
+        params: params,
+        paramsSerializer: (params) => qs.stringify(params)
+      }).then((res) => {
         resolve(res.data as any)
       }).catch((error) => {
         reject(error)
@@ -175,19 +177,18 @@ class Request {
     })
   }
 
-  getParams(params: any): string {
-    let _params = "";
-    if (Object.is(params, undefined)) {
-      _params = ''
-    } else {
+  getParams(params: any) {
+    let _params = '';
+    if (Object.is(params, undefined || null)) {
+      _params = '';
+    }else {
       for (const key in params) {
         if (params.hasOwnProperty(key) && params[key]) {
           _params += `${params[key]}/`
         }
       }
     }
-    //去掉参数最后一位/
-    if (_params) _params = _params.slice(0, _params.length - 1);
+    if (_params) _params = _params.substr(0, _params.length - 1);
     return _params;
   }
 
@@ -215,7 +216,8 @@ class Request {
 
   delete<T = any>(url: string, params: any): Promise<Result<T>> {
     return new Promise((resolve, reject) => {
-      this.axiosInstance.delete<T>(this.getParams(params) ? `${url}/${this.getParams(params)}` : url)
+      let data = this.getParams(params)
+      this.axiosInstance.delete<T>(data ? `${url}/${data}` : url)
         .then((res) => {
           resolve(res.data as any)
         }).catch((error) => {
