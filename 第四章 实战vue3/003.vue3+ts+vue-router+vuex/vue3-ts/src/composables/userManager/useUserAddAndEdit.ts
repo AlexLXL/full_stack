@@ -4,6 +4,7 @@ import {AddUserModel} from "@/services/userModel";
 import {ElForm} from "element-plus";
 import {ref} from "vue";
 import useInstance from "@/hooks/useInstance";
+import {SelectNode} from "@/services/departmentModel";
 
 export default function useUserAddAndEdit(dialog: DialogModel, onShow: any, onClose: any, addModel: AddUserModel, emit: any) {
   //获取全局属性
@@ -28,9 +29,15 @@ export default function useUserAddAndEdit(dialog: DialogModel, onShow: any, onCl
       }
     })
   }
+  // 选择
+  const select = (node: SelectNode) => {
+    addModel.deptId = node.id;
+    addModel.deptName = node.name
+  }
   return {
     show,
     confirm,
     addUserForm,
+    select
   }
 }

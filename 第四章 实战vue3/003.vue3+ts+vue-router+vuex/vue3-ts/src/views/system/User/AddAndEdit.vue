@@ -18,7 +18,7 @@
         <el-row>
           <el-col :span="12" :offset="0">
             <el-form-item prop="deptName" label="所属部门">
-              <el-input v-model="addModel.deptName"></el-input>
+              <el-input v-model="addModel.deptName" @click="selectTree"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12" :offset="0">
@@ -69,12 +69,16 @@
       </el-form>
     </template>
   </SysDialog>
+  <!-- 上级部门弹框 -->
+  <deparentmentSelectTree ref="selectTreeRef" @select="select"></deparentmentSelectTree>
 </template>
 <script setup lang='ts'>
 import SysDialog from '@/components/SysDialog.vue';
+import deparentmentSelectTree from '@/views/system/department/deparentmentSelectTree.vue'
 import useDialog from '@/hooks/useDialog';
 import useUserAddAndEdit from "@/composables/userManager/useUserAddAndEdit";
 import useBaseModel from '@/composables/userManager/useBaseModel';
+import useSelectTree from "@/composables/department/useSelectTree";
 
 //声明事件
 const emit = defineEmits(['save'])
@@ -82,8 +86,10 @@ const emit = defineEmits(['save'])
 const {dialog, onShow, onClose} = useDialog();
 //基础属性
 const { addModel, rules } = useBaseModel();
-const {show, confirm, addUserForm} = useUserAddAndEdit(dialog, onShow, onClose, addModel, emit);
+const {show, confirm, addUserForm, select} = useUserAddAndEdit(dialog, onShow, onClose, addModel, emit);
 
+// 调用子组件deparentmentSelectTree.vue
+const { selectTreeRef, selectTree } = useSelectTree();
 
 //暴露方法
 defineExpose({show})
