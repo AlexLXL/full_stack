@@ -29,9 +29,9 @@ app.use(router)
 /**
  * 全局工具类
  */
-app.config.globalProperties.$util_resetForm = resetForm; // 清空表单
-app.config.globalProperties.$util_objCopy = objCopy;    // 对象复制
-app.config.globalProperties.$util_myConfirm = myConfirm; // 确定弹框
+app.config.globalProperties.$$resetForm = resetForm; // 清空表单
+app.config.globalProperties.$$objCopy = objCopy;    // 对象复制
+app.config.globalProperties.$$myConfirm = myConfirm; // 确定弹框
 
 /**
  * 全局权限验证

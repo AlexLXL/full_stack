@@ -105,9 +105,9 @@ const show = (type: string, row?: DeptModel) => {
   dialog.height = 250;
   type == EditType.ADD ? dialog.title = Title.ADD : dialog.title = Title.EDIT
   onShow();
-  global.$util_resetForm(addDeptForm.value, dialogModel); // 清空表单
+  global.$$resetForm(addDeptForm.value, dialogModel); // 清空表单
   if (type === EditType.EDIT) {
-    global.$util_objCopy(row, dialogModel)
+    global.$$objCopy(row, dialogModel)
   }
   dialogModel.type = type;
 }

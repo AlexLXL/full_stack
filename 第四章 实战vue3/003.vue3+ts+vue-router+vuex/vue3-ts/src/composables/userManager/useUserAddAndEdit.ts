@@ -16,8 +16,8 @@ export default function useUserAddAndEdit(dialog: DialogModel, onShow: any, onCl
     dialog.height = 230;
     type == EditType.ADD ? dialog.title = Title.ADD : dialog.title = Title.EDIT
     onShow();
-    global.$util_resetForm(addUserForm.value, addModel)
-    if (type == EditType.EDIT) global.$util_objCopy(row, addModel)
+    global.$$resetForm(addUserForm.value, addModel)
+    if (type == EditType.EDIT) global.$$objCopy(row, addModel)
     addModel.type = type;
   }
   //确定

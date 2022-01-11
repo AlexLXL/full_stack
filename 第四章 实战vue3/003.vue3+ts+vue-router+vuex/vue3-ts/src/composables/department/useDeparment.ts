@@ -33,7 +33,7 @@ export default function useDept(getTableData: any) {
   //删除
   const deleteBtn = async (id: number) => {
     let params = {id}
-    const confirm = await global.$util_myConfirm('确定删除该数据吗?')
+    const confirm = await global.$$myConfirm('确定删除该数据吗?')
     if (confirm) {
       let res = await deleteDeptApi(params)
       if (res && res.code == StatusCode.Success) {

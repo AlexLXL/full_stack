@@ -23,7 +23,7 @@ export default function useUserBtn(getUserList: any) {
   //删除
   const deleteBtn = async (id: number) => {
     let params = {id}
-    let confirm = await global.$myconfirm('确定删除该数据吗?')
+    let confirm = await global.$$myConfirm('确定删除该数据吗?')
     if (confirm) {
       let res = await deleteUserApi(params)
       if (res && res.code == 200) {
