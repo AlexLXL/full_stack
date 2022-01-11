@@ -1,12 +1,12 @@
 import {ref} from 'vue'
 import {EditType} from '@/type/BaseEnum';
-import {AddDeptModel, DeptModel} from '@/services/departmentModel';
+import {AddDeptModel, DeptModel, IListParams} from '@/services/departmentModel';
 import useInstance from '@/hooks/useInstance';
 import {Result, StatusCode} from "@/http/ajax";
 import {addDeptApi, deleteDeptApi, editDeptApi} from "@/services/departmentService";
 // import AddAndEdit from '@/views/system/department/AddAndEdit.vue'
 
-export default function useDept(getTableData: any) {
+export default function useDept(getTableData: any, searchForm: IListParams) {
   //(vue的官方给的方式)打包的时候会报错
   // const addDeptRef = ref<InstanceType<typeof AddAndEdit>>();
   const addDeptRef = ref<{ show: (type: string, row?: DeptModel) => void }>();
@@ -18,7 +18,7 @@ export default function useDept(getTableData: any) {
   }
   //重置
   const resetBtn = () => {
-    searchParm.searchName = ''
+    searchForm.searchName = ''
     getTableData();
   }
   //新增

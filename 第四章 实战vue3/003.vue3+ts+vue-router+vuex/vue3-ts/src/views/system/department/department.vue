@@ -44,7 +44,7 @@ import useDeparment from '@/composables/department/useDeparment'
 
 let { rules } = useBaseModel()
 let { searchForm, tableData, getTableData, tableHeigth } = useDepartmentTable()
-const { serachBtn, resetBtn, addBtn, editBtn, deleteBtn, addDeptRef, save } = useDeparment(getTableData);
+const { serachBtn, resetBtn, addBtn, editBtn, deleteBtn, addDeptRef, save } = useDeparment(getTableData, searchForm);
 </script>
 
 <style lang="scss" scoped>
