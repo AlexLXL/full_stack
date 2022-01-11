@@ -1,61 +1,62 @@
-import {reactive, onMounted} from 'vue'
-import {getUserId} from '@/utils/auth'
-import {getRoleListApi} from "@/services/roleService";
+import {reactive, onMounted} from "vue";
+import {getUserId} from "@/utils/auth";
 import {RoleListParm} from "@/services/roleModel";
+import {getRoleListApi} from "@/services/roleService";
 
 export default function useRoleTable() {
-  //表格查询参数
-  const listParams = reactive<RoleListParm>({
+  //定义列表查询的参数
+  const listParm = reactive<RoleListParm>({
     userId: getUserId() || '',
-    name: '',
-    pageSize: 10,
     currentPage: 1,
+    pageSize: 10,
+    name: '',
     total: 0
   })
-  //表格数据
+  //定义表格数据
   const roleTable = reactive({
     list: []
   })
-  //获取表格数据
+
+  //获取角色列表
   const getRoleList = () => {
-    getRoleListApi(listParams).then((res) => {
+    getRoleListApi(listParm).then((res) => {
       if (res && res.code == 200) {
         roleTable.list = res.data.records
+        listParm.total = res.data.total;
       }
     })
   }
 
-  //搜索按钮
+  //搜索
   const searchBtn = () => {
-    getRoleList()
+    getRoleList();
   }
-  //重置按钮
+  //重置
   const resetBtn = () => {
-    listParams.name = '';
-    getRoleList()
+    listParm.name = '';
+    getRoleList();
   }
-  //页容量改变触发
+  //页大小
   const sizeChange = (size: number) => {
-    listParams.pageSize = size;
+    listParm.pageSize = size;
     getRoleList();
   }
-  //页数改变触发
+  //页数
   const currentChange = (page: number) => {
-    listParams.currentPage = page;
+    listParm.currentPage = page;
     getRoleList();
   }
-
   onMounted(() => {
-    getRoleList()
+    getRoleList();
   })
 
   return {
-    listParams,
     roleTable,
+    listParm,
     getRoleList,
-    searchBtn,
-    resetBtn,
     sizeChange,
-    currentChange
+    currentChange,
+    searchBtn,
+    resetBtn
   }
 }
