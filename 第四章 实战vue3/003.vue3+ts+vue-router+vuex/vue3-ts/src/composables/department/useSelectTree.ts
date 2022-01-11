@@ -1,4 +1,4 @@
-import {ref} from 'vue'
+import {ref, reactive} from 'vue'
 
 export default function useSelectTree() {
   //parent组件的ref属性
@@ -8,8 +8,15 @@ export default function useSelectTree() {
   const selectTree = () => {
     selectTreeRef.value?.show();
   }
+
+  const defaultProps = reactive({
+    children: 'children',
+    label: 'label',
+  })
+
   return {
     selectTreeRef,
-    selectTree
+    selectTree,
+    defaultProps
   }
 }
