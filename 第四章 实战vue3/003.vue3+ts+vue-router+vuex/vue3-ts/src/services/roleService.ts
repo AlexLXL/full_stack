@@ -25,6 +25,7 @@ export const editRoleApi = async (params: AddRoleModel) => {
 export const deleteRoleApi = async (params: DeleteParm) => {
   return await http.delete(Api.add, params)
 }
+
 //分配权限树的数据
 export const assignTreeApi = async (params: AssignTreeParm) => {
   return await http.get(Api.assignTree, params)

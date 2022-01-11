@@ -7,6 +7,8 @@ import {Result} from "@/http/ajax";
 
 export default function useRole(getRoleList: any) {
   const {global} = useInstance()
+  //分配权限弹框的ref属性
+  const assignMenuRef = ref<{show:(roleId:string,name:string)=>void}>()
   //弹窗ref
   const addRoleRef = ref<{ show: (type: string, row?: AddRoleModel) => void }>()
   //新增
@@ -46,6 +48,10 @@ export default function useRole(getRoleList: any) {
       getRoleList();
     }
   }
+  //分配权限按钮
+  const assignPermission = (roleId:string,name:string) => {
+    assignMenuRef.value?.show(roleId,name)
+  }
 
   return {
     addBtn,
@@ -53,5 +59,7 @@ export default function useRole(getRoleList: any) {
     deleteBtn,
     save,
     addRoleRef,
+    assignMenuRef,
+    assignPermission
   }
 }

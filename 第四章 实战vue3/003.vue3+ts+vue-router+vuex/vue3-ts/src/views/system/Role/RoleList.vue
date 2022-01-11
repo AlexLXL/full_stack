@@ -33,6 +33,7 @@
             type="primary"
             size="mini"
             :icon="Setting"
+            @click="assignPermission(scope.row.id, scope.row.name)"
           >分配权限
           </el-button>
           <el-button
@@ -59,18 +60,21 @@
   </el-main>
   <!-- 新增、编辑弹框 -->
   <AddRole ref="addRoleRef" @save="save"></AddRole>
+  <!-- 分配权限弹框 -->
+  <AssignMenu ref="assignMenuRef"></AssignMenu>
 </template>
 <script setup lang="ts">
 import useRoleTable from '@/composables/role/useRoleTable';
 import useRole from '@/composables/role/useRole';
 import AddRole from './AddRole.vue';
+import AssignMenu from './AssignMenu.vue';
 import {Search, Edit, Plus, Setting, Close, Delete} from '@element-plus/icons-vue';
 import {ref, onMounted, nextTick} from 'vue';
 
 //表格列表
 const {listParm, roleTable, getRoleList, sizeChange, currentChange, searchBtn, resetBtn} = useRoleTable()
 //新增、编辑
-const {addBtn, editBtn, deleteBtn, save, addRoleRef} = useRole(getRoleList)
+const {addBtn, editBtn, deleteBtn, save, addRoleRef, assignMenuRef, assignPermission} = useRole(getRoleList)
 
 //表格的高度
 const tableHeight = ref(0);

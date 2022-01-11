@@ -33,3 +33,8 @@ export interface AssignSaveParm{
     roleId:string | number;
     list:Array<string | number>
 }
+
+export interface AssignTreeData{
+  list: any[],
+  assignTreeChecked: any[] //原来分配的权限id的集合
+}
