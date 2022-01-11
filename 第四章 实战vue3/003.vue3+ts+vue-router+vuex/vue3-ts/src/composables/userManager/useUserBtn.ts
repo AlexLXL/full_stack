@@ -10,6 +10,7 @@ export default function useUserBtn(getUserList: any) {
   const {global} = useInstance()
   //新增ref
   const userAddRef = ref<{ show: (type: string, row?: AddUserModel) => void }>();
+
   //分配角色ref
   const assignRoleRef = ref<{ show: (name: string, useId: string | number) => void }>();
   //新增
@@ -45,6 +46,7 @@ export default function useUserBtn(getUserList: any) {
       global.$message({message: res.msg, type: 'success'})
     }
   }
+
   //分配角色
   const assignBtn = (row: AddUserModel) => {
     assignRoleRef.value?.show(row.loginName, row.id)

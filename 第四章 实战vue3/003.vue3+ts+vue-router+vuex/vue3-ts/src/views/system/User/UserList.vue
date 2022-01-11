@@ -44,12 +44,15 @@
     </el-main>
   </el-container>
   <AddAndEditVue ref="userAddRef" @save='save'></AddAndEditVue>
+  <!-- 分配角色弹框 -->
+  <AssignRole ref='assignRoleRef'></AssignRole>
 </template>
 <script setup lang="ts">
 import {Search, Close, Plus, Delete, Edit, Setting} from '@element-plus/icons-vue';
 import LeftTree from './LeftTree.vue';
 import useUserTable from '@/composables/userManager/useUserTable';
 import AddAndEditVue from './AddAndEdit.vue';
+import AssignRole from './AssignRole.vue';
 import useUserBtn from "@/composables/userManager/useUserBtn";
 import {ref, onMounted, nextTick} from 'vue'
 //容器高度
@@ -59,7 +62,7 @@ const tableHeight = ref(0);
 //表格数据
 const {listParams, tableData, getUserList, treeClick, sizeChange, currentChange, searchBtn, resetBtn} = useUserTable();
 //新增、编辑、删除
-const {userAddRef, addBtn, editBtn, deleteBtn, assignBtn, save} = useUserBtn(getUserList);
+const {userAddRef, addBtn, editBtn, deleteBtn, assignBtn, save, assignRoleRef} = useUserBtn(getUserList);
 onMounted(() => {
   nextTick(() => {
     containerHeight.value = window.innerHeight - 100
