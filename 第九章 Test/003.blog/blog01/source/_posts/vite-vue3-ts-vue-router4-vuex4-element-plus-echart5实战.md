@@ -9,7 +9,6 @@ tags:
 - Vite
 ---
 
-
 ### 第01讲 前置知识
 
 > vue3.2 + ts + vue-router4.x + vuex4.x + vite2.x 后台管理系统.  
@@ -6716,8 +6715,32 @@ onMounted(() => {
 </style>
 ```
 
+### 第41讲 首页->echarts改CDN方式引入
 
+index.html
 
+```
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
+```
+
+vite.config.ts
+
+```
+build: {
+    rollupOptions: {
++      external: ["vue", 'element-plus', 'echarts'],
+      plugins: [
+        externalGlobals({
+          vue: "Vue",
+          "element-plus": "ElementPlus",
++          "echarts": "echarts",
+        }),
+      ],
+    }
+},
+```
+
+附: 也可以使用官网的按需引入
 
 
 
