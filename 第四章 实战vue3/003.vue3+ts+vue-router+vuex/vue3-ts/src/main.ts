@@ -11,6 +11,7 @@ import resetForm from './utils/resetForm'
 import objCopy from './utils/objCopy'
 import myConfirm from './utils/myConfirm'
 import {permission} from './directives/permission'
+import * as echarts from 'echarts'
 
 /**
  * 全局组件
@@ -34,6 +35,7 @@ app.use(router)
 app.config.globalProperties.$$resetForm = resetForm; // 清空表单
 app.config.globalProperties.$$objCopy = objCopy;    // 对象复制
 app.config.globalProperties.$$myConfirm = myConfirm; // 确定弹框
+app.config.globalProperties.$$echarts = echarts;     // echarts
 
 /**
  * 全局权限验证
