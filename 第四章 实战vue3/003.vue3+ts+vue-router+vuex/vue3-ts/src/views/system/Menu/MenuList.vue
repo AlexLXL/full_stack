@@ -1,7 +1,7 @@
 <template>
   <el-main>
     <!-- 按钮 -->
-    <el-form :inline="true" size="mini">
+    <el-form :inline="true" size="small">
       <el-form-item>
         <el-button
           type="primary"
@@ -43,14 +43,14 @@
         <template #default="scope">
           <el-button
             type="primary"
-            size="mini"
+            size="small"
             @click="editBtn(scope.row)"
             :icon="Edit"
           >编辑
           </el-button>
           <el-button
             type="danger"
-            size="mini"
+            size="small"
             @click="deleteBtn(scope.row.id)"
             :icon="Delete"
           >删除

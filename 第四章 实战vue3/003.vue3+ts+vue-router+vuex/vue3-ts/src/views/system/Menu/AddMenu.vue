@@ -13,7 +13,7 @@
         ref="addMenuForm"
         :rules="rules"
         label-width="80px"
-        size="mini"
+        size="small"
       >
         <el-row>
           <el-col :span="24" :offset="0">

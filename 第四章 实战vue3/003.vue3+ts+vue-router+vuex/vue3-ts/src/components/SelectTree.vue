@@ -42,7 +42,7 @@ import SysDialog from '@/components/SysDialog.vue';
 import {DocumentRemove, Plus, Minus} from '@element-plus/icons-vue'
 import {ElTree} from 'element-plus';
 import useDialog from '@/hooks/useDialog';
-import {reactive, ref, defineProps} from 'vue'
+import {reactive, ref} from 'vue'
 
 const props = defineProps({
   getTreeDataApi: {//弹框标题

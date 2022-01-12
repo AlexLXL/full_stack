@@ -13,7 +13,7 @@
         ref="addRoleForm"
         :rules="rules"
         label-width="80px"
-        size="mini"
+        size="small"
       >
         <el-row>
           <el-col :span="12" :offset="0">

@@ -35,7 +35,7 @@
       <el-table-column width="200" align="center" label="操作">
         <template #default="scope">
           <el-button
-            size="mini"
+            size="small"
             type="success"
             :icon="Edit"
             @click="editBtn(scope.row)"
@@ -43,7 +43,7 @@
           </el-button>
           <el-button
             v-permission="['sys:deleteDept']"
-            size="mini"
+            size="small"
             type="danger"
             :icon="Close"
             @click="deleteBtn(scope.row.id)"

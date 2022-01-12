@@ -1,7 +1,7 @@
 <template>
   <el-main>
     <!-- 搜索栏 -->
-    <el-form :model="listParm" label-width="80px" :inline="true" size="mini">
+    <el-form :model="listParm" label-width="80px" :inline="true" size="small">
       <el-form-item>
         <el-input placeholder="请输入角色名称" v-model="listParm.name"></el-input>
       </el-form-item>
@@ -24,21 +24,21 @@
         <template #default="scope">
           <el-button
             type="primary"
-            size="mini"
+            size="small"
             :icon="Edit"
             @click="editBtn(scope.row)"
           >编辑
           </el-button>
           <el-button
             type="primary"
-            size="mini"
+            size="small"
             :icon="Setting"
             @click="assignPermission(scope.row.id, scope.row.name)"
           >分配权限
           </el-button>
           <el-button
             type="danger"
-            size="mini"
+            size="small"
             :icon="Delete"
             @click="deleteBtn(scope.row.id)"
           >删除

@@ -6,14 +6,14 @@
     </el-aside>
     <el-main>
       <!-- 搜索栏 -->
-      <el-form :model="listParams" label-width="80px" :inline="true" size="mini">
+      <el-form :model="listParams" label-width="80px" :inline="true" size="small">
         <el-form-item label>
           <el-input v-model="listParams.loginName"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button size="mini" :icon="Search" @click="searchBtn">搜索</el-button>
-          <el-button size="mini" :icon="Close" @click="resetBtn">重置</el-button>
-          <el-button size="mini" type="primary" :icon="Plus" @click="addBtn">新增</el-button>
+          <el-button size="small" :icon="Search" @click="searchBtn">搜索</el-button>
+          <el-button size="small" :icon="Close" @click="resetBtn">重置</el-button>
+          <el-button size="small" type="primary" :icon="Plus" @click="addBtn">新增</el-button>
         </el-form-item>
       </el-form>
       <!-- 用户表格 -->
@@ -24,9 +24,9 @@
         <el-table-column prop="email" label="邮箱"></el-table-column>
         <el-table-column align="center" width="320" label="操作">
           <template #default="scope">
-            <el-button type="primary" size="mini" :icon="Edit" @click="editBtn(scope.row)">编辑</el-button>
-            <el-button type="primary" size="mini" :icon="Setting" @click="assignBtn(scope.row)">分配角色</el-button>
-            <el-button type="danger" size="mini" :icon="Delete" @click="deleteBtn(scope.row.id)">删除</el-button>
+            <el-button type="primary" size="small" :icon="Edit" @click="editBtn(scope.row)">编辑</el-button>
+            <el-button type="primary" size="small" :icon="Setting" @click="assignBtn(scope.row)">分配角色</el-button>
+            <el-button type="danger" size="small" :icon="Delete" @click="deleteBtn(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
