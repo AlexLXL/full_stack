@@ -9,11 +9,12 @@ export default defineConfig({
   plugins: [vue()],
   build: {
     rollupOptions: {
-      external: ["vue", 'element-plus'],
+      external: ["vue", 'element-plus', 'echarts'],
       plugins: [
         externalGlobals({
           vue: "Vue",
           "element-plus": "ElementPlus",
+          "echarts": "echarts",
         }),
       ],
     }

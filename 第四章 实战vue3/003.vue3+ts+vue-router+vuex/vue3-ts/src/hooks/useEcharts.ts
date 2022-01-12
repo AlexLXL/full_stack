@@ -1,5 +1,4 @@
 import * as echarts from 'echarts'
-import {EChartsOption} from 'echarts'
 
 export default function useEcharts(el: HTMLElement) {
   //创建echarts实例
