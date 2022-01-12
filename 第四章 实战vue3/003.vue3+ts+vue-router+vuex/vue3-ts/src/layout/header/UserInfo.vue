@@ -14,12 +14,9 @@
 <script setup lang='ts'>
 import useInstance from '@/hooks/useInstance';
 import {cleanSession, getToken} from '@/utils/auth';
-import {useStore} from "@/store";
-import {ref, reactive} from 'vue'
 import {loginOutApi, restoreApi} from "@/services/userService";
 
 const {global} = useInstance()
-const store = useStore()
 //退出登录
 const loginOut = async () => {
   let confirm = await global.$$myConfirm('确定退出登录吗?')
@@ -31,8 +28,6 @@ const loginOut = async () => {
     if (res && res.code == 200) {
       //跳到登录
       window.location.href = "/login";
-      //清空tab
-      store.commit('tabs/setTabList', [])
       //清空session
       cleanSession();
     }
