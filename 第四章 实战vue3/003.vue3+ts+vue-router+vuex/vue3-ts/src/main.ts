@@ -10,6 +10,7 @@ import {cleanSession, getToken} from "@/utils/auth";
 import resetForm from './utils/resetForm'
 import objCopy from './utils/objCopy'
 import myConfirm from './utils/myConfirm'
+import {permission} from './directives/permission'
 
 /**
  * 全局组件
@@ -24,6 +25,7 @@ app.use(router)
   .use(store, key)
   .use(ElementPlus, { locale: zhCn })
   .component('Icon', Icon)
+  .directive('permission', permission)
   .mount('#app')
 
 /**
