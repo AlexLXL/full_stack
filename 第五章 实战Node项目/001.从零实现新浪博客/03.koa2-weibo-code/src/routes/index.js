@@ -3,7 +3,9 @@ const router = require('koa-router')()
 router.get('/', async (ctx, next) => {
   // 返回ejs页面
   await ctx.render('index', {
-    title: 'Hello Koa 2!'
+    title: 'Hello Koa 2!',
+    msg: '你好',
+    isMe: false
   })
 })
 
