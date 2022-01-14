@@ -6,7 +6,7 @@
     "start": "node bin/www",
     "dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon bin/www",
     "prd": "cross-env NODE_ENV=prd pm2 start bin/www",
-    "test": ""
+    "test": "cross-env NODE_ENV=test jest --runInBand --forceExit --colors"
   },
   "dependencies": {
     "debug": "^4.1.1",
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "jest": "^27.4.7",
     "nodemon": "^1.19.1"
   }
 }
