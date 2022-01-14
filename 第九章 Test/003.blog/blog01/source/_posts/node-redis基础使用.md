@@ -1,3 +1,14 @@
+---
+title: node+redis基础使用
+date: 2022-01-14 17:31:20
+categories:
+- [window, node, redis]
+  tags:
+- window
+- node
+- redis
+---
+
 # redis介绍
 
 ## 一、为什么选择redis内存数据库
@@ -123,33 +134,3 @@ module.exports = {
     set
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
