@@ -3,7 +3,7 @@ title: node+redis基础使用
 date: 2022-01-14 17:31:20
 categories:
 - [window, node, redis]
-  tags:
+tags:
 - window
 - node
 - redis
