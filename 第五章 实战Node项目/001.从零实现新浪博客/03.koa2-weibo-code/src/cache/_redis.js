@@ -3,12 +3,12 @@
  * @author 学浪
  */
 
-const {createClient} = require('redis');
+const {createClient} = require('redis')
 const {REDIS_CONF} = require('../conf/db')
 
 // 创建客户端
-const client = createClient(REDIS_CONF.port, REDIS_CONF.host);
-client.on('error', (err) => console.log('Redis Client Error', err));
+const client = createClient(REDIS_CONF.port, REDIS_CONF.host)
+client.on('error', (err) => console.log('Redis Client Error', err))
 client.connect().then(() => {
     console.log('连接redis成功')
 }).catch((err) => {

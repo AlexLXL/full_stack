@@ -7,17 +7,17 @@ const router = require('koa-router')()
 router.prefix('/users')
 
 router.get('/', function (ctx, next) {
-  ctx.body = 'this is a users response!'
+    ctx.body = 'this is a users response!'
 })
 
 //post获取参数
 router.post('/login', async (ctx, next) => {
-  const {userName, password} = ctx.request.body
-  ctx.body = {
-    id: 100,
-    userName,
-    password
-  }
+    const {userName, password} = ctx.request.body
+    ctx.body = {
+        id: 100,
+        userName,
+        password
+    }
 })
 
 router.get('/session', function (ctx, next) {

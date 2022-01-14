@@ -17,14 +17,14 @@ onerror(app)
 
 // middlewares_中间件
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
+    enableTypes:['json', 'form', 'text']
 }))
 app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 // 注册ejs文件
 app.use(views(__dirname + '/views', {
-  extension: 'ejs'
+    extension: 'ejs'
 }))
 // session配置
 app.keys = ['UIsda_8967#$']
@@ -56,7 +56,7 @@ app.use(users.routes(), users.allowedMethods())
 
 // error-handling_错误打印
 app.on('error', (err, ctx) => {
-  console.error('server error', err, ctx)
-});
+    console.error('server error', err, ctx)
+})
 
 module.exports = app
