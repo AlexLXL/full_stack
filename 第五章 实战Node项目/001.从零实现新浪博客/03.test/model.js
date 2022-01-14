@@ -34,7 +34,7 @@ const Blog = seq.define('blog', {
         allowNull: false
     },
     content: {
-        type: Sequelize.STRING, // varchar(255)
+        type: Sequelize.TEXT, // varchar(255)
         allowNull: false
     },
     userId: {
