@@ -16,6 +16,13 @@ router.get('/json', async (ctx, next) => {
   }
 })
 
+router.post('/postjson', async (ctx, next) => {
+    const {message} = ctx.request.body
+    ctx.body = {
+        title: message
+    }
+})
+
 // get动态参数
 router.get('/profile/:username', async (ctx, next) => {
   const { username } = ctx.params

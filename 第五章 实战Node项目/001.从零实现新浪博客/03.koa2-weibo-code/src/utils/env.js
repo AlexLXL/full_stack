@@ -7,6 +7,7 @@ const NODE_ENV = process.env.NODE_ENV;
 const ENVS = {
     'DEV': 'dev',
     'PRD': 'prd',
+    'TEST': 'test',
 }
 
 module.exports = {

@@ -19,6 +19,13 @@ let MYSQL_CONF = {
         password: 'root',
         database: 'koa2_weibo_db'
     },
+    [ENVS.TEST]: {
+        host: 'localhost',
+        port: '3306',
+        user: 'root',
+        password: 'root',
+        database: 'koa2_weibo_db'
+    },
 }
 
 let REDIS_CONF = {
@@ -27,6 +34,10 @@ let REDIS_CONF = {
         port: 6379
     },
     [ENVS.PRD]: {
+        host: '127.0.0.1',
+        port: 6379
+    },
+    [ENVS.TEST]: {
         host: '127.0.0.1',
         port: 6379
     },
