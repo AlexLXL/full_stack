@@ -17,4 +17,6 @@ module.exports = {
     notDev: NODE_ENV !== ENVS.DEV,
     isPrd: NODE_ENV === ENVS.PRD,
     notPrd: NODE_ENV !== ENVS.PRD,
+    isTest: NODE_ENV === ENVS.TEST,
+    notTest: NODE_ENV !== ENVS.TEST,
 }

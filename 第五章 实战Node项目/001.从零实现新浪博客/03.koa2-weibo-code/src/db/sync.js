@@ -1,5 +1,10 @@
+/**
+ * @description sequelize 同步数据库
+ * @author 学浪
+ */
+
 const seq = require('./seq')
-require('./model')
+// require('./model')
 
 // 测试连接
 seq.authenticate().then(() => {
