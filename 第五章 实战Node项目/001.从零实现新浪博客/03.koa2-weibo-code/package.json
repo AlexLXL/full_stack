@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node bin/www",
     "dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon bin/www",
-    "prd": "cross-env NODE_ENV=production pm2 start bin/www",
+    "prd": "cross-env NODE_ENV=prd pm2 start bin/www",
     "test": ""
   },
   "dependencies": {
@@ -19,7 +19,10 @@
     "koa-onerror": "^4.1.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
-    "koa-views": "^6.2.0"
+    "koa-views": "^6.2.0",
+    "mysql2": "^2.3.3",
+    "redis": "^4.0.2",
+    "sequelize": "^6.13.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
