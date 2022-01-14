@@ -5,6 +5,9 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const session = require('koa-generic-session')
+const redisStore = require('koa-redis')
+const {REDIS_CONF} = require('./conf/db')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
@@ -22,6 +25,21 @@ app.use(require('koa-static')(__dirname + '/public'))
 // 注册ejs文件
 app.use(views(__dirname + '/views', {
   extension: 'ejs'
+}))
+// session配置
+app.keys = ['UIsda_8967#$']
+app.use(session({
+    key: 'weibo.sid', //cookie的name
+    prefix: 'weibo:sess:', //redis key的前缀, 默认`koa:sess:`
+    cookie: {
+        path: '/',
+        httpOnly: true, //只能服务端修改cookie
+        maxAge: 24 * 60 * 60 * 1000, //ms
+    },
+    // ttl: 24 * 60 * 60 * 1000,
+    store: redisStore({
+        all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
+    })
 }))
 
 // // logger

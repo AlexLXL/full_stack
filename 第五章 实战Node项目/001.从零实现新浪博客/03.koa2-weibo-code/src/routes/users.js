@@ -10,10 +10,6 @@ router.get('/', function (ctx, next) {
   ctx.body = 'this is a users response!'
 })
 
-router.get('/bar', function (ctx, next) {
-  ctx.body = 'this is a users/bar response'
-})
-
 //post获取参数
 router.post('/login', async (ctx, next) => {
   const {userName, password} = ctx.request.body
@@ -22,6 +18,19 @@ router.post('/login', async (ctx, next) => {
     userName,
     password
   }
+})
+
+router.get('/session', function (ctx, next) {
+    let session = ctx.session
+    if(session.viewCount == null) {
+        session.viewCount = 0
+    }else {
+        session.viewCount++
+    }
+    ctx.body = {
+        title: '测试redis session',
+        viewCount: session.viewCount
+    }
 })
 
 module.exports = router
