@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon bin/www",
+    "dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon --inspect=9229 bin/www",
     "prd": "cross-env NODE_ENV=prd pm2 start bin/www",
     "test": "cross-env NODE_ENV=test jest --runInBand --forceExit --colors",
     "lint": "eslint --ext .js ./src"
