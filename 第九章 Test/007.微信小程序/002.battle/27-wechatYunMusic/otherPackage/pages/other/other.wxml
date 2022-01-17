@@ -1,0 +1,4 @@
+<view class="otherContainer">
+  <view>测试获取用户唯一id</view>
+  <button bindtap="getOpenId">获取openid</button>
+</view>
