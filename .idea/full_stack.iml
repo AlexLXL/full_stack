@@ -8,7 +8,7 @@
       <excludeFolder url="file://$MODULE_DIR$/第一章 LeetCode/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/第一章 数据结构与算法/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/第一章 数据结构与算法/data" />
-      <excludeFolder url="file://$MODULE_DIR$/第七章 打包相关/001.operation/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/第七章 打包相关/002.writeCodeReady/dist" />
       <excludeFolder url="file://$MODULE_DIR$/第三章 Typescript/dist" />
       <excludeFolder url="file://$MODULE_DIR$/第九章 Test/001.test/elementui源码" />
       <excludeFolder url="file://$MODULE_DIR$/第九章 Test/001.test/vue-next-master" />
@@ -18,6 +18,9 @@
       <excludeFolder url="file://$MODULE_DIR$/第九章 Test/006.webAssembly/001.project/mywasm/pkg" />
       <excludeFolder url="file://$MODULE_DIR$/第九章 Test/006.webAssembly/001.project/mywasm/target" />
       <excludeFolder url="file://$MODULE_DIR$/第二章 实现vue2/node_modules" />
+      <excludeFolder url="file://$MODULE_DIR$/第四章 实战vue3/003.vue3+ts+vue-router+vuex/vue3-ts/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/第九章 Test/003.blog/blog01/.deploy_git" />
+      <excludeFolder url="file://$MODULE_DIR$/第九章 Test/003.blog/blog01/public" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
