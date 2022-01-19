@@ -8,9 +8,14 @@ const {
     registerUserNameNotExistInfo,
     registerUserNameExistInfo,
     registerFailInfo,
-    loginFailInfo
+    loginFailInfo,
+    deleteUserFailInfo
 } = require('../model/ErrorInfo')
-const {getUserInfo, createUser} = require('../services/user')
+const {
+    getUserInfo,
+    createUser,
+    deleteUser
+} = require('../services/user')
 const doCrypto = require('../utils/cryp')
 
 /**
@@ -78,8 +83,24 @@ async function login(ctx, userName, password) {
     return new SuccessModel()
 }
 
+/**
+ * 删除当前用户
+ * @param userName 用户名
+ */
+async function deleteCurUser(userName) {
+    // 业务逻辑处理
+
+    // 统一返回格式
+    const result = await deleteUser(userName)
+    if (result) {
+        return new SuccessModel()
+    }
+    return new ErrorModel(deleteUserFailInfo)
+}
+
 module.exports = {
     isExist,
     register,
-    login
+    login,
+    deleteCurUser
 }

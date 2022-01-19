@@ -3,7 +3,7 @@
  * @author 学浪
  */
 
-const server = require('./server')
+// const server = require('./server')
 
 /**
  * 可行性测试
@@ -19,17 +19,19 @@ test('10 + 20 = 30', () => {
 /**
  * get测试
  */
+/*
 test('接口测试: /json', async () => {
     const res = await server.get('/json')
     expect(res.body).toEqual({title: 'koa2 json'})
-})
+})*/
 
 /**
  * post测试
  */
+/*
 test('接口测试: /json', async () => {
     const res = await server.post('/postjson').send({
         message: '123'
     })
     expect(res.body).toEqual({title: '123'})
-})
+})*/
