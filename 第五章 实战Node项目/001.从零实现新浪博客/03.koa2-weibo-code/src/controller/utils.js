@@ -33,7 +33,7 @@ async function saveFile({name, type, size, filePath}) {
         return new ErrorModel(uploadFileSizeFailInfo)
     }
 
-    // 移动文件
+    // 移动文件（集群的时候使用统一文件服务）
     const fileName = Date.now() + '.' + name // 防止重名
     const distFilePath = path.join(DIST_FOLDER_PATH, fileName) // 目的地
     await fse.move(filePath, distFilePath)
