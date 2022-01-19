@@ -18,7 +18,7 @@ const userValidate = require('../../validator/user')
 const {loginCheck} = require('../../middlewares/loginChecks')
 const {isTest} = require('../../utils/env')
 
-router.prefix('/api/user/')
+router.prefix('/api/user')
 
 // 注册
 router.post('/register', genValidator(userValidate), async (ctx, next) => {
