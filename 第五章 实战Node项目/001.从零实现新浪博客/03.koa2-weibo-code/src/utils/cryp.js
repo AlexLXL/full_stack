@@ -20,7 +20,7 @@ function _md5(content) {
  * @param content 明文内容
  */
 function doCrypto(content) {
-    const str = `password={content}&key=${CRYPTO_SECRET_KEY}`
+    const str = `password=${content}&key=${CRYPTO_SECRET_KEY}`
     return _md5(str)
 }
 

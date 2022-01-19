@@ -10,7 +10,8 @@ const {
     registerFailInfo,
     loginFailInfo,
     deleteUserFailInfo,
-    changeInfoFailInfo
+    changeInfoFailInfo,
+    changePasswordFailInfo
 } = require('../model/ErrorInfo')
 const {
     getUserInfo,
@@ -42,7 +43,7 @@ async function isExist(userName) {
  * @param password 密码
  * @param gender 性别
  */
-async function register({ userName, password, gender }) {
+async function register({userName, password, gender}) {
     // 业务逻辑处理
     const userInfo = await getUserInfo(userName)
     if (userInfo) {
@@ -54,9 +55,10 @@ async function register({ userName, password, gender }) {
         await createUser({
             userName,
             password: doCrypto(password),
-            gender })
+            gender
+        })
         return new SuccessModel()
-    }catch (err) {
+    } catch (err) {
         // 之后改成错误日志
         console.error(err.message, err.stack)
         return new ErrorModel(registerFailInfo)
@@ -107,7 +109,7 @@ async function deleteCurUser(userName) {
  * @param city 城市
  * @param picture 头像
  */
-async function changeInfo(ctx, { nickName, city, picture }) {
+async function changeInfo(ctx, {nickName, city, picture}) {
     // 业务逻辑处理
     const {userName} = ctx.session.userInfo
     if (!nickName) {
@@ -134,10 +136,37 @@ async function changeInfo(ctx, { nickName, city, picture }) {
     return new ErrorModel(changeInfoFailInfo)
 }
 
+/**
+ * 修改密码
+ * @param userName 用户名
+ * @param password 密码
+ * @param newPassword 新密码
+ */
+async function changePassword(userName, password, newPassword) {
+    // 业务逻辑处理
+    const result = await updateUser(
+        {
+            newPassword:　doCrypto(newPassword)
+        },
+        {
+            userName,
+            password: doCrypto(password)
+        }
+    )
+    // 统一返回格式
+    if (result) {
+        // 成功
+        return new SuccessModel()
+    }
+    // 失败
+    return new ErrorModel(changePasswordFailInfo)
+}
+
 module.exports = {
     isExist,
     register,
     login,
     deleteCurUser,
-    changeInfo
+    changeInfo,
+    changePassword
 }
