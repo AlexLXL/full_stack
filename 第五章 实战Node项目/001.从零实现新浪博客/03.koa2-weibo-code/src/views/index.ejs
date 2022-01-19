@@ -1,25 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css'/>
-</head>
-<body>
-<h1><%= title %></h1>
-<p>EJS Welcome to <%= title %></p>
+<%- include('layout/header', { title: '微博 - 首页', isNav: true, list: true, isInputBlog: true })%>
 
-<!--判断-->
-<div>
-    <% if(isMe) { %>
-        <a href='#'>@ 提到我的(3)</a>
-    <% } else { %>
-        <button>关注我</button>
-    <% } %>
+<div class="container margin-top-20">
+    <div class="row">
+        <!-- 左侧 -->
+        <div class="col-8">
+            <!-- 输入框 -->
+            <%- include('widgets/input')%>
+        </div> <!-- 左侧结束 -->
+
+        <!-- 右侧 -->
+        <div class="col-4">
+
+        </div> <!-- 右侧结束 -->
+    </div>
 </div>
 
-<!--组件-->
-<%- include('widgets/userInfo', {
-    msg
-})%>
-</body>
-</html>
+<%- include('layout/footer')%>

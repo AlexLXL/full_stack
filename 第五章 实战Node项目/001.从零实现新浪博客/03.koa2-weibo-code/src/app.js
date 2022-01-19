@@ -14,10 +14,10 @@ const {SESSION_SECRET_KEY} = require('./conf/secretKeys')
 const {isPrd} = require('./utils/env')
 
 // 路由
-const index = require('./routes/index')
 const utilsAPIRouter = require('./routes/api/utils')
 const userViewRouter = require('./routes/view/user')
 const userAPIRouter = require('./routes/api/user')
+const blogViewRouter = require('./routes/view/blog')
 const errorViewRouter = require('./routes/view/error')
 
 // error handler_错误页面
@@ -54,10 +54,10 @@ app.use(session({
 }))
 
 // routes_路由
-app.use(index.routes(), index.allowedMethods())
 app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
+app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods())
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
 // error-handling_错误打印
