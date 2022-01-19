@@ -31,8 +31,10 @@ async function getUserInfo(userName, password) {
 
 /**
  * 添加用户
- * @param userName
- * @param password
+ * @param userName 用户名
+ * @param password 密码
+ * @param gender 性别
+ * @param nickName 昵称
  */
 async function createUser({userName, password, gender = 3, nickName}) {
     // 数据处理
@@ -49,7 +51,7 @@ async function createUser({userName, password, gender = 3, nickName}) {
 
 /**
  * 删除用户
- * @param userName
+ * @param userName 用户名
  */
 async function deleteUser(userName) {
     // 数据处理
@@ -63,8 +65,40 @@ async function deleteUser(userName) {
     return result > 0
 }
 
+/**
+ * 更新用户信息
+ * @param newNickName 新昵称
+ * @param newCity 新城市
+ * @param newPicture 新头像
+ * @param newPassword 新密码
+ * @param userName 用户名
+ * @param password 密码
+ */
+async function updateUser(
+    { newNickName, newCity, newPicture, newPassword },
+    {userName, password}
+) {
+    // 数据处理
+    const updateData = {}
+    if (newNickName) updateData.nickName = newNickName
+    if (newCity) updateData.city = newCity
+    if (newPicture) updateData.picture = newPicture
+    if (newPassword) updateData.password = newPassword
+
+    const whereOpt = { userName }
+    if (password) whereOpt.password = password
+
+    const result = await User.update(updateData, {
+        where: whereOpt
+    })
+
+    // 格式化
+    return result[0] > 0
+}
+
 module.exports = {
     getUserInfo,
     createUser,
-    deleteUser
+    deleteUser,
+    updateUser
 }

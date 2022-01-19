@@ -8,10 +8,12 @@ const {
     isExist,
     register,
     login,
-    deleteCurUser
+    deleteCurUser,
+    changeInfo
 } = require('../../controller/user')
 const {genValidator} = require('../../middlewares/validator')
 const userValidate = require('../../validator/user')
+const {loginCheck} = require('../../middlewares/loginChecks')
 const {isTest} = require('../../utils/env')
 
 router.prefix('/api/user/')
@@ -48,6 +50,14 @@ router.post('/delete', async (ctx, next) => {
         // 返回结果
         ctx.body = await deleteCurUser(userName)
     }
+})
+
+// 修改个人信息
+router.patch('/changeInfo', loginCheck, genValidator(userValidate), async (ctx, next) => {
+    // 接收参数
+    const { nickName, city, picture } = ctx.request.body
+    // 返回结果
+    ctx.body = await changeInfo(ctx, { nickName, city, picture })
 })
 
 module.exports = router
