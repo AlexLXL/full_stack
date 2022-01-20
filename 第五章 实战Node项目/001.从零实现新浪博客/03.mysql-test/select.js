@@ -128,3 +128,13 @@ const {Blog, User} = require('./model');
         return userVal
     })) // 当前页的数据
 })()
+
+/*
+// 不等于
+where: {
+    followerId,
+        userId: {
+        [Sequelize.Op.ne]: followerId // userId不等于followerId
+    }
+}
+*/
