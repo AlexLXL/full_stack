@@ -46,8 +46,9 @@ const Blog = seq.define('blog', {
 /**
  * 创建外键 Blog.userId -> User.id
  * 默认关联的就是id
- * 如果查Blog,会自动去查User
- * 如果查User,会自动去查Blog
+ * 两个写法作用是一致的
+ * // 如果查Blog,会自动去查User
+ * // 如果查User,会自动去查Blog
  */
 Blog.belongsTo(User, {
     foreignKey: 'userId'
