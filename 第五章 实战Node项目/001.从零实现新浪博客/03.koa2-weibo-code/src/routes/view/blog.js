@@ -12,6 +12,7 @@ router.get('/profile', loginRedirect, async (ctx, next) => {
     ctx.redirect(`/profile/${userName}`)
 })
 router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
+    const myUserInfo = ctx.session.userInfo
     const { userName: curUserName } = ctx.params
 
     // 获取微博第一页数据
@@ -41,7 +42,7 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
         //     atCount
         // },
         userData: {
-            userInfo: {},
+            userInfo: myUserInfo,
             isMe: true,
             fansData: {
                 count: 0,
