@@ -22,11 +22,11 @@ async function getProfileBlogList(userName, pageIndex = 0) {
 
     // 拼接返回数据
     return new SuccessModel({
-        isEmpty: blogList.length === 0,
         blogList,
         pageSize: PAGE_SIZE,
         pageIndex,
-        count: result.count
+        count: result.count,
+        isEmpty: blogList.length === 0,
     })
 }
 
