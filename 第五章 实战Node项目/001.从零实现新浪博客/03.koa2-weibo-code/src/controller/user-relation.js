@@ -5,8 +5,10 @@
 
 const {
     getUsersByFollower,
+    addFollower
 } = require('../services/user-relation')
 const {SuccessModel, ErrorModel} = require('../model/ResModel')
+const {addFollowerFailInfo} = require('../model/ErrorInfo')
 
 /**
  * 根据 userid 获取粉丝列表
@@ -22,6 +24,22 @@ async function getFans(userId) {
     })
 }
 
+/**
+ * 关注
+ * @param myUserId 登录id
+ * @param curUserId 准备关注的id
+ */
+async function follow(myUserId, curUserId) {
+    try {
+        await addFollower(myUserId, curUserId)
+        return new SuccessModel()
+    }catch (err) {
+        console.log(err.message, err.stack)
+        return new ErrorModel(addFollowerFailInfo)
+    }
+}
+
 module.exports = {
-    getFans
+    getFans,
+    follow
 }

@@ -6,7 +6,6 @@
 const {User, UserRelation} = require('../db/model/index')
 const {formatUser} = require('./_format')
 
-
 /**
  * 获取关注该用户的用户列表，即该用户的粉丝
  * @param {number} followerId 被关注人的 id
@@ -39,6 +38,19 @@ async function getUsersByFollower(followerId) {
     }
 }
 
+/**
+ * 关注
+ * @param {number} followerId 被关注人的 id
+ */
+async function addFollower(userId, followerId) {
+    const result = await UserRelation.create({
+        userId,
+        followerId
+    })
+    return result.dataValues
+}
+
 module.exports = {
     getUsersByFollower,
+    addFollower
 }
