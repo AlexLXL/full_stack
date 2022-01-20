@@ -1,6 +1,13 @@
+/**
+ * @description 微博 view 路由
+ * @author 学浪
+ */
+
 const router = require('koa-router')()
 const {loginRedirect} = require('../../middlewares/loginChecks')
 const {getProfileBlogList} = require('../../controller/blog-profile')
+const { isExist } = require('../../controller/user')
+
 
 router.get('/', loginRedirect, async (ctx, next) => {
     await ctx.render('index', {})
@@ -13,7 +20,21 @@ router.get('/profile', loginRedirect, async (ctx, next) => {
 })
 router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
     const myUserInfo = ctx.session.userInfo
+    const myUserName = myUserInfo.userName
     const { userName: curUserName } = ctx.params
+
+    let curUserInfo
+    const isMe = myUserName === curUserName
+    if (isMe) {
+        // 是当前登录用户
+        curUserInfo = myUserInfo
+    } else {
+        // 不是当前登录用户
+        const existResult = await isExist(curUserName)
+        if (existResult.errno !== 0) return
+        // 用户名存在
+        curUserInfo = existResult.data
+    }
 
     // 获取微博第一页数据
     const result = await getProfileBlogList(curUserName, 0)
@@ -42,8 +63,8 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
         //     atCount
         // },
         userData: {
-            userInfo: myUserInfo,
-            isMe: true,
+            userInfo: curUserInfo,
+            isMe: isMe,
             fansData: {
                 count: 0,
                 list: []
