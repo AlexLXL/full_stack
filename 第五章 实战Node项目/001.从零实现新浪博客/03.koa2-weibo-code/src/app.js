@@ -11,7 +11,7 @@ const redisStore = require('koa-redis')
 const koaStatic = require('koa-static')
 const {REDIS_CONF} = require('./conf/db')
 const {SESSION_SECRET_KEY} = require('./conf/secretKeys')
-const {isPrd} = require('./utils/env')
+const {isPrd, notTest} = require('./utils/env')
 
 // 路由
 const utilsAPIRouter = require('./routes/api/utils')
@@ -32,7 +32,9 @@ app.use(bodyparser({
     enableTypes:['json', 'form', 'text']
 }))
 app.use(json())
-app.use(logger())
+if (notTest) {
+    app.use(logger())
+}
 app.use(koaStatic(__dirname + '/public'))
 app.use(koaStatic(path.join(__dirname, '..', 'uploadFiles')))
 // 注册ejs文件
