@@ -13,6 +13,8 @@ tags:
 - jwt
 ---
 
+演示地址: http://120.79.201.10:9002/
+
 ## 第1讲: 项目概述
 
 ![课程概述](https://lixuelang.com/test/koa2+mysql/001.jpg)
