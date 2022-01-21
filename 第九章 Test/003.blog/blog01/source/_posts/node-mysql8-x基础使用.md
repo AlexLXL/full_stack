@@ -73,7 +73,13 @@ CREATE TABLE `myblog`.`blogs` (
 
 ![blogs表](https://lixuelang.com/test/koa2+mysql/014.jpg)
 
-类型: `数字用int`, `超大数字用bigint(20)`, `字符串用varchar(20)`, `长文本用longtext`
+类型:
+`数字用int`,
+`超大数字用bigint(20)`,
+`字符串用varchar(20)`,
+`长文本用longtext`/`text`,
+`0-10数字用DECIMAL(10,0)`,
+`布尔用TINYINT(1)`
 
 ### 4. 基本的sql语句
 
@@ -343,8 +349,9 @@ const Blog = seq.define('blog', {
 /**
  * 创建外键 Blog.userId -> User.id
  * 默认关联的就是id
- * 如果查Blog,会自动去查User
- * 如果查User,会自动去查Blog
+ * 两个写法作用是一致的
+ * // 如果查Blog,会自动去查User
+ * // 如果查User,会自动去查Blog
  */
 Blog.belongsTo(User, {
     foreignKey: 'userId'
@@ -625,6 +632,16 @@ const {Blog, User} = require('./model');
         return userVal
     })) // 当前页的数据
 })()
+
+/*
+// 不等于
+where: {
+    followerId,
+        userId: {
+        [Sequelize.Op.ne]: followerId // userId不等于followerId
+    }
+}
+*/
 ```
 
 #### 7.4 连接池
@@ -663,7 +680,3 @@ module.exports = seq
 > 问题1: 添加外键报错  
 > 解决: 两张表类型对不上  
 > 链接: https://www.cnblogs.com/jardeng/p/12899019.html  
-
-
-
-

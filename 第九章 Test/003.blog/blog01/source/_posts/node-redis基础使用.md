@@ -37,6 +37,8 @@ tags:
 
 ![使用redis原因5](https://lixuelang.com/test/koa2+mysql/028.jpg)
 
+同时redis也可以作为缓存数据库使用
+
 ## 二、安装redis
 
 `window`: https://www.runoob.com/redis/redis-install.html
