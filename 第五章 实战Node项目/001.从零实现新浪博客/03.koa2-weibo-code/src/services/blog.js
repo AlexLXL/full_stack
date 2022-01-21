@@ -3,7 +3,7 @@
  * @author 学浪
  */
 
-const {Blog, User} = require('../db/model')
+const {Blog, User, UserRelation} = require('../db/model')
 const { formatUser, formatBlog } = require('./_format')
 
 /**
@@ -67,7 +67,47 @@ async function getBlogListByUser(
     }
 }
 
+/**
+ * 三表连查
+ * @param userId 用户id
+ * @param pageIndex 页码
+ * @param pageSize 页条数
+ */
+async function getFollowersBlogList({userId, pageIndex = 0, pageSize = 10}) {
+    const result = await Blog.findAndCountAll({
+        limit: pageSize,
+        offset: pageIndex * pageSize,
+        order: [
+            ['id', 'desc']
+        ],
+        include: [
+            {
+                model: User,
+                attributes: ['userName', 'nickName', 'picture']
+            },
+            {
+                model: UserRelation,
+                attributes: ['userId', 'followerId'],
+                where: { userId }
+            }
+        ]
+    })
+
+    let blogList = result.rows.map(row => row.dataValues)
+    blogList = formatBlog(blogList)
+    blogList = blogList.map(blogItem => {
+        blogItem.user = formatUser(blogItem.user.dataValues)
+        return blogItem
+    })
+
+    return {
+        count: result.count,
+        blogList
+    }
+}
+
 module.exports = {
     createBlog,
-    getBlogListByUser
+    getBlogListByUser,
+    getFollowersBlogList
 }
