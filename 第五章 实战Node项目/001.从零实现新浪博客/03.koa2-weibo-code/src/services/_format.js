@@ -5,6 +5,10 @@
 const {DEFAULT_PICTURE, REG_FOR_AT_WHO} = require('../conf/constant')
 const { timeFormat } = require('../utils/dt')
 
+/**
+ * 格式化用户图片
+ * @param obj 用户信息
+ */
 function _formatUserPicture(obj) {
     if (obj.picture == null) {
         obj.picture = DEFAULT_PICTURE
@@ -12,6 +16,10 @@ function _formatUserPicture(obj) {
     return obj
 }
 
+/**
+ * 格式化用户列表
+ * @param list 用户列表/对象
+ */
 function formatUser(list) {
     if (list == null) {
         return list
