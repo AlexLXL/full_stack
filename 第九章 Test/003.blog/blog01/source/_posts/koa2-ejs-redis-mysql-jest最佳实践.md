@@ -1,3 +1,18 @@
+---
+title: koa2+ejs+redis+mysql+jest最佳实践
+date: 2022-01-21 19:35:27
+categories:
+- [linux, node, redis, mysql, jest, sequelize, jwt]  
+tags:
+- linux
+- node
+- redis
+- mysql
+- jest
+- sequelize
+- jwt
+---
+
 ## 第1讲: 项目概述
 
 ![课程概述](https://lixuelang.com/test/koa2+mysql/001.jpg)
@@ -28,7 +43,7 @@
 
 ## 第2讲: 项目概述
 
-### 2.1 技术选型: 
+### 2.1 技术选型:
 
 - 框架选型(koa2 vs express vs egg)
     - express: 基于回调函数, 并不友好
@@ -57,13 +72,13 @@
 &nbsp;
 - 单元测试(jest)
     - jest: 主流、简单易用, 支持多框架
-  
+
 最终选型: koa2+mysql+session+ejs+redis+jest  
-选型过程:  
+选型过程:
 1. koa2可以更好理解整个过程, 相当于学习一边egg的封装过程
 2. 基于主流技术
 3. 最后会补充jwt使用
-4. 更专注于后台开发,不关注前端vue/react 
+4. 更专注于后台开发,不关注前端vue/react
 
 ### 2.2 介绍koa2-创建项目:
 
@@ -143,8 +158,8 @@ router.post('/login', async (ctx, next) => {
 
 ### 2.5 介绍ejs-变量和判断、循环和组件
 
-ejs语法: `<% js语法写这 %>`, `<%= 要保留在html的值写这 %>`, `<p><%- 渲染html模板 %></p>`, 不确实是否存在的值添加local`<%= local.xxxx %>`　　
-示例:  
+ejs语法: `<% js语法写这 %>`, `<%= 要保留在html的值写这 %>`, `<p><%- 渲染html模板 %></p>`, 不确实是否存在的值添加local`<%= local.xxxx %>`
+示例:
 ```
 <!DOCTYPE html>
 <html lang="en">
@@ -198,7 +213,7 @@ ejs语法: `<% js语法写这 %>`, `<%= 要保留在html的值写这 %>`, `<p><%
 
 ## 第3讲: 介绍登录
 
-### 3.1 介绍redis 
+### 3.1 介绍redis
 
 见博客内另一篇文章
 
@@ -364,7 +379,7 @@ router.get('/session', function (ctx, next) {
 
 浏览器访问: http://localhost:3000/users/session,  
 服务端操作session(中间件的,已经指向redis),   
-中间件返回session的key给前端的cookie  
+中间件返回session的key给前端的cookie
 
 ### 3.4 jest基础使用
 
@@ -519,8 +534,8 @@ src/public
 "dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon --inspect=9229 bin/www",
 ```
 
-- 启动项目 `npm run dev`  
-- 访问chrome/edge: `chrome://inspect/#devices`  
+- 启动项目 `npm run dev`
+- 访问chrome/edge: `chrome://inspect/#devices`
 - 代码内添加 `debugger`
 
 ![inspect调试](https://lixuelang.com/test/koa2+mysql/029.jpg)
@@ -2244,7 +2259,7 @@ app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
 ![统一文件服务](https://lixuelang.com/test/koa2+mysql/055.jpg)
 
 > 上线之后可能是一台机器多个node进程或集群(多个机器多个进程)  
-> 多机器的同步就会有问题, 这时就需要一个统一文件服务  
+> 多机器的同步就会有问题, 这时就需要一个统一文件服务
 
 ### 6.3 修改基本信息
 
@@ -4184,7 +4199,7 @@ async function addFollower(userId, followerId) {
 }
 ```
 
-### 10.5 取消关注接口 
+### 10.5 取消关注接口
 
 #### 1.添加路由
 
@@ -4239,7 +4254,7 @@ async function deleteFollower(userId, followerId) {
 }
 ```
 
-### 10.6 关注人列表 
+### 10.6 关注人列表
 
 #### 1.添加路由
 
@@ -4453,7 +4468,7 @@ test('张三取消关注李四，应该成功', async () => {
 
 
 
- 
+
 
 
 
@@ -5602,7 +5617,7 @@ pm2 log [name/id]
 pm2 monit [name/id]
 ```
 
-进程守护: 就是发生错误的时候不影响其他功能  
+进程守护: 就是发生错误的时候不影响其他功能
 
 ##### 2)配置
 
@@ -5691,7 +5706,7 @@ access_log /xxx/xxx/xxx/access.log
 
 
 ## 第99讲: 坑
- 
+
 #### 1. Client does not support authentication protocol requested by server
 
 ```
@@ -5701,3 +5716,4 @@ npm i mysql 改为 npm i mysql2
 #### 2.单元测试的时候报错 "ReferenceError: You are trying to `import` a file after the Jest environment has been torn down."
 
 未解决
+
